@@ -1,3 +1,3 @@
 <component name="DependencyValidationManager">
-  <scope name="Sources" pattern="src:main.java.fr.nc0.cda.*||src:test.java.fr.nc0.cda.*" />
+  <scope name="Sources" pattern="src:main.java.fr.nc0.cda.*||src:test.java.fr.nc0.cda.*||file[conception-application.git]:.github/workflows/*||file[conception-application.git]:test/*" />
 </component>
