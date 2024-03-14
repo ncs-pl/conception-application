@@ -4,35 +4,32 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package main.java.fr.nc0.cda.modele;
+package fr.nc0.cda.modele;
 
 public class Joueur {
 
-    private String nom;
-    private int nbrPartieGagnee;
+  private final String nom;
+  private int nbrPartieGagnee;
 
-    public Joueur(String nom){
-        this.nom = nom;
-        nbrPartieGagnee = 0;
-    }
+  public Joueur(String nom) {
+    this.nom = nom;
+    nbrPartieGagnee = 0;
+  }
 
-    public String getNom() {
-        return nom;
-    }
+  public String getNom() {
+    return nom;
+  }
 
-    public int getNbrPartieGagnee() {
-        return nbrPartieGagnee;
-    }
+  public int getNbrPartieGagnee() {
+    return nbrPartieGagnee;
+  }
 
-    public void ajouterPartieGagnee() {
-        nbrPartieGagnee++;
-    }
+  public void ajouterPartieGagnee() {
+    nbrPartieGagnee++;
+  }
 
-    @Override
-    public String toString() {
-        return "Joueur{" +
-            "nom='" + nom + '\'' +
-            ", nbrPartieGagnee=" + nbrPartieGagnee +
-            '}';
-    }
+  @Override
+  public String toString() {
+    return "Joueur{" + "nom='" + nom + '\'' + ", nbrPartieGagnee=" + nbrPartieGagnee + '}';
+  }
 }

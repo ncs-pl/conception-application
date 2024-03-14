@@ -4,53 +4,53 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package main.java.fr.nc0.cda.modele;
+package fr.nc0.cda.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Nim {
 
-    public enum EtatPartie {
-        EnCours,
-        Fini;
+  private final ArrayList<Integer> tas;
+  private EtatPartie etatPartie;
+
+  public Nim(int nbrTas) {
+    tas = new ArrayList<Integer>(nbrTas);
+    for (int i = 1; i <= nbrTas; ++i) {
+      tas.add(2 * i - 1);
     }
 
-    private EtatPartie etatPartie;
-    private ArrayList<Integer> tas;
+    etatPartie = EtatPartie.EnCours;
+  }
 
-    public Nim (int nbrTas){
-        tas = new ArrayList<Integer>(nbrTas);
-        for (int i = 1; i <= nbrTas; ++i){
-            tas.add(2*i - 1);
-        }
+  public ArrayList<Integer> getTas() {
+    return tas;
+  }
 
-        etatPartie = EtatPartie.EnCours;
+  public void supprAllumettes(int[] choix) {
+    tas.set(choix[0], tas.get(choix[0]) - choix[1]);
+  }
+
+  public EtatPartie getEtatPartie() {
+    return etatPartie;
+  }
+
+  public void checkEtatPartie() {
+    boolean estFini = true;
+    Iterator<Integer> it = tas.iterator();
+    while (it.hasNext()) {
+      if (it.next() > 0) {
+        estFini = false;
+      }
     }
 
-    public ArrayList<Integer> getTas() {
-        return tas;
+    if (estFini) {
+      etatPartie = EtatPartie.Fini;
     }
+  }
 
-    public void supprAllumettes(int[] choix){
-        tas.set(choix[0], tas.get(choix[0]) - choix[1]);
-    }
-
-    public EtatPartie getEtatPartie(){
-        return etatPartie;
-    }
-
-    public void checkEtatPartie(){
-        boolean estFini = true;
-        Iterator<Integer> it = tas.iterator();
-        while(it.hasNext()){
-            if(it.next() > 0){
-                estFini = false;
-            }
-        }
-
-        if(estFini){
-            etatPartie = EtatPartie.Fini;
-        }
-    }
+  public enum EtatPartie {
+    EnCours,
+    Fini
+  }
 }

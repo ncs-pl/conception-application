@@ -4,15 +4,15 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package main.java.fr.nc0.cda.main;
+package fr.nc0.cda.main;
 
-import main.java.fr.nc0.cda.controleur.ControleurJeuNim;
-import main.java.fr.nc0.cda.vue.Ihm;
+import fr.nc0.cda.controleur.ControleurJeuNim;
+import fr.nc0.cda.vue.Ihm;
 
 public class Main {
-    public static void main(String[] args){
-        Ihm ihm = new Ihm();
-        ControleurJeuNim controleurJeuNim = new ControleurJeuNim(ihm);
-        controleurJeuNim.jouer();
-    }
+  public static void main(String[] args) {
+    Ihm ihm = new Ihm();
+    ControleurJeuNim controleurJeuNim = new ControleurJeuNim(ihm);
+    controleurJeuNim.jouer();
+  }
 }
