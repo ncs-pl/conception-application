@@ -9,4 +9,39 @@
 # Zeppelin ignored files
 /ZeppelinRemoteNotebooks/
 
-sonarlint
+sonarlint# GitHub Copilot persisted chat sessions
+/copilot/chatSessions
+/sonarlint/issuestore/2/5/25cf98988272a2718bdb739a5e52ec9f4b97b587
+/sonarlint/issuestore/6/2/626a747c8694eaae66f2afb3d1a745b045782c70
+/sonarlint/issuestore/6/9/69e27356ef629022720d868ab0c0e3394775b6c1
+/sonarlint/issuestore/6/9/698dd3a8dd5ca9d6b3c00e0f2fc981eecf87db67
+/sonarlint/issuestore/6/f/6f92711604c309ffb432b20c2b7a04df817ef705
+/sonarlint/issuestore/7/0/700b4e4c4d66d17ba2b363a49ce5720614d793cb
+/sonarlint/issuestore/7/4/747de8cfe373b33721e6a067b20cae66ea59e3e4
+/sonarlint/issuestore/8/7/879ca6b95e2160c3eb315f3dd97cba9dbe860a14
+/sonarlint/issuestore/8/c/8c00054dc44a9aac96957ae70e12d95773e087f7
+/sonarlint/issuestore/8/d/8d336be597d7704b48ea6c12f5e56beb8ed32daa
+/sonarlint/issuestore/a/0/a024bcbd6762034fe342c8c76fbc2e7daf28f23b
+/sonarlint/issuestore/c/d/cdb15faf65fffe6e1916a42be23f9021eb2da786
+/sonarlint/issuestore/d/c/dc1b46d78aaaa6be8de4ed037251cc227bbbd902
+/sonarlint/issuestore/e/3/e352fc138c5e488dc34254c3ee2e99e3e9aaf288
+/sonarlint/issuestore/f/3/f3425832138fd5cfc38c37a45d17c1b8872ffa61
+/sonarlint/issuestore/index.pb
+/sonarlint/securityhotspotstore/2/5/25cf98988272a2718bdb739a5e52ec9f4b97b587
+/sonarlint/securityhotspotstore/6/2/626a747c8694eaae66f2afb3d1a745b045782c70
+/sonarlint/securityhotspotstore/6/9/69e27356ef629022720d868ab0c0e3394775b6c1
+/sonarlint/securityhotspotstore/6/9/698dd3a8dd5ca9d6b3c00e0f2fc981eecf87db67
+/sonarlint/securityhotspotstore/6/f/6f92711604c309ffb432b20c2b7a04df817ef705
+/sonarlint/securityhotspotstore/7/0/700b4e4c4d66d17ba2b363a49ce5720614d793cb
+/sonarlint/securityhotspotstore/7/4/747de8cfe373b33721e6a067b20cae66ea59e3e4
+/sonarlint/securityhotspotstore/8/7/879ca6b95e2160c3eb315f3dd97cba9dbe860a14
+/sonarlint/securityhotspotstore/8/c/8c00054dc44a9aac96957ae70e12d95773e087f7
+/sonarlint/securityhotspotstore/8/d/8d336be597d7704b48ea6c12f5e56beb8ed32daa
+/sonarlint/securityhotspotstore/a/0/a024bcbd6762034fe342c8c76fbc2e7daf28f23b
+/sonarlint/securityhotspotstore/c/d/cdb15faf65fffe6e1916a42be23f9021eb2da786
+/sonarlint/securityhotspotstore/d/c/dc1b46d78aaaa6be8de4ed037251cc227bbbd902
+/sonarlint/securityhotspotstore/e/3/e352fc138c5e488dc34254c3ee2e99e3e9aaf288
+/sonarlint/securityhotspotstore/f/3/f3425832138fd5cfc38c37a45d17c1b8872ffa61
+/sonarlint/securityhotspotstore/index.pb
+/sonarlint/issuestore/a/c/ac6e304e8cd6c264e9c7019c5b2f21bf1b4f1e46
+/sonarlint/securityhotspotstore/a/c/ac6e304e8cd6c264e9c7019c5b2f21bf1b4f1e46
