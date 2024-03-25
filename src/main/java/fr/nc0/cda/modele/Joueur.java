@@ -27,9 +27,4 @@ public class Joueur {
   public void ajouterPartieGagnee() {
     nbrPartieGagnee++;
   }
-
-  @Override
-  public String toString() {
-    return "Joueur{" + "nom='" + nom + '\'' + ", nbrPartieGagnee=" + nbrPartieGagnee + '}';
-  }
 }

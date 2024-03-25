@@ -25,11 +25,7 @@ public class Ihm {
       System.out.print("Veuillez saisir le nombre de tas (entier >= 1)  pour la partie : ");
       if (scanner.hasNextInt()) {
         nbrTas = scanner.nextInt();
-        if (1 <= nbrTas) {
-          tasNotDone = false;
-        } else {
-          System.out.println("Le nombre entier doit être >= 1");
-        }
+        tasNotDone = false;
       } else {
         scanner.nextLine();
         System.out.println("La saisie doit être un chiffre entier >= 1");
