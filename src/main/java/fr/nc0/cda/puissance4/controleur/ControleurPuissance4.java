@@ -7,21 +7,21 @@
 package fr.nc0.cda.puissance4.controleur;
 
 import fr.nc0.cda.puissance4.modele.Joueur;
-import fr.nc0.cda.puissance4.modele.Nim;
+import fr.nc0.cda.puissance4.modele.Puissance4;
 import fr.nc0.cda.puissance4.vue.Ihm;
 import java.util.ArrayList;
 
 public class ControleurPuissance4 {
   private final Ihm ihm;
   private final ArrayList<Joueur> lesJoueurs;
-  private Nim nim;
+  private Puissance4 nim;
 
   public ControleurPuissance4(Ihm ihm) {
     this.ihm = ihm;
 
     while (true) {
       try {
-        nim = new Nim(ihm.selectNbrTas());
+        nim = new Puissance4();
         break;
       } catch (IllegalArgumentException e) {
         ihm.message(e.getMessage());
@@ -38,7 +38,7 @@ public class ControleurPuissance4 {
     nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
-    while (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
+    while (nim.getEtatPartie() == Puissance4.EtatPartie.EnCours) {
       ihm.afficherEtatPartie(nim.getTas());
       while (true) {
         int[] choix = ihm.selectAlumette(currentPlayer.getNom());
@@ -50,7 +50,7 @@ public class ControleurPuissance4 {
         }
       }
       nim.checkEtatPartie();
-      if (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
+      if (nim.getEtatPartie() == Puissance4.tatPartie.EnCours) {
         currentPlayer = nextPlayer(currentPlayer);
       }
     }
