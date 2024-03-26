@@ -6,23 +6,30 @@
 
 package fr.nc0.cda.puissance4.modele;
 
+/** Représente une partie d'un jeu. */
 public class Joueur {
+  /** Le nom du joueur. */
   private final String nom;
-  private int nbrPartieGagnee;
 
+  /** Le nombre de parties gagnées par le joueur. */
+  private int nbrPartieGagnee = 0;
+
+  /** Créer un joueur avec un nom donné. */
   public Joueur(String nom) {
     this.nom = nom;
-    nbrPartieGagnee = 0;
   }
 
+  /** Récupère le nom du joueur. */
   public String getNom() {
     return nom;
   }
 
+  /** Récupère le nombre de parties gagnées par le joueur. */
   public int getNbrPartieGagnee() {
     return nbrPartieGagnee;
   }
 
+  /** Ajoute une partie gagnée au joueur. */
   public void ajouterPartieGagnee() {
     nbrPartieGagnee++;
   }
