@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.vue;
+package fr.nc0.cda.nim.vue;
 
 import java.util.ArrayList;
 import java.util.Scanner;

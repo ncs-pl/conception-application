@@ -4,11 +4,11 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.controleur;
+package fr.nc0.cda.nim.controleur;
 
-import fr.nc0.cda.modele.Joueur;
-import fr.nc0.cda.modele.Nim;
-import fr.nc0.cda.vue.Ihm;
+import fr.nc0.cda.nim.modele.Joueur;
+import fr.nc0.cda.nim.modele.Nim;
+import fr.nc0.cda.nim.vue.Ihm;
 import java.util.ArrayList;
 
 public class ControleurJeuNim {
@@ -20,13 +20,13 @@ public class ControleurJeuNim {
   public ControleurJeuNim(Ihm ihm) {
     this.ihm = ihm;
 
-    while(true){
-        try {
-            nim = new Nim(ihm.selectNbrTas());
-            break;
-        } catch(IllegalArgumentException e){
-            ihm.message(e.getMessage());
-        }
+    while (true) {
+      try {
+        nim = new Nim(ihm.selectNbrTas());
+        break;
+      } catch (IllegalArgumentException e) {
+        ihm.message(e.getMessage());
+      }
     }
 
     lesJoueurs = new ArrayList<Joueur>(2);
@@ -36,23 +36,23 @@ public class ControleurJeuNim {
 
   public void jouer() {
 
-      nim.demarrerPartie();
+    nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
     while (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
       ihm.afficherEtatPartie(nim.getTas());
-      while(true){
-          int[] choix = ihm.selectAlumette(currentPlayer.getNom());
-          try {
-              nim.supprAllumettes(choix);
-              break;
-          } catch (IllegalArgumentException e){
-              ihm.message(e.getMessage());
-          }
+      while (true) {
+        int[] choix = ihm.selectAlumette(currentPlayer.getNom());
+        try {
+          nim.supprAllumettes(choix);
+          break;
+        } catch (IllegalArgumentException e) {
+          ihm.message(e.getMessage());
+        }
       }
       nim.checkEtatPartie();
       if (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
-          currentPlayer = nextPlayer(currentPlayer);
+        currentPlayer = nextPlayer(currentPlayer);
       }
     }
 
