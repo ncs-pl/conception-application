@@ -51,7 +51,7 @@ public class ControleurPuissance4 {
    */
   public void jouer() {
     p4 = new Puissance4();
-    Joueur joueurCourant = lesJoueurs.getFirst();
+    Joueur joueurCourant = lesJoueurs.get(0);
     while (p4.getEtat() == EtatPartiePuissance4.EN_COURS) {
       ihm.afficherGrille(p4.getGrille());
       boolean numeroInvalide = true;
@@ -98,7 +98,7 @@ public class ControleurPuissance4 {
     if (joueurCourant == lesJoueurs.get(0)) {
       return lesJoueurs.get(1);
     } else {
-      return lesJoueurs.getFirst();
+      return lesJoueurs.get(0);
     }
   }
 }
