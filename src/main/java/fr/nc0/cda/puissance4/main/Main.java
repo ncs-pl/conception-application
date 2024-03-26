@@ -9,10 +9,17 @@ package fr.nc0.cda.puissance4.main;
 import fr.nc0.cda.puissance4.controleur.ControleurPuissance4;
 import fr.nc0.cda.puissance4.vue.Ihm;
 
+/**
+ * Point d'entrée de l'application Puissance 4.
+ *
+ * <p>Cette classe initialise l'interface utilisateur et le contrôleur du jeu Puissance 4, puis
+ * lance une partie.
+ */
 public class Main {
   public static void main(String[] args) {
-    Ihm ihm = new Ihm();
-    ControleurPuissance4 p4 = new ControleurPuissance4(ihm);
-    p4.jouer();
+    Ihm ihm = new Ihm(); // Initialisation de l'IHM
+    ControleurPuissance4 p4 =
+        new ControleurPuissance4(ihm); // Initialisation du contrôleur Puissance 4 avec l'IHM
+    p4.jouer(); // Lancement d'une partie de Puissance 4
   }
 }

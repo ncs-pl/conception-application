@@ -6,131 +6,118 @@
 
 package fr.nc0.cda.puissance4.vue;
 
-import java.util.ArrayList;
+import fr.nc0.cda.puissance4.modele.CellulePuissance4;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Interface homme-machine (IHM) pour le jeu Puissance 4.
+ *
+ * <p>Cette classe gère les interactions entre les joueurs et le jeu, notamment l'affichage de la
+ * grille de jeu, la saisie des coups des joueurs, la gestion des noms des joueurs et des
+ * statistiques de la partie.
+ */
 public class Ihm {
-
-  // !!!!! accepte les int suivant (input : 5  56 9 7) mais ne les traites pas
-  // Pour tout les scanner voir delimiter pattern
-
-  public int selectNbrTas() {
-
-    boolean tasNotDone = true;
-    int nbrTas = 0;
-
+  /**
+   * Retourne le numéro de colonne choisie par le joueur courant.
+   *
+   * @param joueurCourant Le nom du joueur courant.
+   * @return Le numéro de colonne choisi par le joueur.
+   */
+  public int choixColonne(String joueurCourant) {
     Scanner scanner = new Scanner(System.in);
-
-    while (tasNotDone) {
-      System.out.print("Veuillez saisir le nombre de tas (entier >= 1)  pour la partie : ");
-      if (scanner.hasNextInt()) {
-        nbrTas = scanner.nextInt();
-        tasNotDone = false;
-      } else {
-        scanner.nextLine();
-        System.out.println("La saisie doit être un chiffre entier >= 1");
-      }
+    System.out.println(
+        joueurCourant
+            + " à vous de jouer ! Saisissez le numéro de colonne à jouer (entier entre 1 et 7) :");
+    int colonne = 0;
+    if (scanner.hasNextInt()) {
+      colonne = scanner.nextInt();
     }
-    return nbrTas;
+    return colonne;
   }
 
+  /**
+   * Attribue à chacun des deux joueurs le nom qu'il choisit.
+   *
+   * @param numeroJoueur L'ordre du joueur (1 ou 2).
+   * @return Le nom du joueur.
+   */
   public String selectNomJoueur(int numeroJoueur) {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Veuillez saisir le nom du joueur " + numeroJoueur + " : ");
     return scanner.next();
   }
 
-  public void afficherEtatPartie(ArrayList<Integer> tas) {
-    String affichage = "";
-    for (int i = 0; i < tas.size(); ++i) {
-      affichage = affichage + "Tas " + (i + 1) + " : ";
-      affichage = affichage + patternAffichage(" ", (tas.size() * 2 - 1) - tas.get(i));
-      affichage = affichage + patternAffichage("| ", tas.get(i)) + "\n";
-    }
-    System.out.println("Etat de la partie : \n\n" + affichage);
-  }
-
-  private String patternAffichage(String pattern, int nbr) {
-    if (nbr > 0) {
-      return pattern + patternAffichage(pattern, nbr - 1);
-    } else {
-      return "";
+  /**
+   * Affiche la grille de jeu.
+   *
+   * @param grille La grille de jeu représentée par une liste de listes de cellules.
+   */
+  public void afficherGrille(List<List<CellulePuissance4>> grille) {
+    for (int i = 0; i < grille.size(); i++) {
+      System.out.println(grille.get(i));
     }
   }
 
-  public int[] selectAlumette(String joueurNom) {
+  /**
+   * Affiche le nom du vainqueur de la partie.
+   *
+   * @param nomGagnant Le nom du joueur gagnant.
+   */
+  public void afficherGagnant(String nomGagnant) {
+    System.out.println(" \n Le gagnant de cette partie est " + nomGagnant);
+  }
+
+  /** Affiche un message indiquant qu'il n'y a aucun gagnant pour cette partie (match nul). */
+  public void matchNul() {
+    System.out.println(" \n Aucun gagnant pour cette partie.");
+  }
+
+  /**
+   * Propose aux joueurs de rejouer une partie.
+   *
+   * @return true si les joueurs souhaitent rejouer, false sinon.
+   */
+  public boolean rejouer() {
+    System.out.println(" \n Souhaitez-vous rejouer une partie ? (Y/N)");
     Scanner scanner = new Scanner(System.in);
-    boolean enCours = true;
-    int[] choix = {0, 0};
-
-    while (enCours) {
-      System.out.print(
-          joueurNom + " : à vous de jouer un coup (sous la forme 'tas allumettes') : ");
-      if (scanner.hasNextInt()) {
-        choix[0] = scanner.nextInt();
-        if (scanner.hasNextInt()) {
-          choix[1] = scanner.nextInt();
-          enCours = false;
-        } else {
-          System.out.println(
-              "Votre saisie ne comprend pas d'entier sous la forme ('tas alumette')");
-        }
-      } else {
-        System.out.println("Votre saisie ne comprend pas d'entier sous la forme ('tas alumette')");
-      }
-      scanner.nextLine();
-    }
-    choix[0] = choix[0] - 1;
-    return choix;
-  }
-
-  // Retourne true si les joueurs décide de relancer une partie, false si l'inverse
-  public boolean finPartie(
-      String nomGagnant, String nomPerdant, int nbrVictoireGagnant, int nbrVictoirePerdant) {
-    etatNbrVictoire(nomGagnant, nomPerdant, nbrVictoireGagnant, nbrVictoirePerdant);
-    System.out.println("Voulez-vous rejouer une nouvelle partie ? (Y/N) : ");
-
-    Scanner scanner = new Scanner(System.in);
-    boolean enCours = true;
     boolean choix = false;
-
-    while (enCours) {
+    boolean entreeInvalide = true;
+    while (entreeInvalide) {
       if (scanner.hasNext()) {
         switch (scanner.next()) {
           case "Y":
             choix = true;
-            enCours = false;
+            entreeInvalide = false;
             break;
           case "N":
-            enCours = false;
+            entreeInvalide = false;
             break;
           default:
             System.out.println("L'entrée ne correspond pas à Y ou N");
         }
+        scanner.nextLine();
       }
-      scanner.nextLine();
     }
     return choix;
   }
 
-  public void afficheGagnant(
-      String nomGagnant,
-      String nomPerdant,
-      int nbrVictoireGagnant,
-      int nbrVictoirePerdant,
-      boolean exaequo) {
-    etatNbrVictoire(nomGagnant, nomPerdant, nbrVictoireGagnant, nbrVictoirePerdant);
-    if (exaequo) {
-      System.out.println(
-          "Ex-aequo ! " + nomGagnant + " et " + nomPerdant + " ont gagnés autant de partie !");
-    } else {
-      System.out.println(nomGagnant + " est le grand gagnant !");
-    }
-  }
-
-  private void etatNbrVictoire(
-      String nomJoueur1, String nomJoueur2, int nbrVictoireJoueur1, int nbrVictoireJoueur2) {
-    System.out.println(
+  /**
+   * Affiche les statistiques de la partie.
+   *
+   * @param nomJoueur1 Le nom du premier joueur.
+   * @param nomJoueur2 Le nom du deuxième joueur.
+   * @param nbrVictoireJoueur1 Le nombre de parties gagnées par le premier joueur.
+   * @param nbrVictoireJoueur2 Le nombre de parties gagnées par le deuxième joueur.
+   * @param exaeco Indique si les deux joueurs ont le même nombre de parties gagnées.
+   */
+  public void afficherStats(
+      String nomJoueur1,
+      String nomJoueur2,
+      int nbrVictoireJoueur1,
+      int nbrVictoireJoueur2,
+      boolean exaeco) {
+    String affichage =
         "Etat des scores : "
             + nomJoueur1
             + " -> "
@@ -139,9 +126,19 @@ public class Ihm {
             + nomJoueur2
             + " -> "
             + nbrVictoireJoueur2
-            + " V");
+            + " V";
+    if (exaeco) {
+      System.out.println("Egalité ! Les deux joueurs ont gagné autant de parties. \n" + affichage);
+    } else {
+      System.out.println(affichage);
+    }
   }
 
+  /**
+   * Affiche un message à l'utilisateur.
+   *
+   * @param msg Le message à afficher.
+   */
   public void message(String msg) {
     System.out.println(msg);
   }

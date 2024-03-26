@@ -45,7 +45,7 @@ public class Puissance4 {
    */
   private List<Integer> insererCellule(int colonne, CellulePuissance4 cellule) {
     // On parcourt la colonne de bas en haut
-    for (int i = HAUTEUR; i >= 0; i--) {
+    for (int i = HAUTEUR - 1; i >= 0; i--) {
       if (getCellule(colonne, i) == CellulePuissance4.VIDE) {
         // Si la cellule actuelle est vide, alors on sait (par gravité)
         // que les cellules du dessus sont aussi vides, et donc on peut
@@ -96,7 +96,7 @@ public class Puissance4 {
    * @return true si la colonne est pleine, false sinon
    */
   private boolean colonneEstPleine(int colonne) {
-    return getCellule(colonne, 0) == CellulePuissance4.VIDE;
+    return getCellule(colonne, 0) != CellulePuissance4.VIDE;
   }
 
   private void changerJoueurCourant() {
@@ -405,6 +405,10 @@ public class Puissance4 {
     return etat;
   }
 
+  public CellulePuissance4 getJoueurCourant() {
+    return joueurCourant;
+  }
+
   /**
    * Joue un coup dans la colonne donnée
    *
@@ -417,9 +421,9 @@ public class Puissance4 {
       throw new IllegalStateException("La partie est terminée");
 
     colonne--; // On décrémente la colonne pour la rendre 0-indexée
-    if (verifierNumeroColonne(colonne))
+    if (!verifierNumeroColonne(colonne)) {
       throw new IllegalArgumentException("La colonne doit être comprise entre 1 et 7");
-
+    }
     if (colonneEstPleine(colonne)) throw new IllegalArgumentException("La colonne est pleine");
 
     List<Integer> pos = insererCellule(colonne, joueurCourant);
