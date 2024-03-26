@@ -12,10 +12,10 @@ import java.util.List;
 /** Représente une partie du jeu de Nim. */
 public class Nim {
   /** Constante pour le joueur 1 */
-  private static final int JOUEUR_1 = 1;
+  public static final int JOUEUR_1 = 1;
 
   /** Constante pour le joueur 2 */
-  private static final int JOUEUR_2 = 2;
+  public static final int JOUEUR_2 = 2;
 
   /**
    * Liste des tas de la partie, sous forme d'une liste. L'élément i de cette liste correspond au
@@ -79,9 +79,7 @@ public class Nim {
   }
 
   private void verifierEtatPartie() {
-    for (int allumettes : tas) {
-      if (allumettes > 0) return;
-    }
+    for (int allumettes : tas) if (allumettes > 0) return;
 
     etat =
         joueurCourant == JOUEUR_1
