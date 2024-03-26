@@ -51,7 +51,7 @@ public class ControleurJeuNim {
     nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
-    while (nim.getEtatPartie() == EtatPartieNim.EnCours) {
+    while (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
       ihm.afficherEtatPartie(nim.getTas());
       while (true) {
         int[] choix = ihm.selectAlumette(currentPlayer.getNom());
@@ -63,7 +63,7 @@ public class ControleurJeuNim {
         }
       }
       nim.checkEtatPartie();
-      if (nim.getEtatPartie() == EtatPartieNim.EnCours) {
+      if (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
         currentPlayer = nextPlayer(currentPlayer);
       }
     }

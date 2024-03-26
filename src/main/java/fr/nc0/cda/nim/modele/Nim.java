@@ -46,7 +46,7 @@ public class Nim {
   /** Démarre la partie en initialisant les tas et en passant l'état de la partie à EnCours. */
   public void demarrerPartie() {
     setupTas();
-    etatPartie = EtatPartieNim.EnCours;
+    etatPartie = EtatPartieNim.EN_COURS;
   }
 
   /**
@@ -111,7 +111,7 @@ public class Nim {
     }
 
     if (estFini) {
-      etatPartie = EtatPartieNim.Fini;
+      etatPartie = EtatPartieNim.FINI;
     }
   }
 }
