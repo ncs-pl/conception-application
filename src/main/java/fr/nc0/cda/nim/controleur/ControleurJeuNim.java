@@ -6,17 +6,28 @@
 
 package fr.nc0.cda.nim.controleur;
 
+import fr.nc0.cda.nim.modele.EtatPartieNim;
 import fr.nc0.cda.nim.modele.Joueur;
 import fr.nc0.cda.nim.modele.Nim;
 import fr.nc0.cda.nim.vue.Ihm;
 import java.util.ArrayList;
 
+/** Contrôleur du jeu de Nim. */
 public class ControleurJeuNim {
-
+  /** Interface homme-machine. */
   private final Ihm ihm;
+
+  /** Liste des joueurs de la partie. */
   private final ArrayList<Joueur> lesJoueurs;
+
+  /** Partie en cours du jeu de Nim. */
   private Nim nim;
 
+  /**
+   * Créer un contrôleur de jeu de Nim.
+   *
+   * @param ihm l'interface homme-machine.
+   */
   public ControleurJeuNim(Ihm ihm) {
     this.ihm = ihm;
 
@@ -29,17 +40,18 @@ public class ControleurJeuNim {
       }
     }
 
-    lesJoueurs = new ArrayList<Joueur>(2);
+    lesJoueurs = new ArrayList<>(2);
     lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
     lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
   }
 
+  /** Jouer une partie du jeu de Nim. */
   public void jouer() {
 
     nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
-    while (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
+    while (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
       ihm.afficherEtatPartie(nim.getTas());
       while (true) {
         int[] choix = ihm.selectAlumette(currentPlayer.getNom());
@@ -51,7 +63,7 @@ public class ControleurJeuNim {
         }
       }
       nim.checkEtatPartie();
-      if (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
+      if (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
         currentPlayer = nextPlayer(currentPlayer);
       }
     }
@@ -85,6 +97,12 @@ public class ControleurJeuNim {
     }
   }
 
+  /**
+   * Récupère le joueur suivant.
+   *
+   * @param currentPlayer le joueur actuel.
+   * @return le joueur suivant.
+   */
   private Joueur nextPlayer(Joueur currentPlayer) {
     if (currentPlayer == lesJoueurs.get(0)) {
       return lesJoueurs.get(1);
