@@ -68,15 +68,18 @@ public class ControleurPuissance4 {
         joueurCourant = joueurSuivant(joueurCourant);
     }
     ihm.afficherGrille(p4.getGrille());
-    if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) {
-      ihm.matchNul();
-    } else {
-      joueurCourant.ajouterPartieGagnee();
-      Joueur perdant = joueurSuivant(joueurCourant);
-      ihm.afficherGagnant(joueurCourant.getNom());
+
+    if (p4.getEtat() != EtatPartiePuissance4.EN_COURS) {
+      if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) {
+        ihm.matchNul();
+      } else {
+        joueurCourant.ajouterPartieGagnee();
+        ihm.afficherGagnant(joueurCourant.getNom());
+      }
       if (ihm.rejouer()) {
         jouer();
       } else {
+        Joueur perdant = joueurSuivant(joueurCourant);
         boolean exaeco = joueurCourant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee();
         ihm.afficherStats(
             joueurCourant.getNom(),
