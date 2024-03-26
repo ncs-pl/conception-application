@@ -6,16 +6,15 @@
 
 package fr.nc0.cda.nim.vue;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+/** Interface de relation entre l'utilisateur et le système. */
 public class Ihm {
-
   // !!!!! accepte les int suivant (input : 5  56 9 7) mais ne les traites pas
   // Pour tout les scanner voir delimiter pattern
 
   public int selectNbrTas() {
-
     boolean tasNotDone = true;
     int nbrTas = 0;
 
@@ -34,13 +33,24 @@ public class Ihm {
     return nbrTas;
   }
 
+  /**
+   * Demande le nom du joueur
+   *
+   * @param numeroJoueur numéro du joueur
+   * @return le nom du joueur
+   */
   public String selectNomJoueur(int numeroJoueur) {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Veuillez saisir le nom du joueur " + numeroJoueur + " : ");
     return scanner.next();
   }
 
-  public void afficherEtatPartie(ArrayList<Integer> tas) {
+  /**
+   * Affiche l'état de la partie
+   *
+   * @param tas liste des tas
+   */
+  public void afficherEtatPartie(List<Integer> tas) {
     String affichage = "";
     for (int i = 0; i < tas.size(); ++i) {
       affichage = affichage + "Tas " + (i + 1) + " : ";
@@ -50,6 +60,13 @@ public class Ihm {
     System.out.println("Etat de la partie : \n\n" + affichage);
   }
 
+  /**
+   * Affiche un pattern
+   *
+   * @param pattern le pattern
+   * @param nbr le nombre de fois que le pattern doit être affiché
+   * @return le pattern affiché
+   */
   private String patternAffichage(String pattern, int nbr) {
     if (nbr > 0) {
       return pattern + patternAffichage(pattern, nbr - 1);
@@ -58,6 +75,12 @@ public class Ihm {
     }
   }
 
+  /**
+   * Demande au joueur de choisir un tas et un nombre d'allumette
+   *
+   * @param joueurNom nom du joueur
+   * @return un tableau contenant le tas et le nombre d'allumette
+   */
   public int[] selectAlumette(String joueurNom) {
     Scanner scanner = new Scanner(System.in);
     boolean enCours = true;
