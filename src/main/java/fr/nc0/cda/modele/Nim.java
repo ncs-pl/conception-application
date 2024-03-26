@@ -11,16 +11,33 @@ import java.util.Iterator;
 
 public class Nim {
 
-  private final ArrayList<Integer> tas;
-  private EtatPartie etatPartie;
-
-  public Nim(int nbrTas) {
-    tas = new ArrayList<Integer>(nbrTas);
-    for (int i = 1; i <= nbrTas; ++i) {
-      tas.add(2 * i - 1);
+    public enum EtatPartie {
+        EnCours,
+        Fini
     }
 
-    etatPartie = EtatPartie.EnCours;
+  private ArrayList<Integer> tas;
+  private EtatPartie etatPartie;
+  private final int nbrTas;
+
+  public Nim(int nbrTas) {
+      if (nbrTas >= 1){
+          this.nbrTas = nbrTas;
+      } else {
+          throw new IllegalArgumentException("Nombre de Tas choisis < 1");
+      }
+  }
+
+  private void setupTas(){
+      tas = new ArrayList<Integer>(nbrTas);
+      for (int i = 1; i <= nbrTas; ++i){
+          tas.add(2 * i - 1);
+      }
+  }
+
+  public void demarrerPartie(){
+      setupTas();
+      etatPartie = EtatPartie.EnCours;
   }
 
   public ArrayList<Integer> getTas() {
@@ -28,7 +45,23 @@ public class Nim {
   }
 
   public void supprAllumettes(int[] choix) {
-    tas.set(choix[0], tas.get(choix[0]) - choix[1]);
+      try {
+          verifierChoix(choix);
+          tas.set(choix[0], tas.get(choix[0]) - choix[1]);
+      } catch (IllegalArgumentException e){
+          throw e;
+      }
+  }
+
+  private void verifierChoix(int[] choix) {
+      if (tas.size() <= choix[0] || choix[0] < 0){
+        throw new IllegalArgumentException("Valeur du tas incorrect");
+      } else {
+          if (choix[1] <= 0 || choix[1] > tas.get(choix[0]))
+          {
+              throw new IllegalArgumentException("Valeur des allumettes incorrect");
+          }
+      }
   }
 
   public EtatPartie getEtatPartie() {
@@ -47,10 +80,5 @@ public class Nim {
     if (estFini) {
       etatPartie = EtatPartie.Fini;
     }
-  }
-
-  public enum EtatPartie {
-    EnCours,
-    Fini
   }
 }

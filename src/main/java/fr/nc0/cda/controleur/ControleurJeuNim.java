@@ -15,35 +15,47 @@ public class ControleurJeuNim {
 
   private final Ihm ihm;
   private final ArrayList<Joueur> lesJoueurs;
+  private Nim nim;
 
   public ControleurJeuNim(Ihm ihm) {
     this.ihm = ihm;
+
+    while(true){
+        try {
+            nim = new Nim(ihm.selectNbrTas());
+            break;
+        } catch(IllegalArgumentException e){
+            ihm.message(e.getMessage());
+        }
+    }
+
     lesJoueurs = new ArrayList<Joueur>(2);
+    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
+    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
   }
 
   public void jouer() {
-    Nim nim = new Nim(ihm.selectNbrTas());
-    ajouterJoueur();
+
+      nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
     while (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
       ihm.afficherEtatPartie(nim.getTas());
-      int[] choix = ihm.selectAlumette(currentPlayer.getNom());
-
-      if (nim.getTas().size() > choix[0] && choix[0] >= 0) {
-        if (choix[1] > 0 && choix[1] <= nim.getTas().get(choix[0]) && choix[1] <= 3) {
-          nim.supprAllumettes(choix);
-          nim.checkEtatPartie();
-          if (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
-            currentPlayer = nextPlayer(currentPlayer);
+      while(true){
+          int[] choix = ihm.selectAlumette(currentPlayer.getNom());
+          try {
+              nim.supprAllumettes(choix);
+              break;
+          } catch (IllegalArgumentException e){
+              ihm.message(e.getMessage());
           }
-        } else {
-          ihm.message("Valeur des allumettes incorrect");
-        }
-      } else {
-        ihm.message("Valeur du tas incorrect");
+      }
+      nim.checkEtatPartie();
+      if (nim.getEtatPartie() == Nim.EtatPartie.EnCours) {
+          currentPlayer = nextPlayer(currentPlayer);
       }
     }
+
     currentPlayer.ajouterPartieGagnee();
     Joueur gagnant = currentPlayer;
     Joueur perdant = nextPlayer(currentPlayer);
@@ -78,13 +90,6 @@ public class ControleurJeuNim {
       return lesJoueurs.get(1);
     } else {
       return lesJoueurs.get(0);
-    }
-  }
-
-  private void ajouterJoueur() {
-    if (lesJoueurs.size() == 0) {
-      lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
-      lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
     }
   }
 }
