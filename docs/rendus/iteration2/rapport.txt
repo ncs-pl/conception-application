@@ -1,0 +1,5 @@
+Lucas a travaillé sur la structure globale et l'architecture des objets du
+programme.
+Nicolas a travaillé sur la logique du jeu du Puissance 4 (backend).
+Younes a travaillé sur le contrôleur du jeu et l'affichage des donnée
+(frontend).
