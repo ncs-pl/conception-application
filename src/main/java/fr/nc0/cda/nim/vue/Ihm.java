@@ -46,6 +46,29 @@ public class Ihm {
   }
 
   /**
+   * Demande au joueur s'il souhaite jouer avec une limite sur le nombre d'allumettes à retirer à
+   * chaque coup
+   */
+  public int selectContrainte() {
+    boolean saisieInvalide = true;
+    int contrainte = 0;
+    Scanner scanner = new Scanner(System.in);
+    while (saisieInvalide) {
+      System.out.println("Jouer avec une contrainte sur le nombre d'allumettes à retirer ?");
+      System.out.println(
+          "Si oui , insérer le nombre maximal d'allumettes à retirer. Sinon insérer 0 .");
+      if (scanner.hasNextInt()) {
+        contrainte = scanner.nextInt();
+        saisieInvalide = false;
+      } else {
+        scanner.nextLine();
+        System.out.println("Vous devez saisir un entier >= 0");
+      }
+    }
+    return contrainte;
+  }
+
+  /**
    * Affiche l'état de la partie
    *
    * @param tas liste des tas

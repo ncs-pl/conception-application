@@ -55,8 +55,13 @@ public class Ihm {
    */
   public void afficherGrille(List<List<CellulePuissance4>> grille) {
     for (int i = 0; i < grille.size(); i++) {
-      System.out.println(grille.get(i));
+      String affichage = "";
+      for (int j = 0; j < grille.get(i).size(); j++) {
+        affichage = affichage + " | " + grille.get(i).get(j);
+      }
+      System.out.println(affichage);
     }
+    System.out.println(" 1......2......3......4......5......6......7.....");
   }
 
   /**

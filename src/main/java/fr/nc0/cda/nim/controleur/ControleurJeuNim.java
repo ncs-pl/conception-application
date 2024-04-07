@@ -47,7 +47,7 @@ public class ControleurJeuNim {
 
   /** Jouer une partie du jeu de Nim. */
   public void jouer() {
-
+    int contrainte = ihm.selectContrainte();
     nim.demarrerPartie();
     Joueur currentPlayer = lesJoueurs.get(0);
 
@@ -56,7 +56,7 @@ public class ControleurJeuNim {
       while (true) {
         int[] choix = ihm.selectAlumette(currentPlayer.getNom());
         try {
-          nim.supprAllumettes(choix);
+          nim.supprAllumettes(choix, contrainte);
           break;
         } catch (IllegalArgumentException e) {
           ihm.message(e.getMessage());

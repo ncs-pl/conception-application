@@ -65,9 +65,9 @@ public class Nim {
    *     au nombre d'allumettes à supprimer.
    * @throws IllegalArgumentException si le choix est invalide.
    */
-  public void supprAllumettes(int[] choix) {
+  public void supprAllumettes(int[] choix, int contrainte) {
     try {
-      verifierChoix(choix);
+      verifierChoix(choix, contrainte);
       tas.set(choix[0], tas.get(choix[0]) - choix[1]);
     } catch (IllegalArgumentException e) {
       throw e;
@@ -79,12 +79,20 @@ public class Nim {
    *
    * @param choix un tableau de deux entiers, le premier correspondant à l'index du tas et le second
    */
-  private void verifierChoix(int[] choix) {
+  private void verifierChoix(int[] choix, int contrainte) {
     if (tas.size() <= choix[0] || choix[0] < 0) {
-      throw new IllegalArgumentException("Valeur du tas incorrect");
+      throw new IllegalArgumentException("Valeur du tas incorrecte");
     } else {
       if (choix[1] <= 0 || choix[1] > tas.get(choix[0])) {
-        throw new IllegalArgumentException("Valeur des allumettes incorrect");
+        throw new IllegalArgumentException("Valeur des allumettes incorrecte");
+      }
+    }
+    if (contrainte != 0) {
+      if (choix[1] > contrainte) {
+        throw new IllegalArgumentException(
+            "Valeur des allumettes incorrecte : vous pouvez retirer "
+                + contrainte
+                + " allumettes au maximum.");
       }
     }
   }
