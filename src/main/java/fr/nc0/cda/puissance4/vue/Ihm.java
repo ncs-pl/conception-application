@@ -53,9 +53,7 @@ public class Ihm {
    *
    * @param grille La grille de jeu représentée par une liste de listes de cellules.
    */
-  public void afficherGrille(List<List<CellulePuissance4>> grille) {
-   
-
+ public void afficherGrille(List<List<CellulePuissance4>> grille) {
     String affichage = "";
 
     for (List<CellulePuissance4> ligne : grille) {
