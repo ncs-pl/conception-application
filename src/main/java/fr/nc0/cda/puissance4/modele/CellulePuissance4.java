@@ -13,5 +13,14 @@ public enum CellulePuissance4 {
   /** Cellule jaune. */
   JAUNE,
   /** Cellule rouge. */
-  ROUGE
+  ROUGE;
+
+  @Override
+  public String toString() {
+    return switch (this) {
+      case VIDE -> "  ";
+      case JAUNE -> "🟡";
+      case ROUGE -> "🔴";
+    };
+  }
 }
