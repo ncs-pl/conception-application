@@ -1,5 +1,13 @@
 Lucas a travaillé sur la structure globale et l'architecture des objets du
-programme.
+programme.  L'utilité de son travail est de permettre la correction des
+problèmes rencontrés lors de la précédente itération, pour permettre la copie
+fonctionnelle de Nim pour le développement du puissance 4.
+
 Nicolas a travaillé sur la logique du jeu du Puissance 4 (backend).
+
 Younes a travaillé sur le contrôleur du jeu et l'affichage des donnée
 (frontend).
+
+Nous avons utilisé l'IA (modèle GPT4) pour la génération des documentations de
+classes et méthodes, en l'intégrant directement à l'éditeur (c.f. GitHub
+Copilot).
