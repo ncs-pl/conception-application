@@ -6,6 +6,7 @@
 
 package fr.nc0.cda.puissance4.controleur;
 
+import fr.nc0.cda.puissance4.modele.CellulePuissance4;
 import fr.nc0.cda.puissance4.modele.EtatPartiePuissance4;
 import fr.nc0.cda.puissance4.modele.Joueur;
 import fr.nc0.cda.puissance4.modele.Puissance4;
@@ -63,7 +64,8 @@ public class ControleurPuissance4 {
       while (numeroInvalide) {
         try {
           int colonne = ihm.choixColonne(joueurCourant.getNom());
-          p4.jouer(colonne);
+          CellulePuissance4 jeton = jetonJoueur(joueurCourant);
+          p4.jouer(jeton, colonne);
 
           numeroInvalide = false;
         } catch (IllegalArgumentException e) {
@@ -98,6 +100,16 @@ public class ControleurPuissance4 {
           perdant.getNbrPartieGagnee(),
           exaeco);
     }
+  }
+
+  /**
+   * Retourne le jeton du joueur. Utile pour déterminer le jeton à insérer pour le joueur courant.
+   *
+   * @param joueur Le joueur pour lequel on veut le jeton.
+   * @return Le jeton du joueur.
+   */
+  private CellulePuissance4 jetonJoueur(Joueur joueur) {
+    return joueur == lesJoueurs.get(0) ? CellulePuissance4.ROUGE : CellulePuissance4.JAUNE;
   }
 
   /**

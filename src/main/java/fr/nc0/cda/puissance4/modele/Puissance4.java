@@ -24,9 +24,6 @@ public class Puissance4 {
   /** L'état de la partie */
   private EtatPartiePuissance4 etat = EtatPartiePuissance4.EN_COURS;
 
-  /** Le joueur courant */
-  private CellulePuissance4 joueurCourant = CellulePuissance4.ROUGE;
-
   /** Créer une partie de Puissance 4 et la commence */
   public Puissance4(int longueur, int hauteur) {
     if (longueur < 1) throw new IllegalArgumentException("La longueur doît être supérieure à 0");
@@ -103,13 +100,6 @@ public class Puissance4 {
    */
   private boolean colonneEstPleine(int colonne) {
     return getCellule(colonne, 0) != CellulePuissance4.VIDE;
-  }
-
-  private void changerJoueurCourant() {
-    joueurCourant =
-        joueurCourant == CellulePuissance4.ROUGE
-            ? CellulePuissance4.JAUNE
-            : CellulePuissance4.ROUGE;
   }
 
   /**
@@ -411,18 +401,15 @@ public class Puissance4 {
     return etat;
   }
 
-  public CellulePuissance4 getJoueurCourant() {
-    return joueurCourant;
-  }
-
   /**
    * Joue un coup dans la colonne donnée
    *
+   * @param jeton le jeton à insérer
    * @param colonne la colonne dans laquelle jouer, entre 1 et 7 (inclus)
    * @throws IllegalArgumentException si la colonne n'existe pas où est pleine
    * @throws IllegalStateException si la partie est terminée
    */
-  public void jouer(int colonne) {
+  public void jouer(CellulePuissance4 jeton, int colonne) {
     if (etat != EtatPartiePuissance4.EN_COURS)
       throw new IllegalStateException("La partie est terminée");
 
@@ -432,12 +419,11 @@ public class Puissance4 {
     }
     if (colonneEstPleine(colonne)) throw new IllegalArgumentException("La colonne est pleine");
 
-    List<Integer> pos = insererCellule(colonne, joueurCourant);
+    List<Integer> pos = insererCellule(colonne, jeton);
     if (pos.isEmpty()) return;
     int x = pos.get(0);
     int y = pos.get(1);
 
     verifierEtatPartie(x, y);
-    changerJoueurCourant();
   }
 }
