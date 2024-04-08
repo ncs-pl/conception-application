@@ -24,23 +24,37 @@ public class Nim {
   /** État de la partie. */
   private EtatPartieNim etatPartie;
 
+  /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 => pas de contrainte). */
+  private int contrainte;
+
   /**
    * Créer une partie et l'initialise avec le nombre de tas donné.
    *
    * @param nbrTas le nombre de tas de la partie.
+   * @param contrainte le nombre maximal d'allumettes à retirer par coup.
    */
-  public Nim(int nbrTas) {
+  public Nim(int nbrTas, int contrainte) {
     if (nbrTas >= 1) {
       this.nbrTas = nbrTas;
     } else {
       throw new IllegalArgumentException("Nombre de Tas choisis < 1");
     }
+    this.contrainte = contrainte;
   }
 
   /** Initialise les tas de la partie avec le nombre d'allumettes correspondant. */
   private void setupTas() {
     tas = new ArrayList<>(nbrTas);
     for (int i = 1; i <= nbrTas; ++i) tas.add(2 * i - 1);
+  }
+
+  /**
+   * Modifie la valeur de la contrainte.
+   *
+   * @param contrainte la nouvelle valeur de la contrainte.
+   */
+  public void setContrainte(int contrainte) {
+    this.contrainte = contrainte;
   }
 
   /** Démarre la partie en initialisant les tas et en passant l'état de la partie à EnCours. */
@@ -65,9 +79,9 @@ public class Nim {
    *     au nombre d'allumettes à supprimer.
    * @throws IllegalArgumentException si le choix est invalide.
    */
-  public void supprAllumettes(int[] choix, int contrainte) {
+  public void supprAllumettes(int[] choix) {
     try {
-      verifierChoix(choix, contrainte);
+      verifierChoix(choix);
       tas.set(choix[0], tas.get(choix[0]) - choix[1]);
     } catch (IllegalArgumentException e) {
       throw e;
@@ -79,7 +93,7 @@ public class Nim {
    *
    * @param choix un tableau de deux entiers, le premier correspondant à l'index du tas et le second
    */
-  private void verifierChoix(int[] choix, int contrainte) {
+  private void verifierChoix(int[] choix) {
     if (tas.size() <= choix[0] || choix[0] < 0) {
       throw new IllegalArgumentException("Valeur du tas incorrecte");
     } else {
@@ -87,11 +101,11 @@ public class Nim {
         throw new IllegalArgumentException("Valeur des allumettes incorrecte");
       }
     }
-    if (contrainte != 0) {
-      if (choix[1] > contrainte) {
+    if (this.contrainte != 0) {
+      if (choix[1] > this.contrainte) {
         throw new IllegalArgumentException(
             "Valeur des allumettes incorrecte : vous pouvez retirer "
-                + contrainte
+                + this.contrainte
                 + " allumettes au maximum.");
       }
     }

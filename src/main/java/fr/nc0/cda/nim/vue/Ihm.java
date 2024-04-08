@@ -47,7 +47,7 @@ public class Ihm {
 
   /**
    * Demande au joueur s'il souhaite jouer avec une limite sur le nombre d'allumettes à retirer à
-   * chaque coup
+   * chaque coup.
    */
   public int selectContrainte() {
     boolean saisieInvalide = true;
