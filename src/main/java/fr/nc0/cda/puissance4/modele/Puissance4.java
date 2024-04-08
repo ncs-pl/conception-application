@@ -13,10 +13,10 @@ import java.util.List;
 /** Représente une partie de Puissance 4. */
 public class Puissance4 {
   /** La longueur de la grille */
-  private static final int LONGUEUR = 7;
+  private final int longueur;
 
   /** La hauteur de la grille */
-  private static final int HAUTEUR = 7;
+  private final int hauteur;
 
   /** La grille de jeu. */
   private final List<List<CellulePuissance4>> grille;
@@ -28,11 +28,17 @@ public class Puissance4 {
   private CellulePuissance4 joueurCourant = CellulePuissance4.ROUGE;
 
   /** Créer une partie de Puissance 4 et la commence */
-  public Puissance4() {
+  public Puissance4(int longueur, int hauteur) {
+    if (longueur < 1) throw new IllegalArgumentException("La longueur doît être supérieure à 0");
+    this.longueur = longueur;
+
+    if (hauteur < 1) throw new IllegalArgumentException("La hauteur doît être supérieure à 0");
+    this.hauteur = hauteur;
+
     grille = new ArrayList<>();
-    for (int i = 0; i < LONGUEUR; i++) {
+    for (int i = 0; i < this.longueur; i++) {
       grille.add(new ArrayList<>());
-      for (int j = 0; j < HAUTEUR; j++) grille.get(i).add(CellulePuissance4.VIDE);
+      for (int j = 0; j < this.hauteur; j++) grille.get(i).add(CellulePuissance4.VIDE);
     }
   }
 
@@ -45,7 +51,7 @@ public class Puissance4 {
    */
   private List<Integer> insererCellule(int colonne, CellulePuissance4 cellule) {
     // On parcourt la colonne de bas en haut
-    for (int i = HAUTEUR - 1; i >= 0; i--) {
+    for (int i = this.hauteur - 1; i >= 0; i--) {
       if (getCellule(colonne, i) == CellulePuissance4.VIDE) {
         // Si la cellule actuelle est vide, alors on sait (par gravité)
         // que les cellules du dessus sont aussi vides, et donc on peut
@@ -64,7 +70,7 @@ public class Puissance4 {
    * @return true si la colonne existe, false sinon
    */
   private boolean verifierNumeroColonne(int colonne) {
-    return colonne >= 0 && colonne < LONGUEUR;
+    return colonne >= 0 && colonne < this.longueur;
   }
 
   /**
@@ -133,7 +139,7 @@ public class Puissance4 {
    * @return la cellule à la position donnée, ou null si les coordonnées sont invalides
    */
   private CellulePuissance4 getCelluleOuNull(int colonne, int ligne) {
-    if (colonne < 0 || colonne >= LONGUEUR || ligne < 0 || ligne >= HAUTEUR) {
+    if (colonne < 0 || colonne >= this.longueur || ligne < 0 || ligne >= this.hauteur) {
       return null;
     }
     return getCellule(colonne, ligne);
@@ -367,7 +373,7 @@ public class Puissance4 {
    * @return true si la grille est pleine, false sinon
    */
   private boolean grilleEstPleine() {
-    for (int i = 0; i < LONGUEUR; i++) {
+    for (int i = 0; i < this.longueur; i++) {
       if (getCellule(i, 0) == CellulePuissance4.VIDE) return false;
     }
     return true;

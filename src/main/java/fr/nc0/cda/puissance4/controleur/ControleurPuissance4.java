@@ -19,14 +19,17 @@ import java.util.ArrayList;
  * et l'interface utilisateur Ihm.
  */
 public class ControleurPuissance4 {
+  /** La longueur d'une grille de Puissance 4 */
+  private static final int LONGUEUR = 7;
+
+  /** La hauteur d'une grille de Puissance 4 */
+  private static final int HAUTEUR = 7;
+
   /** L'interface utilisateur */
   private final Ihm ihm;
 
   /** La liste des joueurs */
   private final ArrayList<Joueur> lesJoueurs;
-
-  /** Le modèle du jeu Puissance 4 */
-  private Puissance4 p4;
 
   /**
    * Constructeur de la classe ControleurPuissance4.
@@ -36,7 +39,7 @@ public class ControleurPuissance4 {
   public ControleurPuissance4(Ihm ihm) {
     this.ihm = ihm;
 
-    lesJoueurs = new ArrayList<Joueur>(2);
+    lesJoueurs = new ArrayList<>(2);
     lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
     lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
   }
@@ -50,44 +53,50 @@ public class ControleurPuissance4 {
    * propose éventuellement de rejouer.
    */
   public void jouer() {
-    p4 = new Puissance4();
+    Puissance4 p4 = new Puissance4(LONGUEUR, HAUTEUR);
     Joueur joueurCourant = lesJoueurs.get(0);
+
     while (p4.getEtat() == EtatPartiePuissance4.EN_COURS) {
       ihm.afficherGrille(p4.getGrille());
       boolean numeroInvalide = true;
+
       while (numeroInvalide) {
         try {
           int colonne = ihm.choixColonne(joueurCourant.getNom());
           p4.jouer(colonne);
+
           numeroInvalide = false;
         } catch (IllegalArgumentException e) {
           ihm.message("Erreur : " + e.getMessage());
         }
       }
+
       if (p4.getEtat() == EtatPartiePuissance4.EN_COURS)
         joueurCourant = joueurSuivant(joueurCourant);
     }
+
     ihm.afficherGrille(p4.getGrille());
 
     if (p4.getEtat() != EtatPartiePuissance4.EN_COURS) {
-      if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) {
-        ihm.matchNul();
-      } else {
+      if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) ihm.matchNul();
+      else {
         joueurCourant.ajouterPartieGagnee();
         ihm.afficherGagnant(joueurCourant.getNom());
       }
+
       if (ihm.rejouer()) {
         jouer();
-      } else {
-        Joueur perdant = joueurSuivant(joueurCourant);
-        boolean exaeco = joueurCourant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee();
-        ihm.afficherStats(
-            joueurCourant.getNom(),
-            perdant.getNom(),
-            joueurCourant.getNbrPartieGagnee(),
-            perdant.getNbrPartieGagnee(),
-            exaeco);
+        return;
       }
+
+      Joueur perdant = joueurSuivant(joueurCourant);
+      boolean exaeco = joueurCourant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee();
+      ihm.afficherStats(
+          joueurCourant.getNom(),
+          perdant.getNom(),
+          joueurCourant.getNbrPartieGagnee(),
+          perdant.getNbrPartieGagnee(),
+          exaeco);
     }
   }
 
