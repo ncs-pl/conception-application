@@ -173,10 +173,9 @@ public class Ihm {
    * Affiche le vainqueur de la partie.
    *
    * @param gagnant le joueur gagnant
-   * @param perdant le joueur perdant
    * @param exaeco indique si les deux joueurs ont le même nombre de parties gagnées
    */
-  public void afficherVainqueur(Joueur gagnant, Joueur perdant, boolean exaeco) {
+  public void afficherVainqueur(Joueur gagnant, boolean exaeco) {
     if (exaeco) {
       println("Égalité !");
     } else {

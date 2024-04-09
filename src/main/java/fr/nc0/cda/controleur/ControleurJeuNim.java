@@ -182,7 +182,7 @@ public class ControleurJeuNim {
       }
 
       ihm.afficherScores(gagnant, perdant);
-      ihm.afficherVainqueur(gagnant, perdant, victoiresGagnant == victoiresPerdant);
+      ihm.afficherVainqueur(gagnant, victoiresGagnant == victoiresPerdant);
       return;
     }
 
