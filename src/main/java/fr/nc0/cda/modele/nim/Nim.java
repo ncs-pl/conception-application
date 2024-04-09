@@ -10,7 +10,7 @@ import fr.nc0.cda.modele.EtatPartie;
 
 /** Représente une partie du jeu de Nim. */
 public class Nim {
-  /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 => pas de contrainte). */
+  /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 → pas de contrainte). */
   private final int contrainte;
 
   private final ListeTas listeTas;
