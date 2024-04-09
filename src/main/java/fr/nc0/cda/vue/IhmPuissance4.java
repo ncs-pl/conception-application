@@ -4,10 +4,10 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.puissance4.vue;
+package fr.nc0.cda.vue;
 
-import fr.nc0.cda.puissance4.modele.CellulePuissance4;
-import fr.nc0.cda.puissance4.modele.Joueur;
+import fr.nc0.cda.modele.CellulePuissance4;
+import fr.nc0.cda.modele.Joueur;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +18,7 @@ import java.util.Scanner;
  * grille de jeu, la saisie des coups des joueurs, la gestion des noms des joueurs et des
  * statistiques de la partie.
  */
-public class Ihm {
+public class IhmPuissance4 {
   /**
    * Retourne le numéro de colonne choisie par le joueur courant.
    *
@@ -86,7 +86,7 @@ public class Ihm {
    *
    * @param grille La grille de jeu représentée par une liste de listes de cellules.
    */
- public void afficherGrille(List<List<CellulePuissance4>> grille) {
+  public void afficherGrille(List<List<CellulePuissance4>> grille) {
     String affichage = "";
 
     for (List<CellulePuissance4> ligne : grille) {

@@ -4,14 +4,14 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.nim.main;
+package fr.nc0.cda.main;
 
-import fr.nc0.cda.nim.controleur.ControleurJeuNim;
-import fr.nc0.cda.nim.vue.Ihm;
+import fr.nc0.cda.controleur.ControleurJeuNim;
+import fr.nc0.cda.vue.IhmNim;
 
-public class Main {
+public class MainNim {
   public static void main(String[] args) {
-    Ihm ihm = new Ihm();
+    IhmNim ihm = new IhmNim();
     ControleurJeuNim controleurJeuNim = new ControleurJeuNim(ihm);
     controleurJeuNim.jouer();
   }

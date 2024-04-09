@@ -4,18 +4,18 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.nim.controleur;
+package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.nim.modele.EtatPartieNim;
-import fr.nc0.cda.nim.modele.Joueur;
-import fr.nc0.cda.nim.modele.Nim;
-import fr.nc0.cda.nim.vue.Ihm;
+import fr.nc0.cda.modele.EtatPartieNim;
+import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.Nim;
+import fr.nc0.cda.vue.IhmNim;
 import java.util.ArrayList;
 
 /** Contrôleur du jeu de Nim. */
 public class ControleurJeuNim {
   /** Interface homme-machine. */
-  private final Ihm ihm;
+  private final IhmNim ihm;
 
   /** Liste des joueurs de la partie. */
   private final ArrayList<Joueur> lesJoueurs;
@@ -28,7 +28,7 @@ public class ControleurJeuNim {
    *
    * @param ihm l'interface homme-machine.
    */
-  public ControleurJeuNim(Ihm ihm) {
+  public ControleurJeuNim(IhmNim ihm) {
     this.ihm = ihm;
 
     while (true) {

@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.nim.modele;
+package fr.nc0.cda.modele;
 
 /** Représente l'état d'une partie du jeu de Nim. */
 public enum EtatPartieNim {
