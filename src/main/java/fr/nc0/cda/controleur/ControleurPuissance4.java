@@ -92,7 +92,7 @@ public class ControleurPuissance4 {
       int colonne =
           ihm.demanderInt(joueur.getNom() + ", choisissez une colonne (1-" + LONGUEUR + ")");
 
-      if (!p4.colonneValide(colonne)) {
+      if (p4.colonneInvalide(colonne)) {
         ihm.afficherErreur("Veuillez choisir une colonne valide.");
         continue;
       }
@@ -185,7 +185,6 @@ public class ControleurPuissance4 {
     // Game loop
 
     while (p4.getEtat() == EtatPartiePuissance4.EN_COURS) {
-      // TODO(#20)
       ihm.afficherMessage(p4.getGrille().toString());
 
       // Demander au joueur s'il veut jouer ou effectuer une rotation

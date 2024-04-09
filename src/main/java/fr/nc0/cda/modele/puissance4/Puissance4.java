@@ -12,14 +12,8 @@ import java.util.Objects;
 
 /** Représente une partie de Puissance 4. */
 public class Puissance4 {
-  /** La longueur de la grille, c'est-à-dire le nombre de colonnes */
-  private int longueur;
-
-  /** La hauteur de la grille, c'est-à-dire le nombre de lignes */
-  private int hauteur;
-
   /** La grille de jeu. */
-  private List<List<CellulePuissance4>> grille;
+  private GrillePuissance4 grille;
 
   /** L'état de la partie */
   private EtatPartiePuissance4 etat = EtatPartiePuissance4.EN_COURS;
@@ -27,58 +21,9 @@ public class Puissance4 {
   /** Créer une partie de Puissance 4 et la commence */
   public Puissance4(int longueur, int hauteur) {
     if (longueur < 1) throw new IllegalArgumentException("La longueur doît être supérieure à 0");
-    this.longueur = longueur;
-
     if (hauteur < 1) throw new IllegalArgumentException("La hauteur doît être supérieure à 0");
-    this.hauteur = hauteur;
 
-    this.grille = creerGrille(longueur, hauteur);
-  }
-
-  /**
-   * Crée une grille de jeu vide.
-   *
-   * @param longueur la longueur de la grille
-   * @param hauteur la hauteur de la grille
-   * @return la grille de jeu vide
-   */
-  private List<List<CellulePuissance4>> creerGrille(int longueur, int hauteur) {
-    List<List<CellulePuissance4>> grid = new ArrayList<>(longueur);
-
-    for (int i = 0; i < longueur; ++i) {
-      List<CellulePuissance4> ligne = new ArrayList<>(hauteur);
-      for (int j = 0; j < hauteur; ++j) ligne.set(j, CellulePuissance4.VIDE);
-      grid.set(i, ligne);
-    }
-
-    return grid;
-  }
-
-  /**
-   * Utilitaire pour obtenir une cellule à partir de ses coordonnées, ou null si les coordonnées
-   * sont invalides.
-   *
-   * @param colonne la colonne, entre 1 et la longueur définie
-   * @param ligne la ligne, entre 1 et la hauteur définie
-   * @return la cellule à la position donnée, ou null si les coordonnées sont invalides
-   */
-  private CellulePuissance4 getCellule(int colonne, int ligne) {
-    // On décrémente les indices pour correspondre aux indices de la ArrayList
-    return (colonneValide(colonne) || ligneValide(ligne))
-        ? this.grille.get(ligne - 1).get(colonne - 1)
-        : null;
-  }
-
-  /**
-   * Modifie la cellule à la position donnée
-   *
-   * @param colonne la colonne, entre 1 et la longueur définie
-   * @param ligne la ligne, entre 1 et la hauteur définie
-   * @param cellule la cellule à insérer
-   */
-  private void setCellule(int colonne, int ligne, CellulePuissance4 cellule) {
-    // On décrémente les indices pour correspondre aux indices de la ArrayList
-    grille.get(ligne - 1).set(colonne - 1, cellule);
+    this.grille = new GrillePuissance4(longueur, hauteur);
   }
 
   /**
@@ -88,18 +33,7 @@ public class Puissance4 {
    * @return true si la colonne est pleine, false sinon
    */
   private boolean colonnePleine(int colonne) {
-    return getCellule(colonne, 1) != CellulePuissance4.VIDE;
-  }
-
-  /**
-   * Vérifie que la ligne donnée soit valide, c'est-à-dire comprise entre 1 et la hauteur de la
-   * grille.
-   *
-   * @param ligne le numéro de ligne à vérifier, entre 1 et la hauteur de la grille
-   * @return true si la ligne est valide, false sinon
-   */
-  private boolean ligneValide(int ligne) {
-    return ligne > 0 && ligne <= hauteur;
+    return this.grille.get(colonne, 1) != CellulePuissance4.VIDE;
   }
 
   /**
@@ -126,10 +60,10 @@ public class Puissance4 {
   private int insererCellule(int colonne, CellulePuissance4 cellule) {
     // On parcourt la colonne de bas en haut. Par la gravité, nous savons que si
     // une cellule est vide, alors celles du dessus le sont aussi.
-    for (int i = this.hauteur; i > 0; --i)
-      if (getCellule(colonne, i) == CellulePuissance4.VIDE) {
-        setCellule(colonne, i, cellule);
-        return i;
+    for (int ligne = this.grille.getHauteur(); ligne > 0; --ligne)
+      if (this.grille.get(colonne, ligne) == CellulePuissance4.VIDE) {
+        this.grille.set(colonne, ligne, cellule);
+        return ligne;
       }
 
     return -1;
@@ -148,100 +82,100 @@ public class Puissance4 {
     // ⭕️ -> Cellule actuelle
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne + 1),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne + 2),
-        /* ⭕️🔴🔴🔴 */ getCellule(colonne, ligne + 3))) return true;
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 1),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 2),
+        /* ⭕️🔴🔴🔴 */ this.grille.get(colonne, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 1),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne + 1),
-        /* 🔴⭕️🔴🔴 */ getCellule(colonne, ligne + 2))) return true;
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 1),
+        /* 🔴⭕️🔴🔴 */ this.grille.get(colonne, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 2),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 1),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne),
-        /* 🔴🔴⭕️🔴 */ getCellule(colonne, ligne + 1))) return true;
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 2),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
+        /* 🔴🔴⭕️🔴 */ this.grille.get(colonne, ligne + 1))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 3),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 2),
-        /* ⚪⚪⚪⚪ */ getCellule(colonne, ligne - 1),
-        /* 🔴🔴🔴⭕️ */ getCellule(colonne, ligne))) return true;
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 3),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 2),
+        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
+        /* 🔴🔴🔴⭕️ */ this.grille.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 1, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 2, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 3, ligne))) return true;
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 1, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 2, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 2, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 1, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 3, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 2, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 3, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⭕️⚪⚪⚪ */ getCellule(colonne, ligne),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne + 1, ligne + 1),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne + 2, ligne + 2),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 3, ligne + 3))) return true;
+        /* ⭕️⚪⚪⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne + 1, ligne + 1),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 2, ligne + 2),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 1, ligne - 1),
-        /* ⚪⭕️⚪⚪ */ getCellule(colonne, ligne),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne + 1, ligne + 1),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 2, ligne + 2))) return true;
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 1, ligne - 1),
+        /* ⚪⭕️⚪⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 1, ligne + 1),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 2, ligne - 2),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne - 1, ligne - 1),
-        /* ⚪⚪⭕️⚪ */ getCellule(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 1, ligne + 1))) return true;
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 2, ligne - 2),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 1, ligne - 1),
+        /* ⚪⚪⭕️⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne + 1))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 3, ligne - 3),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne - 2, ligne - 2),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne - 1, ligne - 1),
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne))) return true;
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 3, ligne - 3),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 2, ligne - 2),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne - 1, ligne - 1),
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⭕️ */ getCellule(colonne, ligne),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne - 1, ligne + 1),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne - 2, ligne + 2),
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 3, ligne + 3))) return true;
+        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne - 1, ligne + 1),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 2, ligne + 2),
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 3, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 1, ligne - 1),
-        /* ⚪⚪⭕️⚪ */ getCellule(colonne, ligne),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne - 1, ligne + 1),
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 2, ligne + 2))) return true;
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne - 1),
+        /* ⚪⚪⭕️⚪ */ this.grille.get(colonne, ligne),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 1, ligne + 1),
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 2, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 2, ligne - 2),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne + 1, ligne - 1),
-        /* ⚪⭕️⚪⚪ */ getCellule(colonne, ligne),
-        /* 🔴⚪⚪⚪ */ getCellule(colonne - 1, ligne + 1))) return true;
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne - 2),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 1, ligne - 1),
+        /* ⚪⭕️⚪⚪ */ this.grille.get(colonne, ligne),
+        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 1, ligne + 1))) return true;
 
     return cellulesEgales(
-        /* ⚪⚪⚪🔴 */ getCellule(colonne + 3, ligne - 3),
-        /* ⚪⚪🔴⚪ */ getCellule(colonne + 2, ligne - 2),
-        /* ⚪🔴⚪⚪ */ getCellule(colonne + 1, ligne - 1),
-        /* ⭕️⚪⚪⚪ */ getCellule(colonne, ligne));
+        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne - 3),
+        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 2, ligne - 2),
+        /* ⚪🔴⚪⚪ */ this.grille.get(colonne + 1, ligne - 1),
+        /* ⭕️⚪⚪⚪ */ this.grille.get(colonne, ligne));
   }
 
   /**
@@ -250,10 +184,14 @@ public class Puissance4 {
    * @return true si la grille est pleine, false sinon
    */
   private boolean grillePleine() {
-    for (int i = 1; i <= this.longueur; ++i) {
-      if (!colonnePleine(i)) return false;
+    boolean result = true;
+    for (int i = 1; i <= this.grille.getLongueur(); ++i) {
+      if (!colonnePleine(i)) {
+        result = false;
+        break;
+      }
     }
-    return true;
+    return result;
   }
 
   /**
@@ -263,7 +201,7 @@ public class Puissance4 {
    * @param ligne la ligne de la cellule insérée, entre 1 et la hauteur de la grille
    */
   private void actualiserEtatPartie(int colonne, int ligne) {
-    CellulePuissance4 cellule = getCellule(colonne, ligne);
+    CellulePuissance4 cellule = this.grille.get(colonne, ligne);
     if (cellule == CellulePuissance4.VIDE) return;
 
     if (celluleVictorieuse(colonne, ligne))
@@ -277,8 +215,8 @@ public class Puissance4 {
 
   /** Actualise l'état de la partie en itérant sur la grille. */
   private void actualiserEtatPartie() {
-    for (int i = 1; i <= longueur; i++)
-      for (int j = 1; j <= hauteur; j++) actualiserEtatPartie(i, j);
+    for (int i = 1; i <= this.grille.getLongueur(); i++)
+      for (int j = 1; j <= this.grille.getHauteur(); j++) actualiserEtatPartie(i, j);
   }
 
   /**
@@ -292,15 +230,15 @@ public class Puissance4 {
    * @param rotation la rotation à effectuer
    */
   private void rotationnerGrille(RotationPuissance4 rotation) {
-    int nouvelleLongueur = hauteur;
-    int nouvelleHauteur = longueur;
-    List<List<CellulePuissance4>> grilleRotationnee =
-        creerGrille(nouvelleLongueur, nouvelleHauteur); // On inverse les dimensions
+    int nouvelleLongueur = this.grille.getHauteur();
+    int nouvelleHauteur = this.grille.getLongueur();
+    GrillePuissance4 grilleRotationnee =
+        new GrillePuissance4(nouvelleLongueur, nouvelleHauteur); // On inverse les dimensions
 
     // Note : commencer à 1 au lieu de 0 pour suivre la formule mathématique
     // qui indexe à 1.
-    for (int i = 1; i <= longueur; ++i) {
-      for (int j = 1; j <= hauteur; ++j) {
+    for (int i = 1; i <= this.grille.getLongueur(); ++i) {
+      for (int j = 1; j <= this.grille.getHauteur(); ++j) {
         // Rotation de 90° dans le sens horaire d'une matrice 3x2 vers une
         // matrice 2x3 :
         //
@@ -317,7 +255,7 @@ public class Puissance4 {
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = ɣ₂,
         //         └────────┘                               ɣ'₂ = n - ɣ₁
         if (Objects.requireNonNull(rotation) == RotationPuissance4.HORAIRE)
-          grilleRotationnee.get(j).set(hauteur - i, grille.get(i).get(j));
+          grilleRotationnee.set(j, this.grille.getHauteur() - i, grille.get(i, j));
 
         // Rotation de 90° dans le sens horaire inverse d'une matrice 3x2 vers
         // une matrice 2x3 :
@@ -336,13 +274,11 @@ public class Puissance4 {
         //         └────────┘                               ɣ'₂ = ɣ₁
         //
         else if (rotation == RotationPuissance4.ANTI_HORAIRE)
-          grilleRotationnee.get(longueur - j).set(i, grille.get(i).get(j));
+          grilleRotationnee.set(this.grille.getLongueur() - j, i, grille.get(i, j));
       }
     }
 
     grille = grilleRotationnee;
-    longueur = nouvelleLongueur;
-    hauteur = nouvelleHauteur;
   }
 
   /** Applique la gravité sur la grille de jeu, en déplaçant les cellules vides vers le bas. */
@@ -355,16 +291,18 @@ public class Puissance4 {
     // Faire une copie de la grille actuelle nous permet de réinitialiser la
     // grille existante et de profiter des fonctions pré-définies pour insérer
     // un jeton.
-    List<List<CellulePuissance4>> copieGrille = new ArrayList<>(grille);
-    grille = creerGrille(longueur, hauteur);
+    GrillePuissance4 copieGrille = grille;
+    grille = new GrillePuissance4(this.grille.getLongueur(), this.grille.getHauteur());
 
     List<CellulePuissance4> file = new ArrayList<>();
-    for (int colonne = 1; colonne <= hauteur; ++colonne) {
+    for (int colonne = 1; colonne <= this.grille.getHauteur(); ++colonne) {
       int tailleFile = 0; // Évite d'appeler file.size() qui requière une boucle
 
       // On enfile uniquement les jetons colorés dans une file.
-      for (int ligne = 1; ligne <= longueur; ++ligne) {
-        CellulePuissance4 cellule = copieGrille.get(ligne).get(colonne);
+      for (int ligne = 1; ligne <= this.grille.getLongueur(); ++ligne) {
+        // WARN: inversé?
+        CellulePuissance4 cellule = copieGrille.get(colonne, ligne);
+
         if (cellule != null && cellule != CellulePuissance4.VIDE) {
           file.add(cellule);
           ++tailleFile;
@@ -372,7 +310,7 @@ public class Puissance4 {
       }
 
       // On comble l'espace restant de vide
-      if (tailleFile < hauteur)
+      if (tailleFile < this.grille.getHauteur())
         for (int k = 0; k < tailleFile; ++k) file.add(CellulePuissance4.VIDE);
 
       // Reste qu'à insérer nos jetons dans la colonne.
@@ -390,7 +328,7 @@ public class Puissance4 {
    *
    * @return La grille de jeu
    */
-  public List<List<CellulePuissance4>> getGrille() {
+  public GrillePuissance4 getGrille() {
     return grille;
   }
 
@@ -411,8 +349,8 @@ public class Puissance4 {
    * @param colonne le numéro de colonne
    * @return true si la colonne est valide
    */
-  public boolean colonneValide(int colonne) {
-    return colonne > 0 && colonne <= longueur;
+  public boolean colonneInvalide(int colonne) {
+    return colonne <= 0 || colonne > this.grille.getLongueur();
   }
 
   /**
@@ -427,7 +365,7 @@ public class Puissance4 {
     if (etat != EtatPartiePuissance4.EN_COURS)
       throw new IllegalStateException("La partie est terminée");
 
-    if (!colonneValide(colonne))
+    if (colonneInvalide(colonne))
       throw new IllegalArgumentException("La colonne doit être comprise entre 1 et 7");
 
     if (colonnePleine(colonne)) throw new IllegalArgumentException("La colonne est pleine");
