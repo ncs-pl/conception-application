@@ -11,7 +11,7 @@ import java.util.List;
 
 /** Représente la grille de jeu du Puissance 4. */
 public class Grille {
-  private final List<List<Cellule>> grille;
+  private final List<List<Cellule>> grilleInterne;
   private final int longueur;
   private final int hauteur;
 
@@ -19,13 +19,13 @@ public class Grille {
     this.longueur = longueur;
     this.hauteur = hauteur;
 
-    grille = new ArrayList<>(longueur);
+    grilleInterne = new ArrayList<>(longueur);
     for (int i = 0; i < longueur; ++i) {
       List<Cellule> colonne = new ArrayList<>(hauteur);
       for (int j = 0; j < hauteur; ++j) {
         colonne.add(Cellule.VIDE);
       }
-      grille.add(colonne);
+      grilleInterne.add(colonne);
     }
   }
 
@@ -56,7 +56,7 @@ public class Grille {
    */
   public Cellule get(int colonne, int ligne) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return null;
-    return grille.get(colonne - 1).get(ligne - 1);
+    return grilleInterne.get(colonne - 1).get(ligne - 1);
   }
 
   /**
@@ -68,14 +68,14 @@ public class Grille {
    */
   public void set(int colonne, int ligne, Cellule cellule) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return;
-    grille.get(colonne - 1).set(ligne - 1, cellule);
+    grilleInterne.get(colonne - 1).set(ligne - 1, cellule);
   }
 
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
 
-    for (List<Cellule> ligne : grille) {
+    for (List<Cellule> ligne : grilleInterne) {
       stringBuilder.append(" |");
 
       for (Cellule cellule : ligne)
