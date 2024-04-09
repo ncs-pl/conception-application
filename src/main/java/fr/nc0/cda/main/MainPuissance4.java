@@ -7,7 +7,7 @@
 package fr.nc0.cda.main;
 
 import fr.nc0.cda.controleur.ControleurPuissance4;
-import fr.nc0.cda.vue.IhmPuissance4;
+import fr.nc0.cda.vue.Ihm;
 
 /**
  * Point d'entrée de l'application Puissance 4.
@@ -17,7 +17,7 @@ import fr.nc0.cda.vue.IhmPuissance4;
  */
 public class MainPuissance4 {
   public static void main(String[] args) {
-    IhmPuissance4 ihm = new IhmPuissance4(); // Initialisation de l'IHM
+    Ihm ihm = new Ihm(); // Initialisation de l'IHM
     ControleurPuissance4 p4 =
         new ControleurPuissance4(ihm); // Initialisation du contrôleur Puissance 4 avec l'IHM
     p4.jouer(); // Lancement d'une partie de Puissance 4

@@ -8,7 +8,7 @@ package fr.nc0.cda.controleur;
 
 import fr.nc0.cda.modele.*;
 import fr.nc0.cda.modele.Joueur;
-import fr.nc0.cda.vue.IhmPuissance4;
+import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ControleurPuissance4 {
   private static final int ROTATIONS_DISPONIBLES_DEFAUT = 4;
 
   /** L'interface utilisateur */
-  private final IhmPuissance4 ihm;
+  private final Ihm ihm;
 
   /** La liste des joueurs */
   private final ArrayList<Joueur> lesJoueurs;
@@ -42,12 +42,22 @@ public class ControleurPuissance4 {
    *
    * @param ihm L'interface utilisateur pour les interactions avec le jeu.
    */
-  public ControleurPuissance4(IhmPuissance4 ihm) {
+  public ControleurPuissance4(Ihm ihm) {
     this.ihm = ihm;
 
     lesJoueurs = new ArrayList<>(2);
-    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
-    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
+    lesJoueurs.add(new Joueur(demanderNomJoueur(1)));
+    lesJoueurs.add(new Joueur(demanderNomJoueur(2)));
+  }
+
+  /**
+   * Demande le nom d'un joueur
+   *
+   * @param numJoueur le numéro du joueur demandé
+   * @return le nom entré
+   */
+  private String demanderNomJoueur(int numJoueur) {
+    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
   }
 
   /**
@@ -78,13 +88,17 @@ public class ControleurPuissance4 {
    * @return la colonne choisie par le joueur
    */
   private int demanderColonne(Puissance4 p4, Joueur joueur) {
-    int colonne = ihm.choixColonne(joueur);
-    while (!p4.colonneValide(colonne)) {
-      ihm.message("Colonne invalide, veuillez choisir une autre colonne.");
-      colonne = ihm.choixColonne(joueur);
-    }
+    while (true) {
+      int colonne =
+          ihm.demanderInt(joueur.getNom() + ", choisissez une colonne (1-" + LONGUEUR + ")");
 
-    return colonne;
+      if (!p4.colonneValide(colonne)) {
+        ihm.afficherErreur("Veuillez choisir une colonne valide.");
+        continue;
+      }
+
+      return colonne;
+    }
   }
 
   /**
@@ -94,13 +108,22 @@ public class ControleurPuissance4 {
    * @return la rotation choisie par le joueur
    */
   private RotationPuissance4 demanderRotation(Joueur joueur) {
-    String sens = ihm.choixRotation(joueur);
-    while (!sens.equals("droite") && !sens.equals("gauche")) {
-      ihm.message("Sens de rotation invalide, veuillez choisir 'droite' ou 'gauche'.");
-      sens = ihm.choixRotation(joueur);
-    }
+    while (true) {
+      String choix =
+          ihm.demanderString(
+                  joueur.getNom()
+                      + ", dans quel sens voulez-vous tourner la grille ? (droite/gauche)")
+              .toLowerCase();
 
-    return sens.equals("droite") ? RotationPuissance4.HORAIRE : RotationPuissance4.ANTI_HORAIRE;
+      switch (choix) {
+        case "droite", "d", "horaire":
+          return RotationPuissance4.HORAIRE;
+        case "gauche", "g", "anti-horaire":
+          return RotationPuissance4.ANTI_HORAIRE;
+        default:
+          ihm.afficherErreur("Veuillez choisir \"droite\" et \"gauche\".");
+      }
+    }
   }
 
   /**
@@ -110,13 +133,38 @@ public class ControleurPuissance4 {
    * @return le choix du joueur
    */
   public ChoixJouerPuissance4 demanderChoixJouer(Joueur joueur) {
-    String choix = ihm.choixJouer(joueur);
-    while (!choix.equals("jouer") && !choix.equals("rotation")) {
-      ihm.message("Choix invalide, veuillez choisir 'jouer' ou 'rotation'.");
-      choix = ihm.choixJouer(joueur);
-    }
+    while (true) {
+      String choix =
+          ihm.demanderString(joueur.getNom() + ", que voulez-vous faire ? (jouer/rotation)")
+              .toLowerCase();
 
-    return choix.equals("jouer") ? ChoixJouerPuissance4.JOUER : ChoixJouerPuissance4.ROTATION;
+      switch (choix) {
+        case "jouer", "j":
+          return ChoixJouerPuissance4.JOUER;
+        case "rotation", "r":
+          return ChoixJouerPuissance4.ROTATION;
+        default:
+          ihm.afficherErreur("Veuillez choisir entre \"jouer\" et \"rotation\".");
+      }
+    }
+  }
+
+  /**
+   * Demande si les joueurs veulent rejouer.
+   *
+   * @return true si les joueurs veulent rejouer, false sinon.
+   */
+  private boolean demanderRejouer() {
+    return ihm.demanderBoolean("Voulez-vous rejouer ?");
+  }
+
+  /**
+   * Demande si les joueurs veulent activer la rotation de la grille.
+   *
+   * @return true si les joueurs veulent activer la rotation, false sinon.
+   */
+  private boolean demanderActivationRotations() {
+    return ihm.demanderBoolean("Voulez-vous activer la possibilité de rotation de la grille ?");
   }
 
   /**
@@ -129,7 +177,7 @@ public class ControleurPuissance4 {
    */
   public void jouer() {
     Puissance4 p4 = new Puissance4(LONGUEUR, HAUTEUR);
-    boolean rotation = ihm.activerRotation();
+    boolean rotation = demanderActivationRotations();
     rotationsRestantes = List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT);
 
     Joueur joueurCourant = lesJoueurs.get(0);
@@ -137,7 +185,8 @@ public class ControleurPuissance4 {
     // Game loop
 
     while (p4.getEtat() == EtatPartiePuissance4.EN_COURS) {
-      ihm.afficherGrille(p4.getGrille());
+      // TODO(#20)
+      ihm.afficherMessage(p4.getGrille().toString());
 
       // Demander au joueur s'il veut jouer ou effectuer une rotation
       // seulement si la rotation est activée et que le joueur a encore des rotations
@@ -162,21 +211,24 @@ public class ControleurPuissance4 {
     Joueur perdant =
         p4.getEtat() != EtatPartiePuissance4.VICTOIRE_ROUGE ? lesJoueurs.get(0) : lesJoueurs.get(1);
 
-    ihm.afficherGrille(p4.getGrille());
-
-    if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) ihm.matchNul();
+    if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) ihm.afficherMessage("Match nul !");
     else {
-      joueurCourant.ajouterPartieGagnee();
-      ihm.afficherGagnant(gagnant);
+      gagnant.ajouterPartieGagnee();
+      ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
     }
 
-    if (ihm.rejouer()) {
-      jouer();
+    boolean rejouer = demanderRejouer();
+    if (!rejouer) {
+      ihm.afficherScores(gagnant, perdant);
+      ihm.afficherVainqueur(
+          gagnant, perdant, gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee());
+
       return;
     }
 
-    ihm.afficherStats(
-        gagnant, perdant, gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee());
+    ihm.afficherScores(gagnant, perdant);
+    // Appel récursif à la fin pour profiter de la Tail-Call Optimization
+    jouer();
   }
 
   /**
