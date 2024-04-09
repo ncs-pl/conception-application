@@ -6,9 +6,9 @@
 
 package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.modele.EtatPartieNim;
 import fr.nc0.cda.modele.Joueur;
-import fr.nc0.cda.modele.Nim;
+import fr.nc0.cda.modele.nim.EtatPartieNim;
+import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 

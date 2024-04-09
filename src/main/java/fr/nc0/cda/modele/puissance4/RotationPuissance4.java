@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des sens de rotation d'une grille de Puissance 4. */
 public enum RotationPuissance4 {

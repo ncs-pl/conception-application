@@ -6,8 +6,8 @@
 
 package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.modele.*;
 import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 import java.util.List;

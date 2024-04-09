@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des choix de jouer au jeu du Puissance 4. */
 public enum ChoixJouerPuissance4 {
