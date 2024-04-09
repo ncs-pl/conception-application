@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des états possibles d'une partie de Puissance 4. */
 public enum EtatPartiePuissance4 {

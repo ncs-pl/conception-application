@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.puissance4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,8 +250,9 @@ public class Puissance4 {
    * @return true si la grille est pleine, false sinon
    */
   private boolean grillePleine() {
-    for (int i = 1; i < this.longueur; ++i) if (colonnePleine(i)) return false;
-
+    for (int i = 1; i <= this.longueur; ++i) {
+      if (!colonnePleine(i)) return false;
+    }
     return true;
   }
 
