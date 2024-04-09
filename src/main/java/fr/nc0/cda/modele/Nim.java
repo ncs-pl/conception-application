@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.nim.modele;
+package fr.nc0.cda.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;

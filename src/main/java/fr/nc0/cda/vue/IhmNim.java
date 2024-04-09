@@ -4,13 +4,13 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.nim.vue;
+package fr.nc0.cda.vue;
 
 import java.util.List;
 import java.util.Scanner;
 
 /** Interface de relation entre l'utilisateur et le système. */
-public class Ihm {
+public class IhmNim {
   // !!!!! accepte les int suivant (input : 5  56 9 7) mais ne les traites pas
   // Pour tout les scanner voir delimiter pattern
 

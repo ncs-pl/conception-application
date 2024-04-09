@@ -4,10 +4,11 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.puissance4.controleur;
+package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.puissance4.modele.*;
-import fr.nc0.cda.puissance4.vue.Ihm;
+import fr.nc0.cda.modele.*;
+import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.vue.IhmPuissance4;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ControleurPuissance4 {
   private static final int ROTATIONS_DISPONIBLES_DEFAUT = 4;
 
   /** L'interface utilisateur */
-  private final Ihm ihm;
+  private final IhmPuissance4 ihm;
 
   /** La liste des joueurs */
   private final ArrayList<Joueur> lesJoueurs;
@@ -41,7 +42,7 @@ public class ControleurPuissance4 {
    *
    * @param ihm L'interface utilisateur pour les interactions avec le jeu.
    */
-  public ControleurPuissance4(Ihm ihm) {
+  public ControleurPuissance4(IhmPuissance4 ihm) {
     this.ihm = ihm;
 
     lesJoueurs = new ArrayList<>(2);
