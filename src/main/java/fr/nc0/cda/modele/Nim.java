@@ -48,6 +48,10 @@ public class Nim {
     for (int i = 1; i <= nbrTas; ++i) tas.add(2 * i - 1);
   }
 
+  public int getContrainte() {
+    return contrainte;
+  }
+
   /**
    * Modifie la valeur de la contrainte.
    *

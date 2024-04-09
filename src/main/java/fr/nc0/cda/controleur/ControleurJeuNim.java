@@ -9,105 +9,195 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.EtatPartieNim;
 import fr.nc0.cda.modele.Joueur;
 import fr.nc0.cda.modele.Nim;
-import fr.nc0.cda.vue.IhmNim;
+import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 
 /** Contrôleur du jeu de Nim. */
 public class ControleurJeuNim {
   /** Interface homme-machine. */
-  private final IhmNim ihm;
+  private final Ihm ihm;
 
   /** Liste des joueurs de la partie. */
   private final ArrayList<Joueur> lesJoueurs;
 
-  /** Partie en cours du jeu de Nim. */
-  private Nim nim;
+  /** Le nombre de tas pour les parties. */
+  private final int nombreTas;
 
   /**
    * Créer un contrôleur de jeu de Nim.
    *
    * @param ihm l'interface homme-machine.
    */
-  public ControleurJeuNim(IhmNim ihm) {
+  public ControleurJeuNim(Ihm ihm) {
     this.ihm = ihm;
 
-    while (true) {
-      try {
-        nim = new Nim(ihm.selectNbrTas(), ihm.selectContrainte());
-        break;
-      } catch (IllegalArgumentException e) {
-        ihm.message(e.getMessage());
-      }
-    }
+    nombreTas = demanderNombreTas();
 
     lesJoueurs = new ArrayList<>(2);
-    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(1)));
-    lesJoueurs.add(new Joueur(ihm.selectNomJoueur(2)));
+    lesJoueurs.add(new Joueur(demanderNomJoueur(1)));
+    lesJoueurs.add(new Joueur(demanderNomJoueur(2)));
+  }
+
+  /**
+   * Demande le nom d'un joueur
+   *
+   * @param numJoueur le numéro du joueur demandé
+   * @return le nom entré
+   */
+  private String demanderNomJoueur(int numJoueur) {
+    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
+  }
+
+  /**
+   * Demande le nombre de tas pour la partie.
+   *
+   * @return le nombre de tas pour la partie.
+   */
+  private int demanderNombreTas() {
+    while (true) {
+      int tas = ihm.demanderInt("Saisissez le nombre de tas pour la partie");
+      if (tas > 0) return tas;
+
+      ihm.afficherErreur("Le nombre de tas ne peut pas être négatif ou nul");
+    }
+  }
+
+  /**
+   * Demande la contrainte pour la sélection de tas à retirer par coup.
+   *
+   * @return le nombre de tas à retirer par coup.
+   */
+  private int demanderContrainte() {
+    while (true) {
+      int contrainte =
+          ihm.demanderInt(
+              "Saisissez le nombre maximal d'allumettes à retirer par "
+                  + "coup, ou 0 pour ne pas mettre de contrainte");
+      if (contrainte >= 0) return contrainte;
+
+      ihm.afficherErreur("La contrainte ne peut pas être négative");
+    }
+  }
+
+  /**
+   * Demande un choix de tas et d'allumettes à un joueur.
+   *
+   * @param nim le jeu de Nim en cours.
+   * @param joueur le joueur qui doit choisir.
+   * @return un tableau contenant le tas et le nombre d'allumettes, sous la forme [tas, allumettes].
+   */
+  private int[] demanderChoix(Nim nim, Joueur joueur) {
+    while (true) {
+      int[] choix = ihm.demanderDeuxInt(joueur.getNom() + ", à vous de jouer un coup");
+      int tas = choix[0];
+      int allumettes = choix[1];
+
+      if (tas < 1 || tas > nim.getTas().size()) {
+        ihm.afficherErreur("Le tas choisi n'existe pas");
+        continue;
+      }
+
+      if (nim.getTas().get(tas - 1) < 1) {
+        ihm.afficherErreur("Le tas choisi est vide");
+        continue;
+      }
+
+      if (allumettes < 1) {
+        ihm.afficherErreur("Nombre d'allumettes invalide");
+        continue;
+      }
+
+      if (allumettes > nim.getTas().get(tas - 1)) {
+        ihm.afficherErreur("Nombre d'allumettes supérieur au tas");
+        continue;
+      }
+
+      int contrainte = nim.getContrainte();
+      if (contrainte != 0 && allumettes > contrainte) {
+        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte");
+        continue;
+      }
+
+      return choix;
+    }
+  }
+
+  /**
+   * Demande si les joueurs veulent rejouer.
+   *
+   * @return true si les joueurs veulent rejouer, false sinon.
+   */
+  private boolean demanderRejouer() {
+    return ihm.demanderBoolean("Voulez-vous rejouer ?");
   }
 
   /** Jouer une partie du jeu de Nim. */
   public void jouer() {
-    nim.demarrerPartie();
-    Joueur currentPlayer = lesJoueurs.get(0);
+    int contrainte = demanderContrainte();
+    Nim nim = new Nim(nombreTas, contrainte);
+    nim.demarrerPartie(); // TODO(nc0): Move this logic in Nim's constructor
+
+    Joueur joueurCourant = lesJoueurs.get(0);
+
+    // Game loop
 
     while (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
-      ihm.afficherEtatPartie(nim.getTas());
-      while (true) {
-        int[] choix = ihm.selectAlumette(currentPlayer.getNom());
-        try {
-          nim.supprAllumettes(choix);
-          break;
-        } catch (IllegalArgumentException e) {
-          ihm.message(e.getMessage());
-        }
+      // TODO(#19): customize tas.toString()
+      ihm.afficherMessage(nim.getTas().toString());
+
+      int[] choix = demanderChoix(nim, joueurCourant);
+      try {
+        nim.supprAllumettes(choix);
+      } catch (IllegalArgumentException e) {
+        ihm.afficherErreur(e.getMessage());
       }
+
+      // TODO(#21): move check to the play itself.
       nim.checkEtatPartie();
-      if (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
-        currentPlayer = nextPlayer(currentPlayer);
-      }
+      joueurCourant = joueurSuivant(joueurCourant);
     }
 
-    currentPlayer.ajouterPartieGagnee();
-    Joueur gagnant = currentPlayer;
-    Joueur perdant = nextPlayer(currentPlayer);
-    if (ihm.finPartie(
-        gagnant.getNom(),
-        perdant.getNom(),
-        gagnant.getNbrPartieGagnee(),
-        perdant.getNbrPartieGagnee())) {
-      nim.setContrainte(ihm.selectContrainte());
-      jouer();
-    } else {
-      boolean exaequo = false;
-      if (lesJoueurs.get(0).getNbrPartieGagnee() > lesJoueurs.get(1).getNbrPartieGagnee()) {
+    // Post-game
+
+    // TODO(#22): Add more detailed game state to evaluate the winner
+    Joueur perdant = joueurCourant;
+    Joueur gagnant = joueurSuivant(joueurCourant);
+
+    gagnant.ajouterPartieGagnee();
+    ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
+
+    boolean rejouer = demanderRejouer();
+
+    if (!rejouer) {
+      int victoiresGagnant = gagnant.getNbrPartieGagnee();
+      int victoiresPerdant = perdant.getNbrPartieGagnee();
+
+      if (victoiresGagnant > victoiresPerdant) {
         gagnant = lesJoueurs.get(0);
         perdant = lesJoueurs.get(1);
-      } else if (lesJoueurs.get(0).getNbrPartieGagnee() < lesJoueurs.get(1).getNbrPartieGagnee()) {
+      } else {
         gagnant = lesJoueurs.get(1);
         perdant = lesJoueurs.get(0);
-      } else {
-        exaequo = true;
       }
-      ihm.afficheGagnant(
-          gagnant.getNom(),
-          perdant.getNom(),
-          gagnant.getNbrPartieGagnee(),
-          perdant.getNbrPartieGagnee(),
-          exaequo);
+
+      ihm.afficherScores(gagnant, perdant);
+      ihm.afficherVainqueur(gagnant, perdant, victoiresGagnant == victoiresPerdant);
+      return;
     }
+
+    ihm.afficherScores(gagnant, perdant);
+    // Appel récursif à la fin pour profiter de la Tail-Call Optimization
+    jouer();
   }
 
   /**
    * Récupère le joueur suivant.
    *
-   * @param currentPlayer le joueur actuel.
+   * @param joueurCourant le joueur actuel.
    * @return le joueur suivant.
    */
-  private Joueur nextPlayer(Joueur currentPlayer) {
-    if (currentPlayer == lesJoueurs.get(0)) {
-      return lesJoueurs.get(1);
-    } else {
-      return lesJoueurs.get(0);
-    }
+  private Joueur joueurSuivant(Joueur joueurCourant) {
+    if (joueurCourant == lesJoueurs.get(0)) return lesJoueurs.get(1);
+    else return lesJoueurs.get(0);
   }
 }

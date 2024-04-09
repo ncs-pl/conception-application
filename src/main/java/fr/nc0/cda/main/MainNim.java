@@ -7,11 +7,11 @@
 package fr.nc0.cda.main;
 
 import fr.nc0.cda.controleur.ControleurJeuNim;
-import fr.nc0.cda.vue.IhmNim;
+import fr.nc0.cda.vue.Ihm;
 
 public class MainNim {
   public static void main(String[] args) {
-    IhmNim ihm = new IhmNim();
+    Ihm ihm = new Ihm();
     ControleurJeuNim controleurJeuNim = new ControleurJeuNim(ihm);
     controleurJeuNim.jouer();
   }

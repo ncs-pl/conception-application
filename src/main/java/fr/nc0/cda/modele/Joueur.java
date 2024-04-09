@@ -33,4 +33,9 @@ public class Joueur {
   public void ajouterPartieGagnee() {
     nbrPartieGagnee++;
   }
+
+  @Override
+  public String toString() {
+    return nom;
+  }
 }
