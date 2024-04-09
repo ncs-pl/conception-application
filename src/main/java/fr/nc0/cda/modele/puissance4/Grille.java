@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Représente la grille de jeu du Puissance 4. */
-public class GrillePuissance4 {
-  private final List<List<CellulePuissance4>> grille;
+public class Grille {
+  private final List<List<Cellule>> grille;
   private final int longueur;
   private final int hauteur;
 
-  public GrillePuissance4(int longueur, int hauteur) {
+  public Grille(int longueur, int hauteur) {
     this.longueur = longueur;
     this.hauteur = hauteur;
 
     grille = new ArrayList<>(longueur);
     for (int i = 0; i < longueur; ++i) {
-      List<CellulePuissance4> colonne = new ArrayList<>(hauteur);
+      List<Cellule> colonne = new ArrayList<>(hauteur);
       for (int j = 0; j < hauteur; ++j) {
-        colonne.add(CellulePuissance4.VIDE);
+        colonne.add(Cellule.VIDE);
       }
       grille.add(colonne);
     }
@@ -54,7 +54,7 @@ public class GrillePuissance4 {
    * @param ligne la ligne de la cellule, entre 1 et la hauteur de la grille.
    * @return la cellule à la position donnée, ou {@code null} si la position est invalide.
    */
-  public CellulePuissance4 get(int colonne, int ligne) {
+  public Cellule get(int colonne, int ligne) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return null;
     return grille.get(colonne - 1).get(ligne - 1);
   }
@@ -66,7 +66,7 @@ public class GrillePuissance4 {
    * @param ligne la ligne de la cellule, entre 1 et la hauteur de la grille.
    * @param cellule la nouvelle cellule.
    */
-  public void set(int colonne, int ligne, CellulePuissance4 cellule) {
+  public void set(int colonne, int ligne, Cellule cellule) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return;
     grille.get(colonne - 1).set(ligne - 1, cellule);
   }
@@ -75,10 +75,10 @@ public class GrillePuissance4 {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
 
-    for (List<CellulePuissance4> ligne : grille) {
+    for (List<Cellule> ligne : grille) {
       stringBuilder.append(" |");
 
-      for (CellulePuissance4 cellule : ligne)
+      for (Cellule cellule : ligne)
         stringBuilder.append(" ").append(cellule.toString()).append(" | ");
 
       stringBuilder.append("\n");

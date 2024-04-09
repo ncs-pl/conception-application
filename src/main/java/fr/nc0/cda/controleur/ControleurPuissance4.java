@@ -108,7 +108,7 @@ public class ControleurPuissance4 {
    * @param joueur le joueur qui doit choisir
    * @return la rotation choisie par le joueur
    */
-  private RotationPuissance4 demanderRotation(Joueur joueur) {
+  private Rotation demanderRotation(Joueur joueur) {
     while (true) {
       String choix =
           ihm.demanderString(
@@ -118,9 +118,9 @@ public class ControleurPuissance4 {
 
       switch (choix) {
         case "droite", "d", "horaire":
-          return RotationPuissance4.HORAIRE;
+          return Rotation.HORAIRE;
         case "gauche", "g", "anti-horaire":
-          return RotationPuissance4.ANTI_HORAIRE;
+          return Rotation.ANTI_HORAIRE;
         default:
           ihm.afficherErreur("Veuillez choisir \"droite\" et \"gauche\".");
       }
@@ -133,7 +133,7 @@ public class ControleurPuissance4 {
    * @param joueur le joueur qui doit choisir
    * @return le choix du joueur
    */
-  public ChoixJouerPuissance4 demanderChoixJouer(Joueur joueur) {
+  public ChoixJouer demanderChoixJouer(Joueur joueur) {
     while (true) {
       String choix =
           ihm.demanderString(joueur.getNom() + ", que voulez-vous faire ? (jouer/rotation)")
@@ -141,9 +141,9 @@ public class ControleurPuissance4 {
 
       switch (choix) {
         case "jouer", "j":
-          return ChoixJouerPuissance4.JOUER;
+          return ChoixJouer.JOUER;
         case "rotation", "r":
-          return ChoixJouerPuissance4.ROTATION;
+          return ChoixJouer.ROTATION;
         default:
           ihm.afficherErreur("Veuillez choisir entre \"jouer\" et \"rotation\".");
       }
@@ -192,9 +192,9 @@ public class ControleurPuissance4 {
       // seulement si la rotation est activée et que le joueur a encore des rotations
       if (rotation
           && rotationsRestantesJoueur(joueurCourant) > 0
-          && demanderChoixJouer(joueurCourant) == ChoixJouerPuissance4.ROTATION) {
+          && demanderChoixJouer(joueurCourant) == ChoixJouer.ROTATION) {
         diminuerRotationsJoueur(joueurCourant);
-        RotationPuissance4 sensRotation = demanderRotation(joueurCourant);
+        Rotation sensRotation = demanderRotation(joueurCourant);
         p4.rotationner(sensRotation);
       } else {
         int colonne = demanderColonne(p4, joueurCourant);
@@ -236,8 +236,8 @@ public class ControleurPuissance4 {
    * @param joueur Le joueur pour lequel on veut le jeton.
    * @return Le jeton du joueur.
    */
-  private CellulePuissance4 jetonJoueur(Joueur joueur) {
-    return joueur == lesJoueurs.get(0) ? CellulePuissance4.ROUGE : CellulePuissance4.JAUNE;
+  private Cellule jetonJoueur(Joueur joueur) {
+    return joueur == lesJoueurs.get(0) ? Cellule.ROUGE : Cellule.JAUNE;
   }
 
   /**

@@ -14,7 +14,7 @@ import java.util.Objects;
 /** Représente une partie de Puissance 4. */
 public class Puissance4 {
   /** La grille de jeu. */
-  private GrillePuissance4 grille;
+  private Grille grille;
 
   /** L'état de la partie */
   private EtatPartie etat = EtatPartie.EN_COURS;
@@ -24,7 +24,7 @@ public class Puissance4 {
     if (longueur < 1) throw new IllegalArgumentException("La longueur doît être supérieure à 0");
     if (hauteur < 1) throw new IllegalArgumentException("La hauteur doît être supérieure à 0");
 
-    this.grille = new GrillePuissance4(longueur, hauteur);
+    this.grille = new Grille(longueur, hauteur);
   }
 
   /**
@@ -34,7 +34,7 @@ public class Puissance4 {
    * @return true si la colonne est pleine, false sinon
    */
   private boolean colonnePleine(int colonne) {
-    return this.grille.get(colonne, 1) != CellulePuissance4.VIDE;
+    return this.grille.get(colonne, 1) != Cellule.VIDE;
   }
 
   /**
@@ -43,7 +43,7 @@ public class Puissance4 {
    * @param cellules la liste des cellules à vérifier
    * @return true si les cellules sont égales, false sinon
    */
-  private boolean cellulesEgales(CellulePuissance4... cellules) {
+  private boolean cellulesEgales(Cellule... cellules) {
     for (int i = 1; i < cellules.length; i++) {
       if (cellules[i] != cellules[0]) return false;
     }
@@ -58,11 +58,11 @@ public class Puissance4 {
    * @param cellule La cellule à insérer
    * @return la ligne à laquelle le jeton a été inséré, ou -1 si la colonne est pleine
    */
-  private int insererCellule(int colonne, CellulePuissance4 cellule) {
+  private int insererCellule(int colonne, Cellule cellule) {
     // On parcourt la colonne de bas en haut. Par la gravité, nous savons que si
     // une cellule est vide, alors celles du dessus le sont aussi.
     for (int ligne = this.grille.getHauteur(); ligne > 0; --ligne)
-      if (this.grille.get(colonne, ligne) == CellulePuissance4.VIDE) {
+      if (this.grille.get(colonne, ligne) == Cellule.VIDE) {
         this.grille.set(colonne, ligne, cellule);
         return ligne;
       }
@@ -202,14 +202,11 @@ public class Puissance4 {
    * @param ligne la ligne de la cellule insérée, entre 1 et la hauteur de la grille
    */
   private void actualiserEtatPartie(int colonne, int ligne) {
-    CellulePuissance4 cellule = this.grille.get(colonne, ligne);
-    if (cellule == CellulePuissance4.VIDE) return;
+    Cellule cellule = this.grille.get(colonne, ligne);
+    if (cellule == Cellule.VIDE) return;
 
     if (celluleVictorieuse(colonne, ligne))
-      etat =
-          cellule == CellulePuissance4.ROUGE
-              ? EtatPartie.VICTOIRE_JOUEUR_1
-              : EtatPartie.VICTOIRE_JOUEUR_2;
+      etat = cellule == Cellule.ROUGE ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
     else if (grillePleine()) etat = EtatPartie.MATCH_NUL;
     else etat = EtatPartie.EN_COURS;
   }
@@ -230,11 +227,11 @@ public class Puissance4 {
    *
    * @param rotation la rotation à effectuer
    */
-  private void rotationnerGrille(RotationPuissance4 rotation) {
+  private void rotationnerGrille(Rotation rotation) {
     int nouvelleLongueur = this.grille.getHauteur();
     int nouvelleHauteur = this.grille.getLongueur();
-    GrillePuissance4 grilleRotationnee =
-        new GrillePuissance4(nouvelleLongueur, nouvelleHauteur); // On inverse les dimensions
+    Grille grilleRotationnee =
+        new Grille(nouvelleLongueur, nouvelleHauteur); // On inverse les dimensions
 
     // Note : commencer à 1 au lieu de 0 pour suivre la formule mathématique
     // qui indexe à 1.
@@ -255,7 +252,7 @@ public class Puissance4 {
         //       └┐  └┐  └──┼┼┘ └──┴──┘
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = ɣ₂,
         //         └────────┘                               ɣ'₂ = n - ɣ₁
-        if (Objects.requireNonNull(rotation) == RotationPuissance4.HORAIRE)
+        if (Objects.requireNonNull(rotation) == Rotation.HORAIRE)
           grilleRotationnee.set(j, this.grille.getHauteur() - i, grille.get(i, j));
 
         // Rotation de 90° dans le sens horaire inverse d'une matrice 3x2 vers
@@ -274,7 +271,7 @@ public class Puissance4 {
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = n - ɣ₂,
         //         └────────┘                               ɣ'₂ = ɣ₁
         //
-        else if (rotation == RotationPuissance4.ANTI_HORAIRE)
+        else if (rotation == Rotation.ANTI_HORAIRE)
           grilleRotationnee.set(this.grille.getLongueur() - j, i, grille.get(i, j));
       }
     }
@@ -292,19 +289,19 @@ public class Puissance4 {
     // Faire une copie de la grille actuelle nous permet de réinitialiser la
     // grille existante et de profiter des fonctions pré-définies pour insérer
     // un jeton.
-    GrillePuissance4 copieGrille = grille;
-    grille = new GrillePuissance4(this.grille.getLongueur(), this.grille.getHauteur());
+    Grille copieGrille = grille;
+    grille = new Grille(this.grille.getLongueur(), this.grille.getHauteur());
 
-    List<CellulePuissance4> file = new ArrayList<>();
+    List<Cellule> file = new ArrayList<>();
     for (int colonne = 1; colonne <= this.grille.getHauteur(); ++colonne) {
       int tailleFile = 0; // Évite d'appeler file.size() qui requière une boucle
 
       // On enfile uniquement les jetons colorés dans une file.
       for (int ligne = 1; ligne <= this.grille.getLongueur(); ++ligne) {
         // WARN: inversé?
-        CellulePuissance4 cellule = copieGrille.get(colonne, ligne);
+        Cellule cellule = copieGrille.get(colonne, ligne);
 
-        if (cellule != null && cellule != CellulePuissance4.VIDE) {
+        if (cellule != null && cellule != Cellule.VIDE) {
           file.add(cellule);
           ++tailleFile;
         }
@@ -312,10 +309,10 @@ public class Puissance4 {
 
       // On comble l'espace restant de vide
       if (tailleFile < this.grille.getHauteur())
-        for (int k = 0; k < tailleFile; ++k) file.add(CellulePuissance4.VIDE);
+        for (int k = 0; k < tailleFile; ++k) file.add(Cellule.VIDE);
 
       // Reste qu'à insérer nos jetons dans la colonne.
-      for (CellulePuissance4 cellule : file) insererCellule(colonne, cellule);
+      for (Cellule cellule : file) insererCellule(colonne, cellule);
       file.clear(); // Permet de réutiliser la file pour la prochaine colonne
     }
   }
@@ -329,7 +326,7 @@ public class Puissance4 {
    *
    * @return La grille de jeu
    */
-  public GrillePuissance4 getGrille() {
+  public Grille getGrille() {
     return grille;
   }
 
@@ -362,7 +359,7 @@ public class Puissance4 {
    * @throws IllegalArgumentException si la colonne n'existe pas où est pleine
    * @throws IllegalStateException si la partie est terminée
    */
-  public void jouer(CellulePuissance4 jeton, int colonne) {
+  public void jouer(Cellule jeton, int colonne) {
     if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
 
     if (colonneInvalide(colonne))
@@ -380,7 +377,7 @@ public class Puissance4 {
    * @param rotation la rotation à effectuer
    * @throws IllegalStateException si la partie est terminée
    */
-  public void rotationner(RotationPuissance4 rotation) {
+  public void rotationner(Rotation rotation) {
     if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
 
     rotationnerGrille(rotation);

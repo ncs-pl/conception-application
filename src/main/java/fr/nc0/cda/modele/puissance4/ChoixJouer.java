@@ -7,7 +7,7 @@
 package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des choix de jouer au jeu du Puissance 4. */
-public enum ChoixJouerPuissance4 {
+public enum ChoixJouer {
   /** Jouer une pièce dans une colonne */
   JOUER,
   /** Tourner la grille de jeu */

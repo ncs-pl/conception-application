@@ -7,7 +7,7 @@
 package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des différentes cellules possibles dans une grille de Puissance 4. */
-public enum CellulePuissance4 {
+public enum Cellule {
   /** Cellule vide. */
   VIDE,
   /** Cellule jaune. */
