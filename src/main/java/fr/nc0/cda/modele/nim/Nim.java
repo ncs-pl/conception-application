@@ -6,6 +6,7 @@
 
 package fr.nc0.cda.modele.nim;
 
+import fr.nc0.cda.modele.EtatPartie;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Nim {
   private List<Integer> tas;
 
   /** État de la partie. */
-  private EtatPartieNim etatPartie;
+  private EtatPartie etatPartie;
 
   /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 => pas de contrainte). */
   private int contrainte;
@@ -64,7 +65,7 @@ public class Nim {
   /** Démarre la partie en initialisant les tas et en passant l'état de la partie à EnCours. */
   public void demarrerPartie() {
     setupTas();
-    etatPartie = EtatPartieNim.EN_COURS;
+    etatPartie = EtatPartie.EN_COURS;
   }
 
   /**
@@ -120,7 +121,7 @@ public class Nim {
    *
    * @return l'état de la partie.
    */
-  public EtatPartieNim getEtatPartie() {
+  public EtatPartie getEtatPartie() {
     return etatPartie;
   }
 
@@ -136,8 +137,9 @@ public class Nim {
       }
     }
 
+    // TODO(#21) + REALLY CHECK WINNER GIVEN WHO TOOK THE LAST PIECE
     if (estFini) {
-      etatPartie = EtatPartieNim.FINI;
+      etatPartie = EtatPartie.VICTOIRE_JOUEUR_1;
     }
   }
 }

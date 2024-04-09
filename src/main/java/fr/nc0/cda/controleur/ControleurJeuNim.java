@@ -6,8 +6,8 @@
 
 package fr.nc0.cda.controleur;
 
+import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.Joueur;
-import fr.nc0.cda.modele.nim.EtatPartieNim;
 import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public class ControleurJeuNim {
 
     // Game loop
 
-    while (nim.getEtatPartie() == EtatPartieNim.EN_COURS) {
+    while (nim.getEtatPartie() == EtatPartie.EN_COURS) {
       // TODO(#19): customize tas.toString()
       ihm.afficherMessage(nim.getTas().toString());
 
@@ -159,9 +159,10 @@ public class ControleurJeuNim {
 
     // Post-game
 
-    // TODO(#22): Add more detailed game state to evaluate the winner
-    Joueur perdant = joueurCourant;
-    Joueur gagnant = joueurSuivant(joueurCourant);
+    Joueur gagnant =
+        nim.getEtatPartie() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(0) : lesJoueurs.get(1);
+    Joueur perdant =
+        nim.getEtatPartie() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(1) : lesJoueurs.get(0);
 
     gagnant.ajouterPartieGagnee();
     ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");

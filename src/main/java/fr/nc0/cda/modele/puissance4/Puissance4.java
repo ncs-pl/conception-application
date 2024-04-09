@@ -6,6 +6,7 @@
 
 package fr.nc0.cda.modele.puissance4;
 
+import fr.nc0.cda.modele.EtatPartie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class Puissance4 {
   private GrillePuissance4 grille;
 
   /** L'état de la partie */
-  private EtatPartiePuissance4 etat = EtatPartiePuissance4.EN_COURS;
+  private EtatPartie etat = EtatPartie.EN_COURS;
 
   /** Créer une partie de Puissance 4 et la commence */
   public Puissance4(int longueur, int hauteur) {
@@ -207,10 +208,10 @@ public class Puissance4 {
     if (celluleVictorieuse(colonne, ligne))
       etat =
           cellule == CellulePuissance4.ROUGE
-              ? EtatPartiePuissance4.VICTOIRE_ROUGE
-              : EtatPartiePuissance4.VICTOIRE_JAUNE;
-    else if (grillePleine()) etat = EtatPartiePuissance4.MATCH_NUL;
-    else etat = EtatPartiePuissance4.EN_COURS;
+              ? EtatPartie.VICTOIRE_JOUEUR_1
+              : EtatPartie.VICTOIRE_JOUEUR_2;
+    else if (grillePleine()) etat = EtatPartie.MATCH_NUL;
+    else etat = EtatPartie.EN_COURS;
   }
 
   /** Actualise l'état de la partie en itérant sur la grille. */
@@ -337,7 +338,7 @@ public class Puissance4 {
    *
    * @return L'état de la partie
    */
-  public EtatPartiePuissance4 getEtat() {
+  public EtatPartie getEtat() {
     return etat;
   }
 
@@ -362,8 +363,7 @@ public class Puissance4 {
    * @throws IllegalStateException si la partie est terminée
    */
   public void jouer(CellulePuissance4 jeton, int colonne) {
-    if (etat != EtatPartiePuissance4.EN_COURS)
-      throw new IllegalStateException("La partie est terminée");
+    if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
 
     if (colonneInvalide(colonne))
       throw new IllegalArgumentException("La colonne doit être comprise entre 1 et 7");
@@ -381,8 +381,7 @@ public class Puissance4 {
    * @throws IllegalStateException si la partie est terminée
    */
   public void rotationner(RotationPuissance4 rotation) {
-    if (etat != EtatPartiePuissance4.EN_COURS)
-      throw new IllegalStateException("La partie est terminée");
+    if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
 
     rotationnerGrille(rotation);
     appliquerGravite();
