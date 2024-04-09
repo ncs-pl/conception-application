@@ -19,7 +19,7 @@ import java.util.List;
  * <p>Cette classe gère le déroulement d'une partie de Puissance 4 en utilisant le modèle Puissance4
  * et l'interface utilisateur Ihm.
  */
-public class ControleurPuissance4 {
+public class ControleurPuissance4 extends ControleurTemplate {
   /** La longueur d'une grille de Puissance 4 */
   private static final int LONGUEUR = 7;
 

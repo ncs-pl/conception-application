@@ -13,7 +13,7 @@ import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 
 /** Contrôleur du jeu de Nim. */
-public class ControleurJeuNim {
+public class ControleurJeuNim extends ControleurTemplate {
   /** Interface homme-machine. */
   private final Ihm ihm;
 
