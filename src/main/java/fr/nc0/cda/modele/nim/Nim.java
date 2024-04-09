@@ -7,26 +7,16 @@
 package fr.nc0.cda.modele.nim;
 
 import fr.nc0.cda.modele.EtatPartie;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /** Représente une partie du jeu de Nim. */
 public class Nim {
-  /** Nombre de tas de la partie. */
-  private final int nbrTas;
+  /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 => pas de contrainte). */
+  private final int contrainte;
 
-  /**
-   * Liste des tas de la partie, sous forme d'une liste. L'élément i de cette liste correspond au
-   * nombre d'allumettes dans le tas i.
-   */
-  private List<Integer> tas;
+  private final ListeTas listeTas;
 
   /** État de la partie. */
-  private EtatPartie etatPartie;
-
-  /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 => pas de contrainte). */
-  private int contrainte;
+  private EtatPartie etatPartie = EtatPartie.EN_COURS;
 
   /**
    * Créer une partie et l'initialise avec le nombre de tas donné.
@@ -35,37 +25,19 @@ public class Nim {
    * @param contrainte le nombre maximal d'allumettes à retirer par coup.
    */
   public Nim(int nbrTas, int contrainte) {
-    if (nbrTas >= 1) {
-      this.nbrTas = nbrTas;
-    } else {
-      throw new IllegalArgumentException("Nombre de Tas choisis < 1");
-    }
+    if (nbrTas < 1) throw new IllegalArgumentException("Nombre de tas négatif ou nul");
+
     this.contrainte = contrainte;
-  }
-
-  /** Initialise les tas de la partie avec le nombre d'allumettes correspondant. */
-  private void setupTas() {
-    tas = new ArrayList<>(nbrTas);
-    for (int i = 1; i <= nbrTas; ++i) tas.add(2 * i - 1);
-  }
-
-  public int getContrainte() {
-    return contrainte;
+    this.listeTas = new ListeTas(nbrTas);
   }
 
   /**
-   * Modifie la valeur de la contrainte.
+   * Retourne le nombre maximal d'allumettes à retirer par coup, 0 si pas de contrainte.
    *
-   * @param contrainte la nouvelle valeur de la contrainte.
+   * @return le nombre maximal d'allumettes à retirer par coup.
    */
-  public void setContrainte(int contrainte) {
-    this.contrainte = contrainte;
-  }
-
-  /** Démarre la partie en initialisant les tas et en passant l'état de la partie à EnCours. */
-  public void demarrerPartie() {
-    setupTas();
-    etatPartie = EtatPartie.EN_COURS;
+  public int getContrainte() {
+    return contrainte;
   }
 
   /**
@@ -73,47 +45,8 @@ public class Nim {
    *
    * @return la liste des tas de la partie.
    */
-  public List<Integer> getTas() {
-    return tas;
-  }
-
-  /**
-   * Supprime un nombre donné d'allumettes dans un tas donné.
-   *
-   * @param choix un tableau de deux entiers, le premier correspondant à l'index du tas et le second
-   *     au nombre d'allumettes à supprimer.
-   * @throws IllegalArgumentException si le choix est invalide.
-   */
-  public void supprAllumettes(int[] choix) {
-    try {
-      verifierChoix(choix);
-      tas.set(choix[0], tas.get(choix[0]) - choix[1]);
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
-  }
-
-  /**
-   * Vérifie si le choix est valide.
-   *
-   * @param choix un tableau de deux entiers, le premier correspondant à l'index du tas et le second
-   */
-  private void verifierChoix(int[] choix) {
-    if (tas.size() <= choix[0] || choix[0] < 0) {
-      throw new IllegalArgumentException("Valeur du tas incorrecte");
-    } else {
-      if (choix[1] <= 0 || choix[1] > tas.get(choix[0])) {
-        throw new IllegalArgumentException("Valeur des allumettes incorrecte");
-      }
-    }
-    if (this.contrainte != 0) {
-      if (choix[1] > this.contrainte) {
-        throw new IllegalArgumentException(
-            "Valeur des allumettes incorrecte : vous pouvez retirer "
-                + this.contrainte
-                + " allumettes au maximum.");
-      }
-    }
+  public ListeTas getListeTas() {
+    return listeTas;
   }
 
   /**
@@ -126,20 +59,43 @@ public class Nim {
   }
 
   /**
-   * Vérifie si la partie est finie. Si tous les tas sont vides, l'état de la partie est mis à Fini.
+   * Vérifie si l'index du tas est valide, c'est-à-dire s'il est compris entre 1 et le nombre de
+   * tas.
+   *
+   * @param index l'index du tas à vérifier, doit être supérieur ou égal à 1.
+   * @return true si l'index est valide, false sinon
    */
-  public void checkEtatPartie() {
-    boolean estFini = true;
-    Iterator<Integer> it = tas.iterator();
-    while (it.hasNext()) {
-      if (it.next() > 0) {
-        estFini = false;
-      }
-    }
+  public boolean indexTasValide(int index) {
+    return index > 0 && index <= listeTas.taille;
+  }
 
-    // TODO(#21) + REALLY CHECK WINNER GIVEN WHO TOOK THE LAST PIECE
-    if (estFini) {
-      etatPartie = EtatPartie.VICTOIRE_JOUEUR_1;
-    }
+  /**
+   * Retire un nombre d'allumettes d'un tas, si possible.
+   *
+   * @param joueur le joueur qui retire les allumettes, doit être 1 ou 2.
+   * @param indexTas le numéro du tas, doit être compris entre 1 et la taille de la liste
+   * @param nbAllumettes le nombre d'allumettes à retirer, doit être supérieur ou égal à 1 et
+   *     inférieur ou égal au nombre d'allumettes dans le tas, ainsi qu'à la contrainte
+   * @throws IllegalArgumentException si l'index du tas ou le nombre d'allumettes est invalide
+   */
+  public void retirerAllumettes(int joueur, int indexTas, int nbAllumettes) {
+    if (joueur < 1 || joueur > 2) throw new IllegalArgumentException("Numéro de joueur invalide");
+    if (!indexTasValide(indexTas)) throw new IllegalArgumentException("Numéro de tas invalide");
+    if (nbAllumettes < 1) throw new IllegalArgumentException("Nombre d'allumettes invalide");
+    if (nbAllumettes > contrainte)
+      throw new IllegalArgumentException(
+          "Nombre d'allumettes invalide : vous pouvez retirer "
+              + contrainte
+              + " allumettes au maximum.");
+
+    Tas tas = listeTas.get(indexTas);
+    if (tas.getAllumettes() < nbAllumettes)
+      throw new IllegalArgumentException("Nombre d'allumettes invalide");
+
+    listeTas.retirerAllumettes(indexTas, nbAllumettes);
+
+    // Check de victoire
+    if (listeTas.estVide())
+      etatPartie = joueur == 1 ? EtatPartie.VICTOIRE_JOUEUR_2 : EtatPartie.VICTOIRE_JOUEUR_1;
   }
 }

@@ -92,12 +92,12 @@ public class ControleurJeuNim {
       int tas = choix[0];
       int allumettes = choix[1];
 
-      if (tas < 1 || tas > nim.getTas().size()) {
+      if (tas < 1 || tas > nim.getListeTas().taille) {
         ihm.afficherErreur("Le tas choisi n'existe pas");
         continue;
       }
 
-      if (nim.getTas().get(tas - 1) < 1) {
+      if (nim.getListeTas().get(tas - 1).getAllumettes() < 1) {
         ihm.afficherErreur("Le tas choisi est vide");
         continue;
       }
@@ -107,8 +107,8 @@ public class ControleurJeuNim {
         continue;
       }
 
-      if (allumettes > nim.getTas().get(tas - 1)) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur au tas");
+      if (allumettes > nim.getListeTas().get(tas - 1).getAllumettes()) {
+        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas");
         continue;
       }
 
@@ -135,25 +135,20 @@ public class ControleurJeuNim {
   public void jouer() {
     int contrainte = demanderContrainte();
     Nim nim = new Nim(nombreTas, contrainte);
-    nim.demarrerPartie(); // TODO(nc0): Move this logic in Nim's constructor
-
     Joueur joueurCourant = lesJoueurs.get(0);
 
     // Game loop
 
     while (nim.getEtatPartie() == EtatPartie.EN_COURS) {
-      // TODO(#19): customize tas.toString()
-      ihm.afficherMessage(nim.getTas().toString());
+      ihm.afficherMessage(nim.getListeTas().toString());
 
       int[] choix = demanderChoix(nim, joueurCourant);
       try {
-        nim.supprAllumettes(choix);
+        nim.retirerAllumettes(numeroJoueur(joueurCourant), choix[0], choix[1]);
       } catch (IllegalArgumentException e) {
         ihm.afficherErreur(e.getMessage());
       }
 
-      // TODO(#21): move check to the play itself.
-      nim.checkEtatPartie();
       joueurCourant = joueurSuivant(joueurCourant);
     }
 
@@ -200,5 +195,16 @@ public class ControleurJeuNim {
   private Joueur joueurSuivant(Joueur joueurCourant) {
     if (joueurCourant == lesJoueurs.get(0)) return lesJoueurs.get(1);
     else return lesJoueurs.get(0);
+  }
+
+  /**
+   * Récupère le numéro du joueur.
+   *
+   * @param joueur le joueur dont on veut le numéro
+   * @return le numéro du joueur
+   */
+  private int numeroJoueur(Joueur joueur) {
+    if (joueur == lesJoueurs.get(0)) return 1;
+    else return 2;
   }
 }
