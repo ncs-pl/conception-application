@@ -91,34 +91,18 @@ public class ControleurJeuNim extends ControleurTemplate {
       int[] choix = ihm.demanderDeuxInt(joueur.getNom() + ", à vous de jouer un coup");
       int tas = choix[0];
       int allumettes = choix[1];
-
-      if (tas < 1 || tas > nim.getListeTas().taille) {
-        ihm.afficherErreur("Le tas choisi n'existe pas");
-        continue;
-      }
-
-      if (nim.getListeTas().get(tas - 1).getAllumettes() < 1) {
-        ihm.afficherErreur("Le tas choisi est vide");
-        continue;
-      }
-
-      if (allumettes < 1) {
-        ihm.afficherErreur("Nombre d'allumettes invalide");
-        continue;
-      }
-
-      if (allumettes > nim.getListeTas().get(tas - 1).getAllumettes()) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas");
-        continue;
-      }
-
       int contrainte = nim.getContrainte();
-      if (contrainte != 0 && allumettes > contrainte) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte");
-        continue;
-      }
 
-      return choix;
+      if (tas < 1 || tas > nim.getListeTas().taille)
+        ihm.afficherErreur("Le tas choisi n'existe pas");
+      else if (nim.getListeTas().get(tas - 1).getAllumettes() < 1)
+        ihm.afficherErreur("Le tas choisi est vide");
+      else if (allumettes < 1) ihm.afficherErreur("Nombre d'allumettes invalide");
+      else if (allumettes > nim.getListeTas().get(tas - 1).getAllumettes())
+        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas");
+      else if (contrainte != 0 && allumettes > contrainte)
+        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte");
+      else return choix;
     }
   }
 
