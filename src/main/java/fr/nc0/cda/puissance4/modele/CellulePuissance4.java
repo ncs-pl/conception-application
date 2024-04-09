@@ -18,7 +18,7 @@ public enum CellulePuissance4 {
   @Override
   public String toString() {
     return switch (this) {
-      case VIDE -> "  ";
+      case VIDE -> "⚪️";
       case JAUNE -> "🟡";
       case ROUGE -> "🔴";
     };
