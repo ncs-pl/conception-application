@@ -50,7 +50,7 @@ public class ListeTas {
    * @return true si la liste de tas est vide, false sinon
    */
   public boolean estVide() {
-    for (Tas t : tas) if (t.getAllumettes() > 0) return false;
+    for (Tas t : tas) if (!t.estVide()) return false;
     return true;
   }
 
