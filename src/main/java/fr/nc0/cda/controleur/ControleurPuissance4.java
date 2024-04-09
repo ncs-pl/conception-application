@@ -6,6 +6,7 @@
 
 package fr.nc0.cda.controleur;
 
+import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.Joueur;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
@@ -184,7 +185,7 @@ public class ControleurPuissance4 {
 
     // Game loop
 
-    while (p4.getEtat() == EtatPartiePuissance4.EN_COURS) {
+    while (p4.getEtat() == EtatPartie.EN_COURS) {
       ihm.afficherMessage(p4.getGrille().toString());
 
       // Demander au joueur s'il veut jouer ou effectuer une rotation
@@ -206,11 +207,11 @@ public class ControleurPuissance4 {
     // Après la fin de la partie
 
     Joueur gagnant =
-        p4.getEtat() == EtatPartiePuissance4.VICTOIRE_ROUGE ? lesJoueurs.get(0) : lesJoueurs.get(1);
+        p4.getEtat() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(0) : lesJoueurs.get(1);
     Joueur perdant =
-        p4.getEtat() != EtatPartiePuissance4.VICTOIRE_ROUGE ? lesJoueurs.get(0) : lesJoueurs.get(1);
+        p4.getEtat() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(1) : lesJoueurs.get(0);
 
-    if (p4.getEtat() == EtatPartiePuissance4.MATCH_NUL) ihm.afficherMessage("Match nul !");
+    if (p4.getEtat() == EtatPartie.MATCH_NUL) ihm.afficherMessage("Match nul !");
     else {
       gagnant.ajouterPartieGagnee();
       ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
