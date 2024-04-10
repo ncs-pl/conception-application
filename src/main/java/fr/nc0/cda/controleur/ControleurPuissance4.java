@@ -77,8 +77,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
    * @param joueur le joueur pour lequel on veut diminuer le nombre de rotations restantes
    */
   private void diminuerRotationsJoueur(Joueur joueur) {
-    if (joueur == lesJoueurs.get(0)) rotationsRestantes.set(0, rotationsRestantes.get(0) - 1);
-    else rotationsRestantes.set(1, rotationsRestantes.get(1) - 1);
+    int numJoueur = joueur == lesJoueurs.get(0) ? 0 : 1;
+    rotationsRestantes.set(numJoueur, rotationsRestantes.get(numJoueur) - 1);
   }
 
   /**
@@ -222,8 +222,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
     boolean rejouer = demanderRejouer();
     if (!rejouer) {
-      ihm.afficherVainqueur(gagnant, gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee());
-
+      boolean exaequo = gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee();
+      ihm.afficherVainqueur(gagnant, exaequo);
       return;
     }
 
