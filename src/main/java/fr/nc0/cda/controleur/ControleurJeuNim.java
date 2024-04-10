@@ -152,17 +152,10 @@ public class ControleurJeuNim extends ControleurTemplate {
     if (!rejouer) {
       int victoiresGagnant = gagnant.getNbrPartieGagnee();
       int victoiresPerdant = perdant.getNbrPartieGagnee();
+      gagnant = victoiresGagnant > victoiresPerdant ? lesJoueurs.get(0) : lesJoueurs.get(1);
+      boolean exaequo = victoiresGagnant == victoiresPerdant;
 
-      if (victoiresGagnant > victoiresPerdant) {
-        gagnant = lesJoueurs.get(0);
-        perdant = lesJoueurs.get(1);
-      } else {
-        gagnant = lesJoueurs.get(1);
-        perdant = lesJoueurs.get(0);
-      }
-
-      ihm.afficherScores(gagnant, perdant);
-      ihm.afficherVainqueur(gagnant, victoiresGagnant == victoiresPerdant);
+      ihm.afficherVainqueur(gagnant, exaequo);
       return;
     }
 

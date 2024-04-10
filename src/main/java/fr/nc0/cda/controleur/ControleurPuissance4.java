@@ -220,7 +220,6 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
     boolean rejouer = demanderRejouer();
     if (!rejouer) {
-      ihm.afficherScores(gagnant, perdant);
       ihm.afficherVainqueur(gagnant, gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee());
 
       return;
