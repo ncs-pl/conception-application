@@ -145,6 +145,7 @@ public class ControleurJeuNim extends ControleurTemplate {
 
     gagnant.ajouterPartieGagnee();
     ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
+    ihm.afficherScores(gagnant, perdant);
 
     boolean rejouer = demanderRejouer();
 
@@ -165,7 +166,6 @@ public class ControleurJeuNim extends ControleurTemplate {
       return;
     }
 
-    ihm.afficherScores(gagnant, perdant);
     // Appel récursif à la fin pour profiter de la Tail-Call Optimization
     jouer();
   }

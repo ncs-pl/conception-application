@@ -216,6 +216,7 @@ public class ControleurPuissance4 extends ControleurTemplate {
       gagnant.ajouterPartieGagnee();
       ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
     }
+    ihm.afficherScores(gagnant, perdant);
 
     boolean rejouer = demanderRejouer();
     if (!rejouer) {
@@ -225,7 +226,6 @@ public class ControleurPuissance4 extends ControleurTemplate {
       return;
     }
 
-    ihm.afficherScores(gagnant, perdant);
     // Appel récursif à la fin pour profiter de la Tail-Call Optimization
     jouer();
   }
