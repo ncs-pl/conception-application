@@ -20,39 +20,43 @@
 
 **Scénario nominal :**
 
-1. Le système demande aux joueurs de saisir un nombre de tas supérieur
+1. Le système demande aux joueurs à quel jeu ils veulent jouer.
+2. Les joueurs saisissent le jeu Nim.
+3. Le système demande aux joueurs de saisir un nombre de tas supérieur
    ou égal à 1.
-2. Les joueurs saisissent un nombre de tas.
-3. Le système demande le nom du joueur 1.
-4. Les joueurs saisissent le nom du joueur 1.
-5. Le système demande le nom du joueur 2.
-6. Les joueurs saisissent le nom du joueur 2.
-7. Le système démarre une partie, le joueur 1 est défini joueur courant
-   et commence.
-8. Le système affiche l’état de la partie.
-9. Le système invite le joueur courant à jouer un coup.
-10. Le joueur courant saisit son coup.
-11. Le système vérifie l’état de la partie.
-12. Le système détermine le vainqueur de la partie et affiche son nom.
-13. Le système propose aux joueurs de rejouer.
-14. Les joueurs choisissent de ne pas rejouer.
-15. Le système affiche le nombre de parties gagnées de chaque joueur.
-16. Le système détermine le vainqueur et affiche le nom de celui-ci.
+4. Les joueurs saisissent un nombre de tas.
+5. Le système demande le nom du joueur 1.
+6. Les joueurs saisissent le nom du joueur 1.
+7. Le système demande le nom du joueur 2.
+8. Les joueurs saisissent le nom du joueur 2.
+9. Le système demande aux joueurs d'entrer la contrainte de jeu.
+10. Les joueurs saisissent la contrainte de jeu.
+11. Le système démarre une partie, le joueur 1 est défini joueur courant
+    et commence.
+12. Le système affiche l’état de la partie.
+13. Le système invite le joueur courant à jouer un coup.
+14. Le joueur courant saisit son coup.
+15. Le système vérifie l’état de la partie.
+16. Le système détermine le vainqueur de la partie et affiche son nom.
+17. Le système propose aux joueurs de rejouer.
+18. Les joueurs choisissent de ne pas rejouer.
+19. Le système affiche le nombre de parties gagnées de chaque joueur.
+20. Le système détermine le vainqueur et affiche le nom de celui-ci.
 
 **Extensions :**
 
-- *1.a.* La saisit du nombre de tas est invalide.
+- *3.a.* La saisit du nombre de tas est invalide.
     1. Le système affiche l’erreur.
     2. Retour au point 1 du scénario nominal.
-- *10.a.* Le coup saisit par le joueur courant est invalide.
+- *14.a.* Le coup saisit par le joueur courant est invalide.
     1. Le système affiche l’erreur.
-    2. Retour au point 8 du scénario nominal.
-- *11.a.* La partie en cours n’est pas terminée.
+    2. Retour au point 13 du scénario nominal.
+- *15.a.* La partie en cours n’est pas terminée.
     1. Le système change le joueur courant.
-    2. Retour au point 8 du scénario nominal.
-- *14.a.* Les joueurs décident de rejouer une partie.
-    1. Retour au point 7 du scénario nominal.
-- *16.a.* Les deux joueurs ont le même nombre de victoires.
+    2. Retour au point 13 du scénario nominal.
+- *16.a.* Les joueurs décident de rejouer une partie.
+    1. Retour au point 9 du scénario nominal.
+- *17.a.* Les deux joueurs ont le même nombre de victoires.
     1. Le système affiche ex-æquo.
 
 ### "Joueur jeu Puissance 4"
@@ -71,38 +75,53 @@
 
 **Scénario nominal :**
 
-1. Le système demande aux joueurs de saisir un nombre de tas supérieur
-   ou égal à 1.
-2. Les joueurs saisissent un nombre de tas.
-3. Le système demande le nom du joueur 1.
-4. Les joueurs saisissent le nom du joueur 1.
-5. Le système demande le nom du joueur 2.
-6. Les joueurs saisissent le nom du joueur 2.
-7. Le système démarre une partie, le joueur 1 est défini joueur courant
-   et commence.
-8. Le système affiche l’état de la partie.
-9. Le système invite le joueur courant à jouer un coup.
-10. Le joueur courant saisit son coup.
-11. Le système vérifie l’état de la partie.
-12. Le système détermine le vainqueur de la partie et affiche son nom.
-13. Le système propose aux joueurs de rejouer.
-14. Les joueurs choisissent de ne pas rejouer.
-15. Le système affiche le nombre de parties gagnées de chaque joueur.
-16. Le système détermine le vainqueur et affiche le nom de celui-ci.
+1. Le système demande aux joueurs à quel jeu ils veulent jouer.
+2. Les joueurs saisissent le jeu Puissance 4.
+3. Les joueurs saisissent un nombre de tas.
+4. Le système demande le nom du joueur 1.
+5. Les joueurs saisissent le nom du joueur 1.
+6. Le système demande le nom du joueur 2.
+7. Les joueurs saisissent le nom du joueur 2.
+8. Le système demande aux joueurs s'ils veulent jouer avec les rotations
+   de grille.
+9. Les joueurs saisissent leur choix.
+10. Le système démarre une partie, le joueur 1 est défini joueur courant
+    et commence.
+11. Le système affiche l’état de la partie.
+12. Le système invite le joueur courant à jouer un coup entre jouer et
+    rotationner.
+13. Le joueur courant saisit son coup.
+14. Le système vérifie l’état de la partie.
+15. Le système détermine le vainqueur de la partie et affiche son nom.
+16. Le système propose aux joueurs de rejouer.
+17. Les joueurs choisissent de ne pas rejouer.
+18. Le système affiche le nombre de parties gagnées de chaque joueur.
+19. Le système détermine le vainqueur et affiche le nom de celui-ci.
 
 **Extensions :**
 
-- *8.a.* Le coup saisit par le joueur courant est invalide.
+- *12.a.* Le joueur courant n'a plus de rotation possible.
+    1. Le système n'affiche pas la possibilité de rotation.
+    2. Retour au point 13 du scénario nominal.
+- *13.a.* Le coup saisit par le joueur courant est invalide.
     1. Le système affiche l’erreur.
-    2. Retour au point 6 du scénario nominal.
-- *9.a.* La partie en cours n’est pas terminée.
+    2. Retour au point 12 du scénario nominal.
+- *13.b.* Le joueur courant choisit de rotationner la grille.
+    1. Le système demande dans quel sens le joueur veut rotationner la
+       grille.
+    2. Le joueur courant saisit son choix.
+    3. Le système effectue la rotation de la grille.
+    4. Le système décrémente le nombre de rotations restantes du joueur
+       courant.
+    5. Retour au point 11 du scénario nominal.
+- *14.a.* La partie en cours n’est pas terminée.
     1. Le système change le joueur courant.
-    2. Retour au point 6 du scénario nominal.
-- *10.a.* Le système ne détermine aucun gagnant pour la partie.
+    2. Retour au point 7 du scénario nominal.
+- *15.a.* Le système ne détermine aucun gagnant pour la partie.
     1. Le système affiche que la partie est nulle.
-- *12.a.* Les joueurs décident de rejouer une partie.
-    1. Retour au point 5 du scénario nominal.
-- *14.a.* Les deux joueurs ont le même nombre de victoires.
+- *16.a.* Les joueurs décident de rejouer une partie.
+    1. Retour au point 6 du scénario nominal.
+- *19.a.* Les deux joueurs ont le même nombre de victoires.
     1. Le système affiche ex-æquo.
 
 ## Modélisation Objet
