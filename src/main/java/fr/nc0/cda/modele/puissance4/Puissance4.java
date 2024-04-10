@@ -9,7 +9,6 @@ package fr.nc0.cda.modele.puissance4;
 import fr.nc0.cda.modele.EtatPartie;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /** Représente une partie de Puissance 4. */
 public class Puissance4 {
@@ -229,15 +228,16 @@ public class Puissance4 {
    * @param rotation la rotation à effectuer
    */
   private void rotationnerGrille(Rotation rotation) {
-    int nouvelleLongueur = this.grille.getHauteur();
-    int nouvelleHauteur = this.grille.getLongueur();
-    Grille grilleRotationnee =
-        new Grille(nouvelleLongueur, nouvelleHauteur); // On inverse les dimensions
+    int longueurOriginale = this.grille.getLongueur();
+    int hauteurOriginale = this.grille.getHauteur();
+
+    // On inverse les dimensions pour la rotation
+    Grille grilleRotationnee = new Grille(hauteurOriginale, longueurOriginale);
 
     // Note : commencer à 1 au lieu de 0 pour suivre la formule mathématique
     // qui indexe à 1.
-    for (int i = 1; i <= this.grille.getLongueur(); ++i) {
-      for (int j = 1; j <= this.grille.getHauteur(); ++j) {
+    for (int i = 1; i <= longueurOriginale; ++i) {
+      for (int j = 1; j <= hauteurOriginale; ++j) {
         // Rotation de 90° dans le sens horaire d'une matrice 3x2 vers une
         // matrice 2x3 :
         //
@@ -253,8 +253,8 @@ public class Puissance4 {
         //       └┐  └┐  └──┼┼┘ └──┴──┘
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = ɣ₂,
         //         └────────┘                               ɣ'₂ = n - ɣ₁
-        if (Objects.requireNonNull(rotation) == Rotation.HORAIRE)
-          grilleRotationnee.set(j, this.grille.getHauteur() - i, grille.get(i, j));
+        if (rotation == Rotation.HORAIRE)
+          grilleRotationnee.set(j, hauteurOriginale - i + 1, grille.get(i, j));
 
         // Rotation de 90° dans le sens horaire inverse d'une matrice 3x2 vers
         // une matrice 2x3 :
@@ -273,7 +273,7 @@ public class Puissance4 {
         //         └────────┘                               ɣ'₂ = ɣ₁
         //
         else if (rotation == Rotation.ANTI_HORAIRE)
-          grilleRotationnee.set(this.grille.getLongueur() - j, i, grille.get(i, j));
+          grilleRotationnee.set(longueurOriginale - j + 1, i, grille.get(i, j));
       }
     }
 
@@ -287,19 +287,20 @@ public class Puissance4 {
     // hauteur - len(file) cases vides.  On défile la file dans l'ordre pour
     // insérer dans la colonne.
 
+    int longueur = this.grille.getLongueur();
+    int hauteur = this.grille.getHauteur();
     // Faire une copie de la grille actuelle nous permet de réinitialiser la
     // grille existante et de profiter des fonctions pré-définies pour insérer
     // un jeton.
     Grille copieGrille = grille;
-    grille = new Grille(this.grille.getLongueur(), this.grille.getHauteur());
+    grille = new Grille(longueur, hauteur);
 
     List<Cellule> file = new ArrayList<>();
-    for (int colonne = 1; colonne <= this.grille.getHauteur(); ++colonne) {
+    for (int colonne = 1; colonne <= hauteur; ++colonne) {
       int tailleFile = 0; // Évite d'appeler file.size() qui requière une boucle
 
       // On enfile uniquement les jetons colorés dans une file.
-      for (int ligne = 1; ligne <= this.grille.getLongueur(); ++ligne) {
-        // WARN: inversé?
+      for (int ligne = 1; ligne <= longueur; ++ligne) {
         Cellule cellule = copieGrille.get(colonne, ligne);
 
         if (cellule != null && cellule != Cellule.VIDE) {
@@ -309,8 +310,9 @@ public class Puissance4 {
       }
 
       // On comble l'espace restant de vide
-      if (tailleFile < this.grille.getHauteur())
+      if (tailleFile < hauteur) {
         for (int k = 0; k < tailleFile; ++k) file.add(Cellule.VIDE);
+      }
 
       // Reste qu'à insérer nos jetons dans la colonne.
       for (Cellule cellule : file) insererCellule(colonne, cellule);
