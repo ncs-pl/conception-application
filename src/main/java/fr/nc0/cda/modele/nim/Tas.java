@@ -90,6 +90,9 @@ public class Tas {
 
   @Override
   public String toString() {
-    return "Tas " + numero + " : " + "🌿 ".repeat(Math.max(0, allumettes));
+    return "    Tas \033[1m"
+        + numero
+        + "\033[0m :  "
+        + " \033[0;32m|\033[0m".repeat(Math.max(0, allumettes));
   }
 }

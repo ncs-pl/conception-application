@@ -76,15 +76,16 @@ public class Grille {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (List<Cellule> ligne : grilleInterne) {
-      stringBuilder.append("    |");
+      stringBuilder.append("    ");
 
       for (Cellule cellule : ligne) stringBuilder.append(" ").append(cellule.toString());
 
       stringBuilder.append("\n");
     }
 
-    stringBuilder.append("    |");
-    for (int i = 1; i <= longueur; ++i) stringBuilder.append(" ").append(i).append(" ");
+    stringBuilder.append("    ");
+    for (int i = 1; i <= longueur; ++i)
+      stringBuilder.append(" \033[1m").append(i).append("\033[0m ");
     stringBuilder.append("\n");
 
     return stringBuilder.toString();
