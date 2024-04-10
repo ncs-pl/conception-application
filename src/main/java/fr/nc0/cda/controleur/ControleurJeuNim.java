@@ -95,10 +95,10 @@ public class ControleurJeuNim extends ControleurTemplate {
 
       if (tas < 1 || tas > nim.getListeTas().taille)
         ihm.afficherErreur("Le tas choisi n'existe pas");
-      else if (nim.getListeTas().get(tas - 1).getAllumettes() < 1)
+      else if (nim.getListeTas().get(tas).getAllumettes() < 1)
         ihm.afficherErreur("Le tas choisi est vide");
       else if (allumettes < 1) ihm.afficherErreur("Nombre d'allumettes invalide");
-      else if (allumettes > nim.getListeTas().get(tas - 1).getAllumettes())
+      else if (allumettes > nim.getListeTas().get(tas).getAllumettes())
         ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas");
       else if (contrainte != 0 && allumettes > contrainte)
         ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte");
