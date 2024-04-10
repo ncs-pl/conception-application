@@ -17,10 +17,14 @@ public enum Cellule {
 
   @Override
   public String toString() {
+    // \u001B[0m reset
+    // \u001B[33m yellow
+    // \u001B[31m red
+
     return switch (this) {
-      case VIDE -> "⚪️";
-      case JAUNE -> "🟡";
-      case ROUGE -> "🔴";
+      case VIDE -> "⬤\u001B[0m";
+      case JAUNE -> "\u001B[33m⬤\u001B[0m";
+      case ROUGE -> "\u001B[31m⬤\u001B[0m";
     };
   }
 }
