@@ -68,7 +68,7 @@ public class Grille {
    */
   public void set(int colonne, int ligne, Cellule cellule) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return;
-    grilleInterne.get(colonne - 1).set(ligne - 1, cellule);
+    grilleInterne.get(ligne - 1).set(colonne - 1, cellule);
   }
 
   @Override
