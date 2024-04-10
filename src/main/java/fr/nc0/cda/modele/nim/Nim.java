@@ -82,7 +82,7 @@ public class Nim {
     if (joueur < 1 || joueur > 2) throw new IllegalArgumentException("Numéro de joueur invalide");
     if (!indexTasValide(indexTas)) throw new IllegalArgumentException("Numéro de tas invalide");
     if (nbAllumettes < 1) throw new IllegalArgumentException("Nombre d'allumettes invalide");
-    if (nbAllumettes > contrainte)
+    if (contrainte != 0 && nbAllumettes > contrainte)
       throw new IllegalArgumentException(
           "Nombre d'allumettes invalide : vous pouvez retirer "
               + contrainte
