@@ -20,6 +20,12 @@ public class Ihm {
    * @param message le message à afficher
    */
   private void println(String message) {
+    try {
+      Thread.sleep(200);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     System.out.println(message);
   }
 
@@ -29,6 +35,12 @@ public class Ihm {
    * @param message le message à afficher
    */
   private void print(String message) {
+    try {
+      Thread.sleep(300);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     System.out.print(message);
   }
 
