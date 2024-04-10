@@ -138,6 +138,8 @@ public class ControleurJeuNim extends ControleurTemplate {
 
     // Post-game
 
+    ihm.afficherMessage(nim.getListeTas().toString());
+
     Joueur gagnant =
         nim.getEtatPartie() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(0) : lesJoueurs.get(1);
     Joueur perdant =

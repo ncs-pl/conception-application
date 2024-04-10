@@ -204,7 +204,9 @@ public class ControleurPuissance4 extends ControleurTemplate {
       joueurCourant = joueurSuivant(joueurCourant);
     }
 
-    // Après la fin de la partie
+    // Post-game
+
+    ihm.afficherMessage(p4.getGrille().toString());
 
     Joueur gagnant =
         p4.getEtat() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(0) : lesJoueurs.get(1);
