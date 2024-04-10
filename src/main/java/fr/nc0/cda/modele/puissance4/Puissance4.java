@@ -61,11 +61,12 @@ public class Puissance4 {
   private int insererCellule(int colonne, Cellule cellule) {
     // On parcourt la colonne de bas en haut. Par la gravité, nous savons que si
     // une cellule est vide, alors celles du dessus le sont aussi.
-    for (int ligne = this.grille.getHauteur(); ligne > 0; --ligne)
-      if (this.grille.get(colonne, ligne) == Cellule.VIDE) {
-        this.grille.set(colonne, ligne, cellule);
-        return ligne;
-      }
+    for (int ligne = this.grille.getHauteur(); ligne > 0; --ligne) {
+      if (this.grille.get(colonne, ligne) != Cellule.VIDE) continue;
+
+      this.grille.set(colonne, ligne, cellule);
+      return ligne;
+    }
 
     return -1;
   }

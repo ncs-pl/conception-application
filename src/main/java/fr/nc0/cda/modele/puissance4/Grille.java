@@ -56,7 +56,7 @@ public class Grille {
    */
   public Cellule get(int colonne, int ligne) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > hauteur) return null;
-    return grilleInterne.get(colonne - 1).get(ligne - 1);
+    return grilleInterne.get(ligne - 1).get(colonne - 1);
   }
 
   /**
