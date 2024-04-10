@@ -179,7 +179,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
   public void jouer() {
     Puissance4 p4 = new Puissance4(LONGUEUR, HAUTEUR);
     boolean rotation = demanderActivationRotations();
-    rotationsRestantes = List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT);
+    rotationsRestantes =
+        new ArrayList<>(List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT));
 
     Joueur joueurCourant = lesJoueurs.get(0);
 
