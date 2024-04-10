@@ -15,17 +15,25 @@ public class Ihm {
   private static final String PROMPT = "> ";
 
   /**
+   * Attend un certain nombre de millisecondes.
+   *
+   * @param ms le nombre de millisecondes à attendre
+   */
+  private void sleep(int ms) {
+    try {
+      Thread.sleep(ms);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Écris un message dans stdout.
    *
    * @param message le message à afficher
    */
   private void println(String message) {
-    try {
-      Thread.sleep(200);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
+    sleep(200);
     System.out.println(message);
   }
 
@@ -35,12 +43,7 @@ public class Ihm {
    * @param message le message à afficher
    */
   private void print(String message) {
-    try {
-      Thread.sleep(300);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
+    sleep(300);
     System.out.print(message);
   }
 
