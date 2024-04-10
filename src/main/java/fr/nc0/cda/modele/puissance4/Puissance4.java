@@ -213,8 +213,30 @@ public class Puissance4 {
 
   /** Actualise l'état de la partie en itérant sur la grille. */
   private void actualiserEtatPartie() {
+    int victoiresRouges = 0;
+    int victoiresJaunes = 0;
+
+    iteration:
     for (int i = 1; i <= this.grille.getLongueur(); i++)
-      for (int j = 1; j <= this.grille.getHauteur(); j++) actualiserEtatPartie(i, j);
+      for (int j = 1; j <= this.grille.getHauteur(); j++) {
+        Cellule cellule = this.grille.get(i, j);
+
+        if (cellule == Cellule.VIDE
+            || (cellule == Cellule.ROUGE && victoiresRouges > 0)
+            || (cellule == Cellule.JAUNE && victoiresJaunes > 0)) continue;
+
+        actualiserEtatPartie(i, j);
+
+        if (etat == EtatPartie.VICTOIRE_JOUEUR_1) victoiresRouges = 1;
+        else if (etat == EtatPartie.VICTOIRE_JOUEUR_2) victoiresJaunes = 1;
+
+        // Early exit
+        if (victoiresRouges > 0 && victoiresJaunes > 0) break iteration;
+      }
+
+    if (victoiresRouges > 0 && victoiresJaunes > 0) etat = EtatPartie.MATCH_NUL;
+    else if (victoiresRouges > 0) etat = EtatPartie.VICTOIRE_JOUEUR_1;
+    else if (victoiresJaunes > 0) etat = EtatPartie.VICTOIRE_JOUEUR_2;
   }
 
   /**
