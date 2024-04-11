@@ -6,7 +6,9 @@
 
 package fr.nc0.cda.controleur;
 
+import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.EtatPartieException;
 import fr.nc0.cda.modele.Joueur;
 import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
@@ -129,7 +131,7 @@ public class ControleurJeuNim extends ControleurTemplate {
       int[] choix = demanderChoix(nim, joueurCourant);
       try {
         nim.retirerAllumettes(numeroJoueur(joueurCourant), choix[0], choix[1]);
-      } catch (IllegalArgumentException e) {
+      } catch (CoupInvalideException | EtatPartieException e) {
         ihm.afficherErreur(e.getMessage());
       }
 

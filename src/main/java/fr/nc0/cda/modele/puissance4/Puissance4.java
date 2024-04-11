@@ -6,7 +6,9 @@
 
 package fr.nc0.cda.modele.puissance4;
 
+import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.EtatPartieException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -381,16 +383,16 @@ public class Puissance4 {
    *
    * @param jeton le jeton à insérer
    * @param colonne la colonne dans laquelle jouer, entre 1 et 7 (inclus)
-   * @throws IllegalArgumentException si la colonne n'existe pas où est pleine
-   * @throws IllegalStateException si la partie est terminée
+   * @throws CoupInvalideException si la colonne n'existe pas où est pleine
+   * @throws EtatPartieException si la partie est terminée
    */
-  public void jouer(Cellule jeton, int colonne) {
-    if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
+  public void jouer(Cellule jeton, int colonne) throws CoupInvalideException, EtatPartieException {
+    if (etat != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
 
     if (colonneInvalide(colonne))
-      throw new IllegalArgumentException("La colonne doit être comprise entre 1 et 7");
+      throw new CoupInvalideException("La colonne doit être comprise entre 1 et 7");
 
-    if (colonnePleine(colonne)) throw new IllegalArgumentException("La colonne est pleine");
+    if (colonnePleine(colonne)) throw new CoupInvalideException("La colonne est pleine");
 
     int ligne = insererCellule(colonne, jeton);
     actualiserEtatPartie(colonne, ligne);
@@ -400,10 +402,10 @@ public class Puissance4 {
    * Rotationne la grille de jeu de 90° dans le sens horaire ou anti-horaire.
    *
    * @param rotation la rotation à effectuer
-   * @throws IllegalStateException si la partie est terminée
+   * @throws EtatPartieException si la partie est terminée
    */
-  public void rotationner(Rotation rotation) {
-    if (etat != EtatPartie.EN_COURS) throw new IllegalStateException("La partie est terminée");
+  public void rotationner(Rotation rotation) throws EtatPartieException {
+    if (etat != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
 
     rotationnerGrille(rotation);
     appliquerGravite();

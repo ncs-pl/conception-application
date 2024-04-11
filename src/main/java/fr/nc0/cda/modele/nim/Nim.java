@@ -6,7 +6,9 @@
 
 package fr.nc0.cda.modele.nim;
 
+import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.EtatPartieException;
 
 /** Représente une partie du jeu de Nim. */
 public class Nim {
@@ -76,21 +78,24 @@ public class Nim {
    * @param indexTas le numéro du tas, doit être compris entre 1 et la taille de la liste
    * @param nbAllumettes le nombre d'allumettes à retirer, doit être supérieur ou égal à 1 et
    *     inférieur ou égal au nombre d'allumettes dans le tas, ainsi qu'à la contrainte
-   * @throws IllegalArgumentException si l'index du tas ou le nombre d'allumettes est invalide
+   * @throws CoupInvalideException si l'index du tas ou le nombre d'allumettes est invalide
+   * @throws EtatPartieException si la partie est terminée
    */
-  public void retirerAllumettes(int joueur, int indexTas, int nbAllumettes) {
-    if (joueur < 1 || joueur > 2) throw new IllegalArgumentException("Numéro de joueur invalide");
-    if (!indexTasValide(indexTas)) throw new IllegalArgumentException("Numéro de tas invalide");
-    if (nbAllumettes < 1) throw new IllegalArgumentException("Nombre d'allumettes invalide");
+  public void retirerAllumettes(int joueur, int indexTas, int nbAllumettes)
+      throws CoupInvalideException, EtatPartieException {
+    if (etatPartie != EtatPartie.EN_COURS) throw new EtatPartieException("Partie terminée");
+    if (joueur < 1 || joueur > 2) throw new CoupInvalideException("Numéro de joueur invalide");
+    if (!indexTasValide(indexTas)) throw new CoupInvalideException("Numéro de tas invalide");
+    if (nbAllumettes < 1) throw new CoupInvalideException("Nombre d'allumettes invalide");
     if (contrainte != 0 && nbAllumettes > contrainte)
-      throw new IllegalArgumentException(
+      throw new CoupInvalideException(
           "Nombre d'allumettes invalide : vous pouvez retirer "
               + contrainte
               + " allumettes au maximum.");
 
     Tas tas = listeTas.get(indexTas);
     if (tas.getAllumettes() < nbAllumettes)
-      throw new IllegalArgumentException("Nombre d'allumettes invalide");
+      throw new CoupInvalideException("Nombre d'allumettes invalide");
 
     listeTas.retirerAllumettes(indexTas, nbAllumettes);
 

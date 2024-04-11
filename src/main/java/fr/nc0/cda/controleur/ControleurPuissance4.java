@@ -6,7 +6,9 @@
 
 package fr.nc0.cda.controleur;
 
+import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.EtatPartieException;
 import fr.nc0.cda.modele.Joueur;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
@@ -189,17 +191,22 @@ public class ControleurPuissance4 extends ControleurTemplate {
     while (p4.getEtat() == EtatPartie.EN_COURS) {
       ihm.afficherMessage(p4.getGrille().toString());
 
-      // Demander au joueur s'il veut jouer ou effectuer une rotation
-      // seulement si la rotation est activée et que le joueur a encore des rotations
-      if (rotation
-          && rotationsRestantesJoueur(joueurCourant) > 0
-          && demanderChoixJouer(joueurCourant) == ChoixJouer.ROTATION) {
-        diminuerRotationsJoueur(joueurCourant);
-        Rotation sensRotation = demanderRotation(joueurCourant);
-        p4.rotationner(sensRotation);
-      } else {
-        int colonne = demanderColonne(p4, joueurCourant);
-        p4.jouer(jetonJoueur(joueurCourant), colonne);
+      try {
+        // Demander au joueur s'il veut jouer ou effectuer une rotation
+        // seulement si la rotation est activée et que le joueur a encore des rotations
+        if (rotation
+            && rotationsRestantesJoueur(joueurCourant) > 0
+            && demanderChoixJouer(joueurCourant) == ChoixJouer.ROTATION) {
+          diminuerRotationsJoueur(joueurCourant);
+          Rotation sensRotation = demanderRotation(joueurCourant);
+          p4.rotationner(sensRotation);
+        } else {
+          int colonne = demanderColonne(p4, joueurCourant);
+          p4.jouer(jetonJoueur(joueurCourant), colonne);
+        }
+      } catch (CoupInvalideException | EtatPartieException e) {
+        ihm.afficherErreur(e.getMessage());
+        continue;
       }
 
       joueurCourant = joueurSuivant(joueurCourant);
