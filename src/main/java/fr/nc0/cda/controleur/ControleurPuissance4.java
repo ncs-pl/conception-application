@@ -118,9 +118,9 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
       switch (choix) {
         case "droite", "d", "horaire":
-          return Rotation.HORAIRE;
-        case "gauche", "g", "anti-horaire":
           return Rotation.ANTI_HORAIRE;
+        case "gauche", "g", "anti-horaire":
+          return Rotation.HORAIRE;
         default:
           ihm.afficherErreur("Veuillez choisir \"droite\" et \"gauche\".");
       }
