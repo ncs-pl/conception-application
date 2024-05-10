@@ -14,6 +14,9 @@ public class Joueur {
   /** Le nombre de parties gagnées par le joueur. */
   private int victoires = 0;
 
+  /** La stratégie de jeu utilisée */
+  private Strategie strategie;
+
   /** Créer un joueur avec un nom donné. */
   public Joueur(String nom) {
     this.nom = nom;
@@ -32,6 +35,16 @@ public class Joueur {
   /** Ajoute une partie gagnée au joueur. */
   public void incrementerVictoires() {
     ++victoires;
+  }
+
+  /** Modifie la stratégie du joueur */
+  public void setStrategie(Strategie strategie) {
+    this.strategie = strategie;
+  }
+
+  // TODO(nc0): meilleure signature
+  public void jouer(/* args */ ) {
+    /* return */ strategie.jouer();
   }
 
   @Override
