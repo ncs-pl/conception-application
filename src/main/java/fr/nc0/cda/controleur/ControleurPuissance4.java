@@ -9,7 +9,7 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
-import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;

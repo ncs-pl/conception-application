@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.vue;
 
-import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.joueur.Joueur;
 import java.util.Scanner;
 
 /** Interface homme-machine pour le système. */
