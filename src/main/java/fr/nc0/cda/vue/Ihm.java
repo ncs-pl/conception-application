@@ -176,11 +176,11 @@ public class Ihm {
         "Scores : \n"
             + joueur1.getNom()
             + " avec "
-            + joueur1.getNbrPartieGagnee()
+            + joueur1.getVictoires()
             + " victoire(s) et "
             + joueur2.getNom()
             + " avec "
-            + joueur2.getNbrPartieGagnee()
+            + joueur2.getVictoires()
             + " victoire(s)");
   }
 

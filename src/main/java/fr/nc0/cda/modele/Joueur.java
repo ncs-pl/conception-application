@@ -12,7 +12,7 @@ public class Joueur {
   private final String nom;
 
   /** Le nombre de parties gagnées par le joueur. */
-  private int nbrPartieGagnee = 0;
+  private int victoires = 0;
 
   /** Créer un joueur avec un nom donné. */
   public Joueur(String nom) {
@@ -25,13 +25,13 @@ public class Joueur {
   }
 
   /** Récupère le nombre de parties gagnées par le joueur. */
-  public int getNbrPartieGagnee() {
-    return nbrPartieGagnee;
+  public int getVictoires() {
+    return victoires;
   }
 
   /** Ajoute une partie gagnée au joueur. */
-  public void ajouterPartieGagnee() {
-    nbrPartieGagnee++;
+  public void incrementerVictoires() {
+    ++victoires;
   }
 
   @Override
