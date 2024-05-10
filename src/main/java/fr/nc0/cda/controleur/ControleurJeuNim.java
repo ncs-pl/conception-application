@@ -9,7 +9,7 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
-import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
@@ -147,15 +147,15 @@ public class ControleurJeuNim extends ControleurTemplate {
     Joueur perdant =
         nim.getEtatPartie() == EtatPartie.VICTOIRE_JOUEUR_1 ? lesJoueurs.get(1) : lesJoueurs.get(0);
 
-    gagnant.ajouterPartieGagnee();
+    gagnant.incrementerVictoires();
     ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
     ihm.afficherScores(gagnant, perdant);
 
     boolean rejouer = demanderRejouer();
 
     if (!rejouer) {
-      int victoiresGagnant = gagnant.getNbrPartieGagnee();
-      int victoiresPerdant = perdant.getNbrPartieGagnee();
+      int victoiresGagnant = gagnant.getVictoires();
+      int victoiresPerdant = perdant.getVictoires();
       gagnant = victoiresGagnant > victoiresPerdant ? lesJoueurs.get(0) : lesJoueurs.get(1);
       boolean exaequo = victoiresGagnant == victoiresPerdant;
 

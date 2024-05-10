@@ -9,7 +9,7 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
-import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
@@ -223,14 +223,14 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
     if (p4.getEtat() == EtatPartie.MATCH_NUL) ihm.afficherMessage("Match nul !");
     else {
-      gagnant.ajouterPartieGagnee();
+      gagnant.incrementerVictoires();
       ihm.afficherMessage("Victoire de " + gagnant.getNom() + " !");
     }
     ihm.afficherScores(gagnant, perdant);
 
     boolean rejouer = demanderRejouer();
     if (!rejouer) {
-      boolean exaequo = gagnant.getNbrPartieGagnee() == perdant.getNbrPartieGagnee();
+      boolean exaequo = gagnant.getVictoires() == perdant.getVictoires();
       ihm.afficherVainqueur(gagnant, exaequo);
       return;
     }

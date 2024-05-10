@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.joueur;
 
 /** Représente une partie d'un jeu. */
 public class Joueur {
@@ -12,7 +12,10 @@ public class Joueur {
   private final String nom;
 
   /** Le nombre de parties gagnées par le joueur. */
-  private int nbrPartieGagnee = 0;
+  private int victoires = 0;
+
+  /** La stratégie de jeu utilisée */
+  private Strategie strategie;
 
   /** Créer un joueur avec un nom donné. */
   public Joueur(String nom) {
@@ -25,13 +28,23 @@ public class Joueur {
   }
 
   /** Récupère le nombre de parties gagnées par le joueur. */
-  public int getNbrPartieGagnee() {
-    return nbrPartieGagnee;
+  public int getVictoires() {
+    return victoires;
   }
 
   /** Ajoute une partie gagnée au joueur. */
-  public void ajouterPartieGagnee() {
-    nbrPartieGagnee++;
+  public void incrementerVictoires() {
+    ++victoires;
+  }
+
+  /** Modifie la stratégie du joueur */
+  public void setStrategie(Strategie strategie) {
+    this.strategie = strategie;
+  }
+
+  // TODO(nc0): meilleure signature
+  public void jouer(/* args */ ) {
+    /* return */ strategie.jouer();
   }
 
   @Override

@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.vue;
 
-import fr.nc0.cda.modele.Joueur;
+import fr.nc0.cda.modele.joueur.Joueur;
 import java.util.Scanner;
 
 /** Interface homme-machine pour le système. */
@@ -176,11 +176,11 @@ public class Ihm {
         "Scores : \n"
             + joueur1.getNom()
             + " avec "
-            + joueur1.getNbrPartieGagnee()
+            + joueur1.getVictoires()
             + " victoire(s) et "
             + joueur2.getNom()
             + " avec "
-            + joueur2.getNbrPartieGagnee()
+            + joueur2.getVictoires()
             + " victoire(s)");
   }
 
