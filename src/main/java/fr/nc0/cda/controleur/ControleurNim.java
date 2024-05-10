@@ -20,9 +20,6 @@ public class ControleurNim extends ControleurTemplate {
   /** Une partie du jeu de Nim */
   private Nim nim;
 
-  /** Le numéro du joueur dont c'est le tour. */
-  private int joueurCourant;
-
   /**
    * Créer un contrôleur de jeu de Nim.
    *
@@ -62,7 +59,6 @@ public class ControleurNim extends ControleurTemplate {
 
       if (contrainte >= 0) {
         nim = new Nim(nombreTas, contrainte);
-        joueurCourant = 0;
         break;
       }
 
