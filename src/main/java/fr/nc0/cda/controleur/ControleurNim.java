@@ -9,16 +9,11 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
-import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
-import java.util.ArrayList;
 
 /** Contrôleur du jeu de Nim. */
 public class ControleurNim extends ControleurTemplate {
-  /** Liste des joueurs de la partie. */
-  private final ArrayList<Joueur> lesJoueurs;
-
   /** Le nombre de tas pour les parties. */
   private final int nombreTas;
 
@@ -45,20 +40,6 @@ public class ControleurNim extends ControleurTemplate {
 
       ihm.afficherErreur("Le nombre de tas ne peut pas être négatif ou nul");
     }
-
-    lesJoueurs = new ArrayList<>(2);
-    lesJoueurs.add(new Joueur(demanderNomJoueur(1)));
-    lesJoueurs.add(new Joueur(demanderNomJoueur(2)));
-  }
-
-  /**
-   * Demande le nom d'un joueur
-   *
-   * @param numJoueur le numéro du joueur demandé
-   * @return le nom entré
-   */
-  private String demanderNomJoueur(int numJoueur) {
-    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
   }
 
   @Override
@@ -126,18 +107,5 @@ public class ControleurNim extends ControleurTemplate {
       nim.retirerAllumettes(joueurCourant, choix[0], choix[1]);
       break;
     }
-  }
-
-  @Override
-  Joueur getJoueur(int numeroJoueur) {
-    if (numeroJoueur < 1 || numeroJoueur > lesJoueurs.size()) return null;
-    return lesJoueurs.get(numeroJoueur - 1);
-  }
-
-  @Override
-  void changerJoueurCourant() {
-    if (joueurCourant == 1) ++joueurCourant;
-    else if (joueurCourant == 2) --joueurCourant;
-    else joueurCourant = 1; // unreachable.
   }
 }

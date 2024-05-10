@@ -19,8 +19,30 @@ import fr.nc0.cda.vue.Ihm;
 public abstract class ControleurTemplate {
   protected final Ihm ihm;
 
+  /* Le premier joueur */
+  protected Joueur joueur1;
+
+  /* Le second joueur */
+  protected Joueur joueur2;
+
+  /** Le joueur courant (1 ou 2) */
+  protected int joueurCourant = 1;
+
   protected ControleurTemplate(Ihm ihm) {
     this.ihm = ihm;
+    // TODO(nc0): autre façon de déterminer le joueur qui commence.
+    this.joueur1 = new Joueur(demanderNomJoueur(1));
+    this.joueur2 = new Joueur(demanderNomJoueur(2));
+  }
+
+  /**
+   * Demande le nom d'un joueur
+   *
+   * @param numJoueur le numéro du joueur demandé
+   * @return le nom entré
+   */
+  private String demanderNomJoueur(int numJoueur) {
+    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
   }
 
   /**
@@ -40,9 +62,6 @@ public abstract class ControleurTemplate {
   /** Initialise une partie du jeu. */
   abstract void initialiserPartie();
 
-  /** Change le joueur courant au prochain joueur qui doit jouer. */
-  abstract void changerJoueurCourant();
-
   /**
    * Demande au joueur courant son choix pour jouer, et l'effectue. Doit throw les erreurs si
    * besoin.
@@ -53,20 +72,30 @@ public abstract class ControleurTemplate {
   abstract void jouerCoup() throws CoupInvalideException, EtatPartieException;
 
   /**
-   * Retourne le joueur demandé.
-   *
-   * @param numeroJoueur le numéro du joueur, 1 ou 2.
-   * @return le joueur correspondant.
-   */
-  abstract Joueur getJoueur(int numeroJoueur);
-
-  /**
    * Demande si les joueurs veulent rejouer.
    *
    * @return true si les joueurs veulent rejouer, false sinon.
    */
   private boolean demanderRejouer() {
     return ihm.demanderBoolean("Souhaitez-vous rejouer ?");
+  }
+
+  /** Change le joueur courant au prochain joueur qui doit jouer. */
+  private void changerJoueurCourant() {
+    if (joueurCourant == 1) joueurCourant = 2;
+    else joueurCourant = 1;
+  }
+
+  /**
+   * Retourne le joueur demandé.
+   *
+   * @param numeroJoueur le numéro du joueur, 1 ou 2.
+   * @return le joueur correspondant.
+   */
+  protected Joueur getJoueur(int numeroJoueur) {
+    // TODO(nc0): full pattern matching and nullplayer check
+    if (numeroJoueur == 2) return joueur2;
+    return joueur1;
   }
 
   /** Jouer une partie de jeu. */

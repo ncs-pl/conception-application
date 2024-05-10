@@ -31,19 +31,13 @@ public class ControleurPuissance4 extends ControleurTemplate {
   /** Rotations disponibles par défaut */
   private static final int ROTATIONS_DISPONIBLES_DEFAUT = 4;
 
-  /** La liste des joueurs */
-  private final ArrayList<Joueur> lesJoueurs;
-
   /** Les rotations restantes pour chaque joueur */
   private List<Integer> rotationsRestantes;
-
-  /** Le numéro du joueur dont c'est le tour (1 ou 2) */
-  private int joueurCourant;
 
   /** La partie en cours de Puissance 4 */
   private Puissance4 puissance4;
 
-  /** true si la partie peut se faire avec des rotations. */
+  /** True si la partie peut se faire avec des rotations. */
   private boolean rotationActivee = false;
 
   /**
@@ -53,20 +47,6 @@ public class ControleurPuissance4 extends ControleurTemplate {
    */
   public ControleurPuissance4(Ihm ihm) {
     super(ihm);
-
-    lesJoueurs = new ArrayList<>(2);
-    lesJoueurs.add(new Joueur(demanderNomJoueur(1)));
-    lesJoueurs.add(new Joueur(demanderNomJoueur(2)));
-  }
-
-  /**
-   * Demande le nom d'un joueur
-   *
-   * @param numJoueur le numéro du joueur demandé
-   * @return le nom entré
-   */
-  private String demanderNomJoueur(int numJoueur) {
-    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
   }
 
   @Override
@@ -157,18 +137,5 @@ public class ControleurPuissance4 extends ControleurTemplate {
         break;
       }
     }
-  }
-
-  @Override
-  Joueur getJoueur(int numeroJoueur) {
-    if (numeroJoueur < 1 || numeroJoueur > lesJoueurs.size()) return null;
-    return lesJoueurs.get(numeroJoueur - 1);
-  }
-
-  @Override
-  void changerJoueurCourant() {
-    if (joueurCourant == 1) ++joueurCourant;
-    else if (joueurCourant == 2) --joueurCourant;
-    else joueurCourant = 1; // unreachable.
   }
 }
