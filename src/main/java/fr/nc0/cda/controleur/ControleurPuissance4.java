@@ -66,7 +66,6 @@ public class ControleurPuissance4 extends ControleurTemplate {
         ihm.demanderBoolean("Voulez-vous activer la possibilité de rotation de la grille ?");
     rotationsRestantes =
         new ArrayList<>(List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT));
-    joueurCourant = 0;
   }
 
   @Override
@@ -79,20 +78,17 @@ public class ControleurPuissance4 extends ControleurTemplate {
     if (avecRotations) avecRotations = rotationsRestantes.get(joueurCourant - 1) > 0;
 
     if (avecRotations) {
-      ChoixJouer choix = null;
-
-      while (choix == null) {
+      choix:
+      while (true) {
         String input =
             ihm.demanderString(joueur.getNom() + ", que voulez-vous faire ? (jouer/rotation)")
                 .toLowerCase();
 
         switch (input) {
           case "jouer", "j":
-            choix = ChoixJouer.JOUER;
-            break;
+            avecRotations = false;
           case "rotation", "r":
-            choix = ChoixJouer.ROTATION;
-            break;
+            break choix;
           default:
             ihm.afficherErreur("Veuillez choisir entre \"jouer\" et \"rotation\".");
         }
