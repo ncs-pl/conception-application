@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.main;
 
-import fr.nc0.cda.controleur.ControleurJeuNim;
+import fr.nc0.cda.controleur.ControleurNim;
 import fr.nc0.cda.controleur.ControleurPuissance4;
 import fr.nc0.cda.controleur.ControleurTemplate;
 import fr.nc0.cda.vue.Ihm;
@@ -24,7 +24,7 @@ public class Main {
 
       jeu =
           switch (jeuChoix) {
-            case "nim", "n" -> new ControleurJeuNim(ihm);
+            case "nim", "n" -> new ControleurNim(ihm);
             case "puissance4", "p4", "p" -> new ControleurPuissance4(ihm);
             default -> null;
           };

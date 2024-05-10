@@ -15,7 +15,7 @@ import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 
 /** Contrôleur du jeu de Nim. */
-public class ControleurJeuNim extends ControleurTemplate {
+public class ControleurNim extends ControleurTemplate {
   /** Liste des joueurs de la partie. */
   private final ArrayList<Joueur> lesJoueurs;
 
@@ -33,7 +33,7 @@ public class ControleurJeuNim extends ControleurTemplate {
    *
    * @param ihm l'interface homme-machine.
    */
-  public ControleurJeuNim(Ihm ihm) {
+  public ControleurNim(Ihm ihm) {
     super(ihm);
 
     while (true) {
