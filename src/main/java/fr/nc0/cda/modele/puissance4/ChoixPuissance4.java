@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.modele.puissance4;
 
-import fr.nc0.cda.modele.Choix;
+import fr.nc0.cda.modele.jeu.Choix;
 
 public class ChoixPuissance4 extends Choix {
   /** Le coup du joueur */

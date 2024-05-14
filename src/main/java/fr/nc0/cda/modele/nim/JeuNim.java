@@ -6,9 +6,9 @@
 
 package fr.nc0.cda.modele.nim;
 
-import fr.nc0.cda.modele.CoupInvalideException;
-import fr.nc0.cda.modele.EtatPartie;
-import fr.nc0.cda.modele.EtatPartieException;
+import fr.nc0.cda.modele.jeu.CoupInvalideException;
+import fr.nc0.cda.modele.jeu.EtatPartie;
+import fr.nc0.cda.modele.jeu.EtatPartieException;
 
 /** Représente une partie du jeu de Nim. */
 public class JeuNim {

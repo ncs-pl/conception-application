@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.modele.puissance4;
 
-import fr.nc0.cda.modele.Plateau;
+import fr.nc0.cda.modele.jeu.Plateau;
 import java.util.ArrayList;
 import java.util.List;
 

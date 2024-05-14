@@ -4,12 +4,12 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele;
+package fr.nc0.cda.modele.jeu;
 
 /** Le plateau du jeu en cours. */
 public abstract class Plateau {
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+  @Override
+  public String toString() {
+    return super.toString();
+  }
 }
