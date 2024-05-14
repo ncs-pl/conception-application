@@ -9,7 +9,8 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
-import fr.nc0.cda.modele.nim.Nim;
+import fr.nc0.cda.modele.nim.ChoixNim;
+import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.vue.Ihm;
 
 /** Contrôleur du jeu de Nim. */
@@ -18,7 +19,7 @@ public class ControleurNim extends ControleurTemplate {
   private final int nombreTas;
 
   /** Une partie du jeu de Nim */
-  private Nim nim;
+  private JeuNim jeuNim;
 
   /**
    * Créer un contrôleur de jeu de Nim.
@@ -41,12 +42,12 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   String creerAffichagePlateau() {
-    return nim.getListeTas().toString();
+    return jeuNim.getPlateauNim().toString();
   }
 
   @Override
   EtatPartie getEtatPartie() {
-    return nim.getEtatPartie();
+    return jeuNim.getEtatPartie();
   }
 
   @Override
@@ -58,7 +59,7 @@ public class ControleurNim extends ControleurTemplate {
                   + "coup, ou 0 pour ne pas mettre de contrainte");
 
       if (contrainte >= 0) {
-        nim = new Nim(nombreTas, contrainte);
+        jeuNim = new JeuNim(nombreTas, contrainte);
         break;
       }
 
@@ -69,38 +70,37 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     while (true) {
-      int[] choix =
-          ihm.demanderDeuxInt(getJoueur(joueurCourant).toString() + ", à vous de jouer un coup");
-      int tas = choix[0];
-      int allumettes = choix[1];
-      int contrainte = nim.getContrainte();
+      ChoixNim choix = (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, jeuNim.getPlateauNim());
+      int tas = choix.getTas();
+      int allumettes = choix.getAllumettes();
+      int contrainte = jeuNim.getContrainte();
 
-      if (tas < 1 || tas > nim.getListeTas().taille) {
-        ihm.afficherErreur("Le tas choisi n'existe pas");
+      if (tas < 1 || tas > jeuNim.getPlateauNim().taille) {
+        ihm.afficherErreur("Le tas choisi n'existe pas.");
         continue;
       }
 
-      if (nim.getListeTas().get(tas).getAllumettes() < 1) {
-        ihm.afficherErreur("Le tas choisi est vide");
+      if (jeuNim.getPlateauNim().getAllumettesRestantes(tas) < 1) {
+        ihm.afficherErreur("Le tas choisi est vide.");
         continue;
       }
 
       if (allumettes < 1) {
-        ihm.afficherErreur("Nombre d'allumettes invalide");
+        ihm.afficherErreur("Nombre d'allumettes invalide.");
         continue;
       }
 
-      if (allumettes > nim.getListeTas().get(tas).getAllumettes()) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas");
+      if (allumettes > jeuNim.getPlateauNim().getAllumettesRestantes(tas)) {
+        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas.");
         continue;
       }
 
       if (contrainte != 0 && allumettes > contrainte) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte");
+        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte.");
         continue;
       }
 
-      nim.retirerAllumettes(joueurCourant, choix[0], choix[1]);
+      jeuNim.retirerAllumettes(joueurCourant, tas, allumettes);
       break;
     }
   }
