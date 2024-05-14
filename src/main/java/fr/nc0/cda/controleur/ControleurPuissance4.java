@@ -10,6 +10,11 @@ import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.strategie.Strategie;
+import fr.nc0.cda.modele.joueur.strategie.strategienim.StrategieNimAleatoire;
+import fr.nc0.cda.modele.joueur.strategie.strategienim.StrategieNimGagnante;
+import fr.nc0.cda.modele.joueur.strategie.strategiep4.StrategieP4Bonus;
+import fr.nc0.cda.modele.joueur.strategie.strategiep4.StrategieP4Prioritee;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
@@ -45,8 +50,24 @@ public class ControleurPuissance4 extends ControleurTemplate {
    *
    * @param ihm L'interface utilisateur pour les interactions avec le jeu.
    */
-  public ControleurPuissance4(Ihm ihm) {
+  public ControleurPuissance4(Ihm ihm, boolean choixNombreJoueur) {
     super(ihm);
+      if (!choixNombreJoueur) {
+          Strategie strategie = null;
+          while (strategie == null) {
+              String strategieChoix = ihm.demanderString("Quel strategie l'ordinateur doit-il utiliser ? (Prioritee/Bonus)").toLowerCase();
+              strategie =
+                  switch (strategieChoix) {
+                      case "prioritee", "p" -> new StrategieP4Prioritee();
+                      case "bonus", "b" -> new StrategieP4Bonus();
+                      default -> null;
+                  };
+              if (strategie == null){
+                  ihm.afficherErreur("Strategie inconnu, veuillez réessayer.");
+              }
+          }
+          joueur2.setStrategie(strategie);
+      }
   }
 
   @Override

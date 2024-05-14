@@ -6,6 +6,8 @@
 
 package fr.nc0.cda.modele.joueur;
 
+import fr.nc0.cda.modele.joueur.strategie.Strategie;
+
 /** Représente une partie d'un jeu. */
 public class Joueur {
   /** Le nom du joueur. */
@@ -42,10 +44,12 @@ public class Joueur {
     this.strategie = strategie;
   }
 
+  public Strategie getStrategie() {return strategie;}
+
   // TODO(nc0): meilleure signature
-  public void jouer(/* args */ ) {
-    /* return */ strategie.jouer();
-  }
+  /*public void jouer( args ) {
+   strategie.jouer();
+  }*/
 
   @Override
   public String toString() {

@@ -19,13 +19,15 @@ public class Main {
 
     ControleurTemplate jeu = null;
     while (jeu == null) {
-      String jeuChoix =
-          ihm.demanderString("Quel jeu voulez-vous lancer ? (Nim/Puissance4)").toLowerCase();
+      String jeuChoix = ihm.demanderString("Quel jeu voulez-vous lancer ? (Nim/Puissance4)").toLowerCase();
 
+      //TODO: Discuter position avant ou après le choix du jeu (dans ou or boucle)
+
+      boolean choixNombreJoueur = ihm.demanderBoolean("Voulez-vous jouer à deux joueur ? (oui/non)");
       jeu =
           switch (jeuChoix) {
-            case "nim", "n" -> new ControleurNim(ihm);
-            case "puissance4", "p4", "p" -> new ControleurPuissance4(ihm);
+            case "nim", "n" -> new ControleurNim(ihm, choixNombreJoueur);
+            case "puissance4", "p4", "p" -> new ControleurPuissance4(ihm, choixNombreJoueur);
             default -> null;
           };
 

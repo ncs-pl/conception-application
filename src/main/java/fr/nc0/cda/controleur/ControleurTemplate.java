@@ -104,11 +104,14 @@ public abstract class ControleurTemplate {
 
     while (this.getEtatPartie() == EtatPartie.EN_COURS) {
       ihm.afficherMessage(this.creerAffichagePlateau());
-
-      try {
-        jouerCoup();
-      } catch (CoupInvalideException | EtatPartieException e) {
-        ihm.afficherErreur(e.getMessage());
+      if (getJoueur(joueurCourant).getStrategie() == null){
+          try {
+              jouerCoup();
+          } catch (CoupInvalideException | EtatPartieException e) {
+              ihm.afficherErreur(e.getMessage());
+          }
+      } else {
+          getJoueur(joueurCourant).getStrategie().jouerCoup();
       }
 
       changerJoueurCourant();

@@ -4,12 +4,12 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.joueur;
+package fr.nc0.cda.modele.joueur.strategie;
 
 /**
  * Une stratégie est un algorithme qui détermine la façon de jouer un tour par joueur (humain et
  * AI).
  */
 public interface Strategie {
-  void jouer();
+  public void jouerCoup();
 }

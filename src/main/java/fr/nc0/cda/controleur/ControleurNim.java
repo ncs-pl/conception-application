@@ -9,6 +9,9 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.CoupInvalideException;
 import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
+import fr.nc0.cda.modele.joueur.strategie.Strategie;
+import fr.nc0.cda.modele.joueur.strategie.strategienim.StrategieNimAleatoire;
+import fr.nc0.cda.modele.joueur.strategie.strategienim.StrategieNimGagnante;
 import fr.nc0.cda.modele.nim.Nim;
 import fr.nc0.cda.vue.Ihm;
 
@@ -25,8 +28,25 @@ public class ControleurNim extends ControleurTemplate {
    *
    * @param ihm l'interface homme-machine.
    */
-  public ControleurNim(Ihm ihm) {
+  public ControleurNim(Ihm ihm, boolean choixNombreJoueur) {
     super(ihm);
+
+    if (!choixNombreJoueur) {
+        Strategie strategie = null;
+        while (strategie == null) {
+            String strategieChoix = ihm.demanderString("Quel strategie l'ordinateur doit-il utiliser ? (Gagnante/Aleatoire)").toLowerCase();
+            strategie =
+                switch (strategieChoix) {
+                    case "gagnante", "g" -> new StrategieNimGagnante(nim);
+                    case "aleatoire", "a" -> new StrategieNimAleatoire(nim);
+                    default -> null;
+                };
+            if (strategie == null){
+                ihm.afficherErreur("Strategie inconnu, veuillez réessayer.");
+            }
+        }
+        joueur2.setStrategie(strategie);
+    }
 
     while (true) {
       int tas = ihm.demanderInt("Saisissez le nombre de tas pour la partie");
