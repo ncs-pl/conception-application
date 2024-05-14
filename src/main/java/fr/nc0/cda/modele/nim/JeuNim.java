@@ -11,11 +11,12 @@ import fr.nc0.cda.modele.EtatPartie;
 import fr.nc0.cda.modele.EtatPartieException;
 
 /** Représente une partie du jeu de Nim. */
-public class Nim {
+public class JeuNim {
   /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 → pas de contrainte). */
   private final int contrainte;
 
-  private final ListeTas listeTas;
+  /** Le plateau de la partie */
+  private final PlateauNim plateauNim;
 
   /** État de la partie. */
   private EtatPartie etatPartie = EtatPartie.EN_COURS;
@@ -26,11 +27,11 @@ public class Nim {
    * @param nbrTas le nombre de tas de la partie.
    * @param contrainte le nombre maximal d'allumettes à retirer par coup.
    */
-  public Nim(int nbrTas, int contrainte) {
+  public JeuNim(int nbrTas, int contrainte) {
     if (nbrTas < 1) throw new IllegalArgumentException("Nombre de tas négatif ou nul");
 
     this.contrainte = contrainte;
-    this.listeTas = new ListeTas(nbrTas);
+    this.plateauNim = new PlateauNim(nbrTas);
   }
 
   /**
@@ -47,8 +48,8 @@ public class Nim {
    *
    * @return la liste des tas de la partie.
    */
-  public ListeTas getListeTas() {
-    return listeTas;
+  public PlateauNim getPlateauNim() {
+    return plateauNim;
   }
 
   /**
@@ -68,7 +69,7 @@ public class Nim {
    * @return true si l'index est valide, false sinon
    */
   public boolean indexTasValide(int index) {
-    return index > 0 && index <= listeTas.taille;
+    return index > 0 && index <= plateauNim.taille;
   }
 
   /**
@@ -83,24 +84,37 @@ public class Nim {
    */
   public void retirerAllumettes(int joueur, int indexTas, int nbAllumettes)
       throws CoupInvalideException, EtatPartieException {
-    if (etatPartie != EtatPartie.EN_COURS) throw new EtatPartieException("Partie terminée");
-    if (joueur < 1 || joueur > 2) throw new CoupInvalideException("Numéro de joueur invalide");
-    if (!indexTasValide(indexTas)) throw new CoupInvalideException("Numéro de tas invalide");
-    if (nbAllumettes < 1) throw new CoupInvalideException("Nombre d'allumettes invalide");
-    if (contrainte != 0 && nbAllumettes > contrainte)
+    if (etatPartie != EtatPartie.EN_COURS) {
+      throw new EtatPartieException("Partie terminée.");
+    }
+
+    if (joueur < 1 || joueur > 2) {
+      throw new CoupInvalideException("Numéro de joueur invalide.");
+    }
+
+    if (!indexTasValide(indexTas)) {
+      throw new CoupInvalideException("Numéro de tas invalide.");
+    }
+
+    if (nbAllumettes < 1) {
+      throw new CoupInvalideException("Nombre d'allumettes invalide.");
+    }
+
+    if (contrainte != 0 && nbAllumettes > contrainte) {
       throw new CoupInvalideException(
-          "Nombre d'allumettes invalide : vous pouvez retirer "
-              + contrainte
-              + " allumettes au maximum.");
+          "Nombre d'allumettes supérieur à la contrainte de la partie.");
+    }
 
-    Tas tas = listeTas.get(indexTas);
-    if (tas.getAllumettes() < nbAllumettes)
-      throw new CoupInvalideException("Nombre d'allumettes invalide");
+    int allumettesRestantes = plateauNim.getAllumettesRestantes(indexTas);
+    if (nbAllumettes > allumettesRestantes) {
+      throw new CoupInvalideException("Nombre d'allumettes invalide.");
+    }
 
-    listeTas.retirerAllumettes(indexTas, nbAllumettes);
+    plateauNim.retirerAllumettes(indexTas, nbAllumettes);
 
     // Check de victoire
-    if (listeTas.estVide())
+    if (plateauNim.estVide()) {
       etatPartie = joueur == 1 ? EtatPartie.VICTOIRE_JOUEUR_2 : EtatPartie.VICTOIRE_JOUEUR_1;
+    }
   }
 }
