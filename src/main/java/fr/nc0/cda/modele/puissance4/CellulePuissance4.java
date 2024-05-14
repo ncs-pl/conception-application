@@ -7,7 +7,7 @@
 package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des différentes cellules possibles dans une grille de Puissance 4. */
-public enum Cellule {
+public enum CellulePuissance4 {
   /** Cellule vide. */
   VIDE,
   /** Cellule jaune. */
@@ -17,12 +17,12 @@ public enum Cellule {
 
   @Override
   public String toString() {
-    // \u001B[0m reset
+    // \u001B[0m  reset
     // \u001B[33m yellow
     // \u001B[31m red
 
     return switch (this) {
-      case VIDE -> "⬤\u001B[0m";
+      case VIDE -> "⬤";
       case JAUNE -> "\u001B[33m⬤\u001B[0m";
       case ROUGE -> "\u001B[31m⬤\u001B[0m";
     };

@@ -35,10 +35,10 @@ public class ControleurPuissance4 extends ControleurTemplate {
   private List<Integer> rotationsRestantes;
 
   /** La partie en cours de Puissance 4 */
-  private Puissance4 puissance4;
+  private JeuPuissance4 jeuPuissance4;
 
   /** True si la partie peut se faire avec des rotations. */
-  private boolean rotationActivee = false;
+  private boolean rotationsActivees = false;
 
   /**
    * Constructeur de la classe ControleurPuissance4.
@@ -51,18 +51,18 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
   @Override
   String creerAffichagePlateau() {
-    return puissance4.getGrille().toString();
+    return jeuPuissance4.getPlateauPuissance4().toString();
   }
 
   @Override
   EtatPartie getEtatPartie() {
-    return puissance4.getEtat();
+    return jeuPuissance4.getEtatPartie();
   }
 
   @Override
   void initialiserPartie() {
-    puissance4 = new Puissance4(LONGUEUR, HAUTEUR);
-    rotationActivee =
+    jeuPuissance4 = new JeuPuissance4(LONGUEUR, HAUTEUR);
+    rotationsActivees =
         ihm.demanderBoolean("Voulez-vous activer la possibilité de rotation de la grille ?");
     rotationsRestantes =
         new ArrayList<>(List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT));
@@ -72,66 +72,40 @@ public class ControleurPuissance4 extends ControleurTemplate {
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
 
-    // Vérifier si le joueur courant peut et veut jouer une rotation.
-    boolean avecRotations = rotationActivee;
+    while (true) {
+      ChoixPuissance4 choix =
+          (ChoixPuissance4) joueur.getStrategie().jouer(ihm, jeuPuissance4.getPlateauPuissance4());
 
-    if (avecRotations) avecRotations = rotationsRestantes.get(joueurCourant - 1) > 0;
+      if (choix.getCoup() == CoupPuissance4.ROTATION) {
+        RotationPuissance4 rotation = choix.getRotation();
 
-    if (avecRotations) {
-      choix:
-      while (true) {
-        String input =
-            ihm.demanderString(joueur.getNom() + ", que voulez-vous faire ? (jouer/rotation)")
-                .toLowerCase();
-
-        switch (input) {
-          case "jouer", "j":
-            avecRotations = false;
-          case "rotation", "r":
-            break choix;
-          default:
-            ihm.afficherErreur("Veuillez choisir entre \"jouer\" et \"rotation\".");
+        if (!rotationsActivees) {
+          ihm.afficherMessage("Les rotations ne sont pas autorisées cette partie.");
+          continue;
         }
-      }
-    }
 
-    // Jouer
-    if (avecRotations) {
-      // Diminuer les rotations restantes du joueur curant, puis jouer.
-      rotationsRestantes.set(joueurCourant - 1, rotationsRestantes.get(joueurCourant - 1) - 1);
-
-      while (true) {
-        String choix =
-            ihm.demanderString(
-                    joueur.getNom()
-                        + ", dans quel sens voulez-vous tourner la grille ? (droite/gauche)")
-                .toLowerCase();
-
-        switch (choix) {
-          case "droite", "d", "horaire":
-            puissance4.rotationner(Rotation.ANTI_HORAIRE);
-            return;
-          case "gauche", "g", "anti-horaire":
-            puissance4.rotationner(Rotation.HORAIRE);
-            return;
-          default:
-            ihm.afficherErreur("Veuillez choisir \"droite\" et \"gauche\".");
+        int rotationsRestantesJoueur = rotationsRestantes.get(joueurCourant - 1);
+        if (rotationsRestantesJoueur == 0) {
+          ihm.afficherErreur("Vous avez utilisé toutes vos rotations possibles.");
+          continue;
         }
-      }
-    } else {
-      while (true) {
-        int colonne =
-            ihm.demanderInt(joueur.getNom() + ", choisissez une colonne (1-" + LONGUEUR + ")");
 
-        if (puissance4.colonneInvalide(colonne)) {
+        rotationsRestantes.set(joueurCourant - 1, rotationsRestantesJoueur - 1);
+        jeuPuissance4.rotationner(rotation);
+      } else {
+        int colonne = choix.getColonne();
+
+        if (jeuPuissance4.colonneInvalide(colonne)) {
           ihm.afficherErreur("Veuillez choisir une colonne valide.");
           continue;
         }
 
-        Cellule cellule = joueurCourant == 1 ? Cellule.ROUGE : Cellule.JAUNE;
-        puissance4.jouer(cellule, colonne);
-        break;
+        CellulePuissance4 cellule =
+            joueurCourant == 1 ? CellulePuissance4.ROUGE : CellulePuissance4.JAUNE;
+        jeuPuissance4.jouer(cellule, colonne);
       }
+
+      break;
     }
   }
 }

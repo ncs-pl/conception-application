@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Représente une partie de Puissance 4. */
-public class Puissance4 {
+public class JeuPuissance4 {
   /** La grille de jeu. */
-  private Grille grille;
+  private PlateauPuissance4 plateauPuissance4;
 
   /** L'état de la partie */
-  private EtatPartie etat = EtatPartie.EN_COURS;
+  private EtatPartie etatPartie = EtatPartie.EN_COURS;
 
   /** Créer une partie de Puissance 4 et la commence */
-  public Puissance4(int longueur, int hauteur) {
+  public JeuPuissance4(int longueur, int hauteur) {
     if (longueur < 1) throw new IllegalArgumentException("La longueur doît être supérieure à 0");
     if (hauteur < 1) throw new IllegalArgumentException("La hauteur doît être supérieure à 0");
 
-    this.grille = new Grille(longueur, hauteur);
+    this.plateauPuissance4 = new PlateauPuissance4(longueur, hauteur);
   }
 
   /**
@@ -35,7 +35,7 @@ public class Puissance4 {
    * @return true si la colonne est pleine, false sinon
    */
   private boolean colonnePleine(int colonne) {
-    return this.grille.get(colonne, 1) != Cellule.VIDE;
+    return this.plateauPuissance4.get(colonne, 1) != CellulePuissance4.VIDE;
   }
 
   /**
@@ -44,7 +44,7 @@ public class Puissance4 {
    * @param cellules la liste des cellules à vérifier
    * @return true si les cellules sont égales, false sinon
    */
-  private boolean cellulesEgales(Cellule... cellules) {
+  private boolean cellulesEgales(CellulePuissance4... cellules) {
     for (int i = 1; i < cellules.length; i++) {
       if (cellules[i] != cellules[0]) return false;
     }
@@ -59,13 +59,13 @@ public class Puissance4 {
    * @param cellule La cellule à insérer
    * @return la ligne à laquelle le jeton a été inséré, ou -1 si la colonne est pleine
    */
-  private int insererCellule(int colonne, Cellule cellule) {
+  private int insererCellule(int colonne, CellulePuissance4 cellule) {
     // On parcourt la colonne de bas en haut. Par la gravité, nous savons que si
     // une cellule est vide, alors celles du dessus le sont aussi.
-    for (int ligne = this.grille.getHauteur(); ligne > 0; --ligne) {
-      if (this.grille.get(colonne, ligne) != Cellule.VIDE) continue;
+    for (int ligne = this.plateauPuissance4.getHauteur(); ligne > 0; --ligne) {
+      if (this.plateauPuissance4.get(colonne, ligne) != CellulePuissance4.VIDE) continue;
 
-      this.grille.set(colonne, ligne, cellule);
+      this.plateauPuissance4.set(colonne, ligne, cellule);
       return ligne;
     }
 
@@ -85,100 +85,100 @@ public class Puissance4 {
     // ⭕️ -> Cellule actuelle
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 1),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 2),
-        /* ⭕️🔴🔴🔴 */ this.grille.get(colonne, ligne + 3))) return true;
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne + 1),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne + 2),
+        /* ⭕️🔴🔴🔴 */ this.plateauPuissance4.get(colonne, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne + 1),
-        /* 🔴⭕️🔴🔴 */ this.grille.get(colonne, ligne + 2))) return true;
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 1),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne + 1),
+        /* 🔴⭕️🔴🔴 */ this.plateauPuissance4.get(colonne, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 2),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne),
-        /* 🔴🔴⭕️🔴 */ this.grille.get(colonne, ligne + 1))) return true;
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 2),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 1),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* 🔴🔴⭕️🔴 */ this.plateauPuissance4.get(colonne, ligne + 1))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 3),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 2),
-        /* ⚪⚪⚪⚪ */ this.grille.get(colonne, ligne - 1),
-        /* 🔴🔴🔴⭕️ */ this.grille.get(colonne, ligne))) return true;
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 3),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 2),
+        /* ⚪⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne - 1),
+        /* 🔴🔴🔴⭕️ */ this.plateauPuissance4.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne))) return true;
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 1, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 3, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 1, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 2, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 2, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 1, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 3, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 2, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne - 1, ligne),
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne))) return true;
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 3, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 2, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne - 1, ligne),
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⭕️⚪⚪⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne + 1, ligne + 1),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 2, ligne + 2),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne + 3))) return true;
+        /* ⭕️⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne + 1, ligne + 1),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne + 2, ligne + 2),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 3, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 1, ligne - 1),
-        /* ⚪⭕️⚪⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 1, ligne + 1),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne + 2))) return true;
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 1, ligne - 1),
+        /* ⚪⭕️⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne + 1, ligne + 1),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 2, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 2, ligne - 2),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 1, ligne - 1),
-        /* ⚪⚪⭕️⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne + 1))) return true;
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 2, ligne - 2),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne - 1, ligne - 1),
+        /* ⚪⚪⭕️⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 1, ligne + 1))) return true;
 
     if (cellulesEgales(
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 3, ligne - 3),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 2, ligne - 2),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne - 1, ligne - 1),
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne))) return true;
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 3, ligne - 3),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne - 2, ligne - 2),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne - 1, ligne - 1),
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪⭕️ */ this.grille.get(colonne, ligne),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne - 1, ligne + 1),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 2, ligne + 2),
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 3, ligne + 3))) return true;
+        /* ⚪⚪⚪⭕️ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne - 1, ligne + 1),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne - 2, ligne + 2),
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 3, ligne + 3))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 1, ligne - 1),
-        /* ⚪⚪⭕️⚪ */ this.grille.get(colonne, ligne),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne - 1, ligne + 1),
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 2, ligne + 2))) return true;
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 1, ligne - 1),
+        /* ⚪⚪⭕️⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne - 1, ligne + 1),
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 2, ligne + 2))) return true;
 
     if (cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 2, ligne - 2),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 1, ligne - 1),
-        /* ⚪⭕️⚪⚪ */ this.grille.get(colonne, ligne),
-        /* 🔴⚪⚪⚪ */ this.grille.get(colonne - 1, ligne + 1))) return true;
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 2, ligne - 2),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne + 1, ligne - 1),
+        /* ⚪⭕️⚪⚪ */ this.plateauPuissance4.get(colonne, ligne),
+        /* 🔴⚪⚪⚪ */ this.plateauPuissance4.get(colonne - 1, ligne + 1))) return true;
 
     return cellulesEgales(
-        /* ⚪⚪⚪🔴 */ this.grille.get(colonne + 3, ligne - 3),
-        /* ⚪⚪🔴⚪ */ this.grille.get(colonne + 2, ligne - 2),
-        /* ⚪🔴⚪⚪ */ this.grille.get(colonne + 1, ligne - 1),
-        /* ⭕️⚪⚪⚪ */ this.grille.get(colonne, ligne));
+        /* ⚪⚪⚪🔴 */ this.plateauPuissance4.get(colonne + 3, ligne - 3),
+        /* ⚪⚪🔴⚪ */ this.plateauPuissance4.get(colonne + 2, ligne - 2),
+        /* ⚪🔴⚪⚪ */ this.plateauPuissance4.get(colonne + 1, ligne - 1),
+        /* ⭕️⚪⚪⚪ */ this.plateauPuissance4.get(colonne, ligne));
   }
 
   /**
@@ -188,7 +188,7 @@ public class Puissance4 {
    */
   private boolean grillePleine() {
     boolean result = true;
-    for (int i = 1; i <= this.grille.getLongueur(); ++i) {
+    for (int i = 1; i <= this.plateauPuissance4.getLongueur(); ++i) {
       if (!colonnePleine(i)) {
         result = false;
         break;
@@ -204,13 +204,13 @@ public class Puissance4 {
    * @param ligne la ligne de la cellule insérée, entre 1 et la hauteur de la grille
    */
   private void actualiserEtatPartie(int colonne, int ligne) {
-    Cellule cellule = this.grille.get(colonne, ligne);
-    if (cellule == Cellule.VIDE) return;
+    CellulePuissance4 cellule = this.plateauPuissance4.get(colonne, ligne);
+    if (cellule == CellulePuissance4.VIDE) return;
 
     if (celluleVictorieuse(colonne, ligne))
-      etat = cellule == Cellule.ROUGE ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
-    else if (grillePleine()) etat = EtatPartie.MATCH_NUL;
-    else etat = EtatPartie.EN_COURS;
+      etatPartie = cellule == CellulePuissance4.ROUGE ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
+    else if (grillePleine()) etatPartie = EtatPartie.MATCH_NUL;
+    else etatPartie = EtatPartie.EN_COURS;
   }
 
   /** Actualise l'état de la partie en itérant sur la grille. */
@@ -219,26 +219,26 @@ public class Puissance4 {
     int victoiresJaunes = 0;
 
     iteration:
-    for (int i = 1; i <= this.grille.getLongueur(); i++)
-      for (int j = 1; j <= this.grille.getHauteur(); j++) {
-        Cellule cellule = this.grille.get(i, j);
+    for (int i = 1; i <= this.plateauPuissance4.getLongueur(); i++)
+      for (int j = 1; j <= this.plateauPuissance4.getHauteur(); j++) {
+        CellulePuissance4 cellule = this.plateauPuissance4.get(i, j);
 
-        if (cellule == Cellule.VIDE
-            || (cellule == Cellule.ROUGE && victoiresRouges > 0)
-            || (cellule == Cellule.JAUNE && victoiresJaunes > 0)) continue;
+        if (cellule == CellulePuissance4.VIDE
+            || (cellule == CellulePuissance4.ROUGE && victoiresRouges > 0)
+            || (cellule == CellulePuissance4.JAUNE && victoiresJaunes > 0)) continue;
 
         actualiserEtatPartie(i, j);
 
-        if (etat == EtatPartie.VICTOIRE_JOUEUR_1) victoiresRouges = 1;
-        else if (etat == EtatPartie.VICTOIRE_JOUEUR_2) victoiresJaunes = 1;
+        if (etatPartie == EtatPartie.VICTOIRE_JOUEUR_1) victoiresRouges = 1;
+        else if (etatPartie == EtatPartie.VICTOIRE_JOUEUR_2) victoiresJaunes = 1;
 
         // Early exit
         if (victoiresRouges > 0 && victoiresJaunes > 0) break iteration;
       }
 
-    if (victoiresRouges > 0 && victoiresJaunes > 0) etat = EtatPartie.MATCH_NUL;
-    else if (victoiresRouges > 0) etat = EtatPartie.VICTOIRE_JOUEUR_1;
-    else if (victoiresJaunes > 0) etat = EtatPartie.VICTOIRE_JOUEUR_2;
+    if (victoiresRouges > 0 && victoiresJaunes > 0) etatPartie = EtatPartie.MATCH_NUL;
+    else if (victoiresRouges > 0) etatPartie = EtatPartie.VICTOIRE_JOUEUR_1;
+    else if (victoiresJaunes > 0) etatPartie = EtatPartie.VICTOIRE_JOUEUR_2;
   }
 
   /**
@@ -251,12 +251,12 @@ public class Puissance4 {
    *
    * @param rotation la rotation à effectuer
    */
-  private void rotationnerGrille(Rotation rotation) {
-    int longueurOriginale = this.grille.getLongueur();
-    int hauteurOriginale = this.grille.getHauteur();
+  private void rotationnerGrille(RotationPuissance4 rotation) {
+    int longueurOriginale = this.plateauPuissance4.getLongueur();
+    int hauteurOriginale = this.plateauPuissance4.getHauteur();
 
     // On inverse les dimensions pour la rotation
-    Grille grilleRotationnee = new Grille(hauteurOriginale, longueurOriginale);
+    PlateauPuissance4 plateauPuissance4Rotationnee = new PlateauPuissance4(hauteurOriginale, longueurOriginale);
 
     // Note : commencer à 1 au lieu de 0 pour suivre la formule mathématique
     // qui indexe à 1.
@@ -277,8 +277,8 @@ public class Puissance4 {
         //       └┐  └┐  └──┼┼┘ └──┴──┘
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = ɣ₂,
         //         └────────┘                               ɣ'₂ = n - ɣ₁
-        if (rotation == Rotation.HORAIRE)
-          grilleRotationnee.set(j, hauteurOriginale - i + 1, grille.get(i, j));
+        if (rotation == RotationPuissance4.HORAIRE)
+          plateauPuissance4Rotationnee.set(j, hauteurOriginale - i + 1, plateauPuissance4.get(i, j));
 
         // Rotation de 90° dans le sens horaire inverse d'une matrice 3x2 vers
         // une matrice 2x3 :
@@ -296,12 +296,12 @@ public class Puissance4 {
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = n - ɣ₂,
         //         └────────┘                               ɣ'₂ = ɣ₁
         //
-        else if (rotation == Rotation.ANTI_HORAIRE)
-          grilleRotationnee.set(longueurOriginale - j + 1, i, grille.get(i, j));
+        else if (rotation == RotationPuissance4.ANTI_HORAIRE)
+          plateauPuissance4Rotationnee.set(longueurOriginale - j + 1, i, plateauPuissance4.get(i, j));
       }
     }
 
-    grille = grilleRotationnee;
+    plateauPuissance4 = plateauPuissance4Rotationnee;
   }
 
   /** Applique la gravité sur la grille de jeu, en déplaçant les cellules vides vers le bas. */
@@ -311,23 +311,23 @@ public class Puissance4 {
     // hauteur - len(file) cases vides.  On défile la file dans l'ordre pour
     // insérer dans la colonne.
 
-    int longueur = this.grille.getLongueur();
-    int hauteur = this.grille.getHauteur();
+    int longueur = this.plateauPuissance4.getLongueur();
+    int hauteur = this.plateauPuissance4.getHauteur();
     // Faire une copie de la grille actuelle nous permet de réinitialiser la
     // grille existante et de profiter des fonctions pré-définies pour insérer
     // un jeton.
-    Grille copieGrille = grille;
-    grille = new Grille(longueur, hauteur);
+    PlateauPuissance4 copiePlateauPuissance4 = plateauPuissance4;
+    plateauPuissance4 = new PlateauPuissance4(longueur, hauteur);
 
-    List<Cellule> file = new ArrayList<>();
+    List<CellulePuissance4> file = new ArrayList<>();
     for (int colonne = 1; colonne <= hauteur; ++colonne) {
       int tailleFile = 0; // Évite d'appeler file.size() qui requière une boucle
 
       // On enfile uniquement les jetons colorés dans une file.
       for (int ligne = 1; ligne <= longueur; ++ligne) {
-        Cellule cellule = copieGrille.get(colonne, ligne);
+        CellulePuissance4 cellule = copiePlateauPuissance4.get(colonne, ligne);
 
-        if (cellule != null && cellule != Cellule.VIDE) {
+        if (cellule != null && cellule != CellulePuissance4.VIDE) {
           file.add(cellule);
           ++tailleFile;
         }
@@ -335,11 +335,11 @@ public class Puissance4 {
 
       // On comble l'espace restant de vide
       if (tailleFile < hauteur) {
-        for (int k = 0; k < tailleFile; ++k) file.add(Cellule.VIDE);
+        for (int k = 0; k < tailleFile; ++k) file.add(CellulePuissance4.VIDE);
       }
 
       // Reste qu'à insérer nos jetons dans la colonne.
-      for (Cellule cellule : file) insererCellule(colonne, cellule);
+      for (CellulePuissance4 cellule : file) insererCellule(colonne, cellule);
       file.clear(); // Permet de réutiliser la file pour la prochaine colonne
     }
   }
@@ -353,8 +353,8 @@ public class Puissance4 {
    *
    * @return La grille de jeu
    */
-  public Grille getGrille() {
-    return grille;
+  public PlateauPuissance4 getPlateauPuissance4() {
+    return plateauPuissance4;
   }
 
   /**
@@ -362,8 +362,8 @@ public class Puissance4 {
    *
    * @return L'état de la partie
    */
-  public EtatPartie getEtat() {
-    return etat;
+  public EtatPartie getEtatPartie() {
+    return etatPartie;
   }
 
   /**
@@ -375,7 +375,7 @@ public class Puissance4 {
    * @return true si la colonne est valide
    */
   public boolean colonneInvalide(int colonne) {
-    return colonne <= 0 || colonne > this.grille.getLongueur();
+    return colonne <= 0 || colonne > this.plateauPuissance4.getLongueur();
   }
 
   /**
@@ -386,8 +386,8 @@ public class Puissance4 {
    * @throws CoupInvalideException si la colonne n'existe pas où est pleine
    * @throws EtatPartieException si la partie est terminée
    */
-  public void jouer(Cellule jeton, int colonne) throws CoupInvalideException, EtatPartieException {
-    if (etat != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
+  public void jouer(CellulePuissance4 jeton, int colonne) throws CoupInvalideException, EtatPartieException {
+    if (etatPartie != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
 
     if (colonneInvalide(colonne))
       throw new CoupInvalideException("La colonne doit être comprise entre 1 et 7");
@@ -404,8 +404,8 @@ public class Puissance4 {
    * @param rotation la rotation à effectuer
    * @throws EtatPartieException si la partie est terminée
    */
-  public void rotationner(Rotation rotation) throws EtatPartieException {
-    if (etat != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
+  public void rotationner(RotationPuissance4 rotation) throws EtatPartieException {
+    if (etatPartie != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
 
     rotationnerGrille(rotation);
     appliquerGravite();
