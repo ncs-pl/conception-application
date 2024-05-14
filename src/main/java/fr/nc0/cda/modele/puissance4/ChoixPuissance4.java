@@ -8,7 +8,7 @@ package fr.nc0.cda.modele.puissance4;
 
 import fr.nc0.cda.modele.jeu.Choix;
 
-public class ChoixPuissance4 extends Choix {
+public class ChoixPuissance4 implements Choix {
   /** Le coup du joueur */
   private final CoupPuissance4 coup;
 

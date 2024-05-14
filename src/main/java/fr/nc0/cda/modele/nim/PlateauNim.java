@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Représente une liste indexée de tas de la partie du jeu de Nim. */
-public class PlateauNim extends Plateau {
+public class PlateauNim implements Plateau {
   /** Taille de la liste de tas. */
   public final int taille;
 
@@ -49,18 +49,6 @@ public class PlateauNim extends Plateau {
   }
 
   /**
-   * Vérifie si tous les tas du plateau sont vides.
-   *
-   * @return true si la liste de tas est vide, false sinon
-   */
-  public boolean estVide() {
-    for (Integer t : tas) {
-      if (t != 0) return false;
-    }
-    return true;
-  }
-
-  /**
    * Retire un nombre d'allumettes d'un tas, si possible.
    *
    * @param tas le numéro du tas, doit être compris entre 1 et la taille de la liste
@@ -79,6 +67,14 @@ public class PlateauNim extends Plateau {
     }
 
     this.tas.set(tas - 1, allumettesRestantes - allumettes);
+  }
+
+  @Override
+  public boolean estVide() {
+    for (Integer t : tas) {
+      if (t != 0) return false;
+    }
+    return true;
   }
 
   @Override

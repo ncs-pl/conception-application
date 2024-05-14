@@ -11,4 +11,4 @@ package fr.nc0.cda.modele.jeu;
  * taille non déterminée (un jeu peu avoir plusieurs inputs requis), et laisse à chaque jeu la
  * possibilité de fournir des méthodes permettant de récupérer ces inputs aec un type.
  */
-public abstract class Choix {}
+public interface Choix {}
