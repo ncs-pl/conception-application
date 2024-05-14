@@ -6,9 +6,9 @@
 
 package fr.nc0.cda.modele.puissance4;
 
-import fr.nc0.cda.modele.CoupInvalideException;
-import fr.nc0.cda.modele.EtatPartie;
-import fr.nc0.cda.modele.EtatPartieException;
+import fr.nc0.cda.modele.jeu.CoupInvalideException;
+import fr.nc0.cda.modele.jeu.EtatPartie;
+import fr.nc0.cda.modele.jeu.EtatPartieException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,7 +208,10 @@ public class JeuPuissance4 {
     if (cellule == CellulePuissance4.VIDE) return;
 
     if (celluleVictorieuse(colonne, ligne))
-      etatPartie = cellule == CellulePuissance4.ROUGE ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
+      etatPartie =
+          cellule == CellulePuissance4.ROUGE
+              ? EtatPartie.VICTOIRE_JOUEUR_1
+              : EtatPartie.VICTOIRE_JOUEUR_2;
     else if (grillePleine()) etatPartie = EtatPartie.MATCH_NUL;
     else etatPartie = EtatPartie.EN_COURS;
   }
@@ -256,7 +259,8 @@ public class JeuPuissance4 {
     int hauteurOriginale = this.plateauPuissance4.getHauteur();
 
     // On inverse les dimensions pour la rotation
-    PlateauPuissance4 plateauPuissance4Rotationnee = new PlateauPuissance4(hauteurOriginale, longueurOriginale);
+    PlateauPuissance4 plateauPuissance4Rotationnee =
+        new PlateauPuissance4(hauteurOriginale, longueurOriginale);
 
     // Note : commencer à 1 au lieu de 0 pour suivre la formule mathématique
     // qui indexe à 1.
@@ -278,7 +282,8 @@ public class JeuPuissance4 {
         //        └┐  └─────┼┘                 ∀ɣ∈M, ∀ɣ'∈M, ɣ'₁ = ɣ₂,
         //         └────────┘                               ɣ'₂ = n - ɣ₁
         if (rotation == RotationPuissance4.HORAIRE)
-          plateauPuissance4Rotationnee.set(j, hauteurOriginale - i + 1, plateauPuissance4.get(i, j));
+          plateauPuissance4Rotationnee.set(
+              j, hauteurOriginale - i + 1, plateauPuissance4.get(i, j));
 
         // Rotation de 90° dans le sens horaire inverse d'une matrice 3x2 vers
         // une matrice 2x3 :
@@ -297,7 +302,8 @@ public class JeuPuissance4 {
         //         └────────┘                               ɣ'₂ = ɣ₁
         //
         else if (rotation == RotationPuissance4.ANTI_HORAIRE)
-          plateauPuissance4Rotationnee.set(longueurOriginale - j + 1, i, plateauPuissance4.get(i, j));
+          plateauPuissance4Rotationnee.set(
+              longueurOriginale - j + 1, i, plateauPuissance4.get(i, j));
       }
     }
 
@@ -386,7 +392,8 @@ public class JeuPuissance4 {
    * @throws CoupInvalideException si la colonne n'existe pas où est pleine
    * @throws EtatPartieException si la partie est terminée
    */
-  public void jouer(CellulePuissance4 jeton, int colonne) throws CoupInvalideException, EtatPartieException {
+  public void jouer(CellulePuissance4 jeton, int colonne)
+      throws CoupInvalideException, EtatPartieException {
     if (etatPartie != EtatPartie.EN_COURS) throw new EtatPartieException("La partie est terminée");
 
     if (colonneInvalide(colonne))

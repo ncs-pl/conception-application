@@ -6,9 +6,9 @@
 
 package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.modele.CoupInvalideException;
-import fr.nc0.cda.modele.EtatPartie;
-import fr.nc0.cda.modele.EtatPartieException;
+import fr.nc0.cda.modele.jeu.CoupInvalideException;
+import fr.nc0.cda.modele.jeu.EtatPartie;
+import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.vue.Ihm;
@@ -70,7 +70,8 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     while (true) {
-      ChoixNim choix = (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, jeuNim.getPlateauNim());
+      ChoixNim choix =
+          (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, jeuNim.getPlateauNim());
       int tas = choix.getTas();
       int allumettes = choix.getAllumettes();
       int contrainte = jeuNim.getContrainte();
