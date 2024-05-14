@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Représente la grille de jeu du Puissance 4. */
-public class PlateauPuissance4 extends Plateau {
+public class PlateauPuissance4 implements Plateau {
   /** Les colonnes de la grille */
   private final List<List<CellulePuissance4>> grille;
 
@@ -89,6 +89,19 @@ public class PlateauPuissance4 extends Plateau {
     }
 
     grille.get(ligne - 1).set(colonne - 1, cellule);
+  }
+
+  @Override
+  public boolean estVide() {
+    for (List<CellulePuissance4> cellules : grille) {
+      for (CellulePuissance4 cellule : cellules) {
+        if (cellule != CellulePuissance4.VIDE) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   @Override

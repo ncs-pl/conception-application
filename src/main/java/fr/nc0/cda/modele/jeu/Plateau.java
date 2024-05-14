@@ -7,9 +7,13 @@
 package fr.nc0.cda.modele.jeu;
 
 /** Le plateau du jeu en cours. */
-public abstract class Plateau {
-  @Override
-  public String toString() {
-    return super.toString();
-  }
+public interface Plateau {
+  /**
+   * Vérifie que le plateau soit vide
+   *
+   * @return true si le plateau est vide.
+   */
+  boolean estVide();
+
+  String toString();
 }
