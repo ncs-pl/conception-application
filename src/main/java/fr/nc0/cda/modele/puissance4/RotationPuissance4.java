@@ -7,7 +7,7 @@
 package fr.nc0.cda.modele.puissance4;
 
 /** Enumération des sens de rotation d'une grille de Puissance 4. */
-public enum Rotation {
+public enum RotationPuissance4 {
   /** Rotation de 90° dans le sens des aiguilles d'une montre */
   HORAIRE,
   /** Rotation de 90° dans le sens inverse des aiguilles d'une montre */

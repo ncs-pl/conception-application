@@ -13,12 +13,12 @@ public class ChoixPuissance4 extends Choix {
   private final CoupPuissance4 coup;
 
   /** Le sens de rotation du joueur, si le coup est une rotation */
-  private final Rotation rotation;
+  private final RotationPuissance4 rotation;
 
   /** La colonne dans laquelle jouer, si le coup est une insertion */
   private final int colonne;
 
-  ChoixPuissance4(CoupPuissance4 coup, Rotation rotation, int colonne) {
+  ChoixPuissance4(CoupPuissance4 coup, RotationPuissance4 rotation, int colonne) {
     super();
     this.coup = coup;
     this.rotation = rotation;
@@ -39,7 +39,7 @@ public class ChoixPuissance4 extends Choix {
    *
    * @return le sens de rotation
    */
-  public Rotation getRotation() {
+  public RotationPuissance4 getRotation() {
     return rotation;
   }
 
