@@ -34,9 +34,8 @@ public abstract class ControleurTemplate {
     this.ihm = ihm;
     this.joueur1 = joueur1;
     this.joueur2 = joueur2;
-    // TODO(nc0): check if a player in the IA (name="AI"), to determine who starts
-    // TODO(nc0): if no IA, then random...
-    this.joueurCourant = Joueurs.JOUEUR_1;
+    this.joueurCourant =
+        joueur1.getNom().equalsIgnoreCase("ai") ? Joueurs.JOUEUR_2 : Joueurs.JOUEUR_1;
   }
 
   /**
