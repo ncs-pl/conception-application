@@ -42,13 +42,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
   /** Rotations restantes possibles pour le second joueur */
   private int rotationsRestantesJoueur2;
 
-  /**
-   * Constructeur de la classe ControleurPuissance4.
-   *
-   * @param ihm L'interface utilisateur pour les interactions avec le jeu.
-   */
-  public ControleurPuissance4(Ihm ihm) {
-    super(ihm);
+  public ControleurPuissance4(Ihm ihm, Joueur joueur1, Joueur joueur2) {
+    super(ihm, joueur1, joueur2);
   }
 
   @Override
