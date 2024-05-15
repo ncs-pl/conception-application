@@ -129,10 +129,11 @@ public class JeuPuissance4 extends Jeu<PlateauPuissance4, ChoixPuissance4> {
 
     for (int i = 1; i <= plateau.getLongueur(); ++i) {
       if (plateau.get(i, 1) == CellulePuissance4.VIDE) {
-        etatPartie = EtatPartie.MATCH_NUL;
         return;
       }
     }
+
+    etatPartie = EtatPartie.MATCH_NUL;
   }
 
   /** Actualise l'état de la partie en itérant sur la grille. */
