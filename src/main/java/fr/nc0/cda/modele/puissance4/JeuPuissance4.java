@@ -173,7 +173,7 @@ public class JeuPuissance4 extends Jeu<PlateauPuissance4, ChoixPuissance4> {
           int hauteur = plateau.getHauteur();
           PlateauPuissance4 nouveauPlateau = new PlateauPuissance4(hauteur, longueur);
 
-          for (int ligne = 1; ligne <= hauteur; ++ligne) {
+          for (int ligne = 1; ligne <= hauteur; ligne++) {
             if (rotation == RotationPuissance4.HORAIRE) {
               for (int colonne = longueur; colonne > 0; --colonne) {
                 CellulePuissance4 cellule = plateau.getCellule(colonne, ligne);
@@ -190,8 +190,7 @@ public class JeuPuissance4 extends Jeu<PlateauPuissance4, ChoixPuissance4> {
                   continue;
                 }
 
-                // TODO(nc0): FIX THIS FORMULA
-                nouveauPlateau.insererCellule(hauteur + 1 - colonne, cellule);
+                nouveauPlateau.insererCellule(ligne, cellule);
               }
             }
           }
