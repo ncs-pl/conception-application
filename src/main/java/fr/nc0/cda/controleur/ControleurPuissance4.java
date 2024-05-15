@@ -9,11 +9,10 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
+import fr.nc0.cda.modele.jeu.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Contrôleur du jeu Puissance 4.
@@ -31,14 +30,17 @@ public class ControleurPuissance4 extends ControleurTemplate {
   /** Rotations disponibles par défaut */
   private static final int ROTATIONS_DISPONIBLES_DEFAUT = 4;
 
-  /** Les rotations restantes pour chaque joueur */
-  private List<Integer> rotationsRestantes;
-
   /** La partie en cours de Puissance 4 */
-  private JeuPuissance4 jeuPuissance4;
+  private JeuPuissance4 puissance4;
 
   /** True si la partie peut se faire avec des rotations. */
   private boolean rotationsActivees = false;
+
+  /** Rotations restantes possibles pour le premier joueur */
+  private int rotationsRestantesJoueur1;
+
+  /** Rotations restantes possibles pour le second joueur */
+  private int rotationsRestantesJoueur2;
 
   /**
    * Constructeur de la classe ControleurPuissance4.
@@ -51,61 +53,51 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
   @Override
   String creerAffichagePlateau() {
-    return jeuPuissance4.getPlateauPuissance4().toString();
+    return puissance4.getPlateau().toString();
   }
 
   @Override
   EtatPartie getEtatPartie() {
-    return jeuPuissance4.getEtatPartie();
+    return puissance4.getEtatPartie();
   }
 
   @Override
   void initialiserPartie() {
-    jeuPuissance4 = new JeuPuissance4(LONGUEUR, HAUTEUR);
+    puissance4 = new JeuPuissance4(LONGUEUR, HAUTEUR);
     rotationsActivees =
         ihm.demanderBoolean("Voulez-vous activer la possibilité de rotation de la grille ?");
-    rotationsRestantes =
-        new ArrayList<>(List.of(ROTATIONS_DISPONIBLES_DEFAUT, ROTATIONS_DISPONIBLES_DEFAUT));
+    if (rotationsActivees) {
+      rotationsRestantesJoueur1 = ROTATIONS_DISPONIBLES_DEFAUT;
+      rotationsRestantesJoueur2 = ROTATIONS_DISPONIBLES_DEFAUT;
+    }
   }
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
-    Joueur joueur = getJoueur(joueurCourant);
+    // TODO(nc0): avoid casting?
+    ChoixPuissance4 choix =
+        (ChoixPuissance4)
+            getJoueur(joueurCourant).getStrategie().jouer(ihm, puissance4.getPlateau());
 
-    while (true) {
-      ChoixPuissance4 choix =
-          (ChoixPuissance4) joueur.getStrategie().jouer(ihm, jeuPuissance4.getPlateauPuissance4());
-
-      if (choix.getCoup() == CoupPuissance4.ROTATION) {
-        RotationPuissance4 rotation = choix.getRotation();
-
-        if (!rotationsActivees) {
-          ihm.afficherMessage("Les rotations ne sont pas autorisées cette partie.");
-          continue;
-        }
-
-        int rotationsRestantesJoueur = rotationsRestantes.get(joueurCourant - 1);
-        if (rotationsRestantesJoueur == 0) {
-          ihm.afficherErreur("Vous avez utilisé toutes vos rotations possibles.");
-          continue;
-        }
-
-        rotationsRestantes.set(joueurCourant - 1, rotationsRestantesJoueur - 1);
-        jeuPuissance4.rotationner(rotation);
-      } else {
-        int colonne = choix.getColonne();
-
-        if (jeuPuissance4.colonneInvalide(colonne)) {
-          ihm.afficherErreur("Veuillez choisir une colonne valide.");
-          continue;
-        }
-
-        CellulePuissance4 cellule =
-            joueurCourant == 1 ? CellulePuissance4.ROUGE : CellulePuissance4.JAUNE;
-        jeuPuissance4.jouer(cellule, colonne);
+    // TODO(nc0): move Rotation counter logic in the Game Core itself
+    if (choix.getCoup() == CoupPuissance4.ROTATION) {
+      if (!rotationsActivees) {
+        throw new CoupInvalideException("Les rotations ne sont pas autorisées cette partie.");
       }
 
-      break;
+      int rotationsRestantesJoueur =
+          joueurCourant == Joueurs.JOUEUR_1 ? rotationsRestantesJoueur1 : rotationsRestantesJoueur2;
+      if (rotationsRestantesJoueur <= 0) {
+        throw new CoupInvalideException("Vous avez utilisé toutes vos rotations possibles.");
+      }
+
+      if (joueurCourant == Joueurs.JOUEUR_1) {
+        --rotationsRestantesJoueur1;
+      } else {
+        --rotationsRestantesJoueur2;
+      }
     }
+
+    puissance4.jouer(joueurCourant, choix);
   }
 }

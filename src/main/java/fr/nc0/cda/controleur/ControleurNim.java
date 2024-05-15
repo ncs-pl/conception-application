@@ -19,7 +19,7 @@ public class ControleurNim extends ControleurTemplate {
   private final int nombreTas;
 
   /** Une partie du jeu de Nim */
-  private JeuNim jeuNim;
+  private JeuNim nim;
 
   /**
    * Créer un contrôleur de jeu de Nim.
@@ -42,12 +42,12 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   String creerAffichagePlateau() {
-    return jeuNim.getPlateauNim().toString();
+    return nim.getPlateau().toString();
   }
 
   @Override
   EtatPartie getEtatPartie() {
-    return jeuNim.getEtatPartie();
+    return nim.getEtatPartie();
   }
 
   @Override
@@ -59,7 +59,7 @@ public class ControleurNim extends ControleurTemplate {
                   + "coup, ou 0 pour ne pas mettre de contrainte");
 
       if (contrainte >= 0) {
-        jeuNim = new JeuNim(nombreTas, contrainte);
+        nim = new JeuNim(nombreTas, contrainte);
         break;
       }
 
@@ -69,40 +69,9 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
-    while (true) {
-      ChoixNim choix =
-          (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, jeuNim.getPlateauNim());
-      int tas = choix.getTas();
-      int allumettes = choix.getAllumettes();
-      int contrainte = jeuNim.getContrainte();
-
-      if (tas < 1 || tas > jeuNim.getPlateauNim().taille) {
-        ihm.afficherErreur("Le tas choisi n'existe pas.");
-        continue;
-      }
-
-      if (jeuNim.getPlateauNim().getAllumettesRestantes(tas) < 1) {
-        ihm.afficherErreur("Le tas choisi est vide.");
-        continue;
-      }
-
-      if (allumettes < 1) {
-        ihm.afficherErreur("Nombre d'allumettes invalide.");
-        continue;
-      }
-
-      if (allumettes > jeuNim.getPlateauNim().getAllumettesRestantes(tas)) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur au nombre d'allumettes dans le tas.");
-        continue;
-      }
-
-      if (contrainte != 0 && allumettes > contrainte) {
-        ihm.afficherErreur("Nombre d'allumettes supérieur à la contrainte.");
-        continue;
-      }
-
-      jeuNim.retirerAllumettes(joueurCourant, tas, allumettes);
-      break;
-    }
+    // TODO(nc0): avoid casting?
+    ChoixNim choix =
+        (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, nim.getPlateau());
+    nim.jouer(joueurCourant, choix);
   }
 }
