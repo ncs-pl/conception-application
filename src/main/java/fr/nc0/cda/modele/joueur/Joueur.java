@@ -37,14 +37,14 @@ public class Joueur {
     ++victoires;
   }
 
+  /** Retourne la stratégie actuelle du joueur */
+  public Strategie getStrategie() {
+    return strategie;
+  }
+
   /** Modifie la stratégie du joueur */
   public void setStrategie(Strategie strategie) {
     this.strategie = strategie;
-  }
-
-  // TODO(nc0): meilleure signature
-  public void jouer(/* args */ ) {
-    /* return */ strategie.jouer();
   }
 
   @Override
