@@ -82,8 +82,9 @@ public class PlateauNim implements Plateau {
     String string = "";
     int i = 1;
     for (Integer t : tas) {
-      string +=
-          "    Tas \033[1m" + i + "\033[0m :  " + " \033[0;32m|\033[0m".repeat(Math.max(0, t));
+      string += "    Tas \033[1m" + i + "\033[0m :   ";
+      string += " \033[0;32m|\033[0m".repeat(Math.max(0, t));
+      string += "\n";
       ++i;
     }
     return string;
