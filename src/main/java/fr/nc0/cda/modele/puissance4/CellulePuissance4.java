@@ -22,9 +22,9 @@ public enum CellulePuissance4 {
     // \u001B[31m red
 
     return switch (this) {
-      case VIDE -> "⬤";
-      case JAUNE -> "\u001B[33m⬤\u001B[0m";
-      case ROUGE -> "\u001B[31m⬤\u001B[0m";
+      case VIDE -> " ";
+      case JAUNE -> "\u001B[33mO\u001B[0m";
+      case ROUGE -> "\u001B[31mO\u001B[0m";
     };
   }
 }
