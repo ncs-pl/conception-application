@@ -22,16 +22,11 @@ public class ControleurNim extends ControleurTemplate {
   /** Une partie du jeu de Nim */
   private JeuNim nim;
 
-  /**
-   * Créer un contrôleur de jeu de Nim.
-   *
-   * @param ihm l'interface homme-machine.
-   */
-  public ControleurNim(Ihm ihm) {
-    super(ihm);
+  public ControleurNim(Ihm ihm, Joueur joueur1, Joueur joueur2) {
+    super(ihm, joueur1, joueur2);
 
     while (true) {
-      int tas = ihm.demanderInt("Saisissez le nombre de tas pour la partie");
+      int tas = ihm.demanderInt("Saisissez le nombre de tas pour les parties.");
       if (tas > 0) {
         nombreTas = tas;
         break;

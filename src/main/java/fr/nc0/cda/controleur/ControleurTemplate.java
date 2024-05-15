@@ -30,22 +30,13 @@ public abstract class ControleurTemplate {
   /** Le joueur courant. */
   protected Joueurs joueurCourant;
 
-  protected ControleurTemplate(Ihm ihm) {
+  protected ControleurTemplate(Ihm ihm, Joueur joueur1, Joueur joueur2) {
     this.ihm = ihm;
-    this.joueur1 = new Joueur(demanderNomJoueur(1));
-    this.joueur2 = new Joueur(demanderNomJoueur(2));
-    // TODO(nc0): autre façon de déterminer le joueur qui commence.
+    this.joueur1 = joueur1;
+    this.joueur2 = joueur2;
+    // TODO(nc0): check if a player in the IA (name="AI"), to determine who starts
+    // TODO(nc0): if no IA, then random...
     this.joueurCourant = Joueurs.JOUEUR_1;
-  }
-
-  /**
-   * Demande le nom d'un joueur
-   *
-   * @param numJoueur le numéro du joueur demandé
-   * @return le nom entré
-   */
-  private String demanderNomJoueur(int numJoueur) {
-    return ihm.demanderString("Saisissez le nom du joueur " + numJoueur);
   }
 
   /**
