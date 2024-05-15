@@ -79,7 +79,6 @@ public class ControleurPuissance4 extends ControleurTemplate {
     ChoixPuissance4 choix =
         (ChoixPuissance4) joueur.getStrategie().jouer(ihm, puissance4.getPlateau(), joueur);
 
-    // TODO(nc0): move Rotation counter logic in the Game Core itself
     if (choix.getCoup() == CoupPuissance4.ROTATION) {
       if (!rotationsActivees) {
         throw new CoupInvalideException("Les rotations ne sont pas autorisées cette partie.");
