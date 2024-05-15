@@ -30,9 +30,9 @@ public class StrategieHumainPuissance4 implements Strategie {
       } else if (input instanceof String) {
         switch (((String) input).toLowerCase()) {
           case "droite", "d", "horaire":
-            return new ChoixPuissance4(CoupPuissance4.ROTATION, RotationPuissance4.ANTI_HORAIRE, 0);
-          case "gauche", "g", "anti-horaire":
             return new ChoixPuissance4(CoupPuissance4.ROTATION, RotationPuissance4.HORAIRE, 0);
+          case "gauche", "g", "anti-horaire":
+            return new ChoixPuissance4(CoupPuissance4.ROTATION, RotationPuissance4.ANTI_HORAIRE, 0);
           default:
             ihm.afficherErreur(
                 "Veuillez choisir entre \"droite\" et \"gauche\", ou alors entrez un numéro de colonne.");

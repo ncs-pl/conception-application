@@ -27,11 +27,12 @@ public class PlateauPuissance4 implements Plateau {
 
     grille = new ArrayList<>(longueur);
     for (int i = 0; i < longueur; ++i) {
-      ArrayList<CellulePuissance4> cellules = new ArrayList<>(longueur);
-      for (int j = 0; j < longueur; ++j) {
-        cellules.add(CellulePuissance4.VIDE);
+      List<CellulePuissance4> colonne = new ArrayList<>(hauteur);
+      for (int j = 0; j < hauteur; ++j) {
+        colonne.add(CellulePuissance4.VIDE);
       }
-      grille.add(cellules);
+
+      grille.add(colonne);
     }
   }
 
@@ -54,16 +55,44 @@ public class PlateauPuissance4 implements Plateau {
   }
 
   /**
+   * Insère un jeton dans la colonne.
+   *
+   * @param colonne la colonne, entre 1 et la hauteur
+   * @param cellule le jeton
+   * @return la ligne dans laquelle la valeur a été insérée
+   */
+  public int insererCellule(int colonne, CellulePuissance4 cellule) {
+    if (colonne < 1 || colonne > longueur) {
+      throw new IllegalArgumentException("La colonne " + colonne + " est invalide");
+    }
+
+    if (verifierColonnePleine(colonne)) {
+      throw new IllegalArgumentException("Le colonne " + colonne + " est invalide");
+    }
+
+    for (int ligne = longueur; ligne > 0; --ligne) {
+      if (getCellule(colonne, ligne) == CellulePuissance4.VIDE) {
+        setCellule(colonne, ligne, cellule);
+        return ligne;
+      }
+    }
+
+    /* unreachable */
+    throw new IllegalArgumentException("La colonne " + colonne + " est invalide");
+  }
+
+  /**
    * Retourne la cellule à la position donnée.
    *
    * @param colonne la colonne de la cellule, entre 1 et la longueur de la grille.
    * @param ligne la ligne de la cellule, entre 1 et la hauteur de la grille.
    * @return la cellule à la position donnée, ou {@code null} si la position est invalide.
    */
-  public CellulePuissance4 get(int colonne, int ligne) {
+  public CellulePuissance4 getCellule(int colonne, int ligne) {
     if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > longueur) {
       return null;
     }
+
     return grille.get(ligne - 1).get(colonne - 1);
   }
 
@@ -74,16 +103,45 @@ public class PlateauPuissance4 implements Plateau {
    * @param ligne la ligne de la cellule, entre 1 et la hauteur de la grille.
    * @param cellule la nouvelle cellule.
    */
-  public void set(int colonne, int ligne, CellulePuissance4 cellule) {
+  public void setCellule(int colonne, int ligne, CellulePuissance4 cellule) {
     if (colonne < 1 || colonne > longueur) {
-      throw new IllegalArgumentException("colonne invalide");
+      throw new IllegalArgumentException("La colonne " + colonne + " est invalide");
     }
 
     if (ligne < 1 || ligne > hauteur) {
-      throw new IllegalArgumentException("ligne invalide");
+      throw new IllegalArgumentException("La ligne " + ligne + " est invalide");
     }
 
     grille.get(ligne - 1).set(colonne - 1, cellule);
+  }
+
+  /**
+   * Vérifie que la colonne demandée est pleine.
+   *
+   * @param colonne la colonne
+   * @return true si la colonne est pleine
+   */
+  public boolean verifierColonnePleine(int colonne) {
+    if (colonne < 1 || colonne > longueur) {
+      throw new IllegalArgumentException("La colonne " + colonne + " est invalide");
+    }
+
+    return getCellule(colonne, 1) != CellulePuissance4.VIDE;
+  }
+
+  /**
+   * Vérifie que le plateau soit plein.
+   *
+   * @return true si le plateau est plein
+   */
+  public boolean estPlein() {
+    for (int i = 1; i <= hauteur; ++i) {
+      if (!verifierColonnePleine(i)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @SuppressWarnings("StringConcatenationInLoop")
