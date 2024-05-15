@@ -14,18 +14,29 @@ public class Ihm {
   /** Prompt pour les demandes d'entrées d'utilisateur. */
   private static final String PROMPT = "> ";
 
+  /** INTERNAL */
+  private void sleep(int ms) {
+    try {
+      Thread.sleep(ms);
+    } catch (InterruptedException e) {
+      //noinspection CallToPrintStackTrace
+      e.printStackTrace();
+    }
+  }
+
+  /** INTERNAL */
+  private void printPrompt() {
+    sleep(170);
+    System.out.print(PROMPT);
+  }
+
   /**
    * Écris un message dans stdout.
    *
    * @param message le message à afficher
    */
   private void println(String message) {
-    try {
-      Thread.sleep(150);
-    } catch (InterruptedException e) {
-      //noinspection CallToPrintStackTrace
-      e.printStackTrace();
-    }
+    sleep(150);
     System.out.println(message);
   }
 
@@ -58,7 +69,7 @@ public class Ihm {
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
-      System.out.print(PROMPT);
+      printPrompt();
 
       if (scanner.hasNext()) {
         return scanner.nextLine();
@@ -80,7 +91,7 @@ public class Ihm {
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
-      System.out.print(PROMPT);
+      printPrompt();
 
       if (scanner.hasNextInt()) {
         return scanner.nextInt();
@@ -102,7 +113,7 @@ public class Ihm {
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
-      System.out.print(PROMPT);
+      printPrompt();
 
       if (scanner.hasNextInt()) {
         int[] choix = new int[2];
@@ -129,7 +140,7 @@ public class Ihm {
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
-      System.out.print(PROMPT);
+      printPrompt();
 
       if (scanner.hasNextInt()) {
         return scanner.nextInt();
@@ -150,7 +161,7 @@ public class Ihm {
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
-      System.out.print(PROMPT);
+      printPrompt();
 
       if (scanner.hasNext()) {
         switch (scanner.next().toLowerCase()) {
