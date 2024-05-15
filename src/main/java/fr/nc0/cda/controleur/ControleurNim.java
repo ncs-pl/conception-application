@@ -71,7 +71,6 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
-    // TODO(nc0): avoid casting?
     ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, nim.getPlateau(), joueur);
     nim.jouer(joueurCourant, choix);
   }
