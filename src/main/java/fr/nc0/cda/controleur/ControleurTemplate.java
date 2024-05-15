@@ -9,6 +9,7 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
+import fr.nc0.cda.modele.jeu.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.vue.Ihm;
 
@@ -17,22 +18,24 @@ import fr.nc0.cda.vue.Ihm;
  * méthode modèle" en français.
  */
 public abstract class ControleurTemplate {
+  /** IHM */
   protected final Ihm ihm;
 
-  /* Le premier joueur */
+  /** Le premier joueur */
   protected Joueur joueur1;
 
-  /* Le second joueur */
+  /** Le second joueur */
   protected Joueur joueur2;
 
-  /** Le joueur courant (1 ou 2) */
-  protected int joueurCourant = 1;
+  /** Le joueur courant. */
+  protected Joueurs joueurCourant;
 
   protected ControleurTemplate(Ihm ihm) {
     this.ihm = ihm;
-    // TODO(nc0): autre façon de déterminer le joueur qui commence.
     this.joueur1 = new Joueur(demanderNomJoueur(1));
     this.joueur2 = new Joueur(demanderNomJoueur(2));
+    // TODO(nc0): autre façon de déterminer le joueur qui commence.
+    this.joueurCourant = Joueurs.JOUEUR_1;
   }
 
   /**
@@ -82,20 +85,20 @@ public abstract class ControleurTemplate {
 
   /** Change le joueur courant au prochain joueur qui doit jouer. */
   private void changerJoueurCourant() {
-    if (joueurCourant == 1) joueurCourant = 2;
-    else joueurCourant = 1;
+    joueurCourant = joueurCourant == Joueurs.JOUEUR_1 ? Joueurs.JOUEUR_2 : Joueurs.JOUEUR_1;
   }
 
   /**
    * Retourne le joueur demandé.
    *
-   * @param numeroJoueur le numéro du joueur, 1 ou 2.
+   * @param joueur le numéro du joueur
    * @return le joueur correspondant.
    */
-  protected Joueur getJoueur(int numeroJoueur) {
-    // TODO(nc0): full pattern matching and nullplayer check
-    if (numeroJoueur == 2) return joueur2;
-    return joueur1;
+  protected Joueur getJoueur(Joueurs joueur) {
+    return switch (joueur) {
+      case JOUEUR_1 -> joueur1;
+      case JOUEUR_2 -> joueur2;
+    };
   }
 
   /** Jouer une partie de jeu. */
@@ -109,25 +112,26 @@ public abstract class ControleurTemplate {
         jouerCoup();
       } catch (CoupInvalideException | EtatPartieException e) {
         ihm.afficherErreur(e.getMessage());
+        continue; // Le joueur réessaye tant que son coup n'est pas valide.
       }
 
       changerJoueurCourant();
     }
 
     ihm.afficherMessage(this.creerAffichagePlateau());
-    EtatPartie etatPartie = this.getEtatPartie();
+    EtatPartie etat = this.getEtatPartie();
 
     Joueur gagnant;
     Joueur perdant;
-    if (etatPartie == EtatPartie.VICTOIRE_JOUEUR_1) {
-      gagnant = getJoueur(1);
-      perdant = getJoueur(2);
+    if (etat == EtatPartie.VICTOIRE_JOUEUR_1) {
+      gagnant = getJoueur(Joueurs.JOUEUR_1);
+      perdant = getJoueur(Joueurs.JOUEUR_2);
     } else {
-      gagnant = getJoueur(2);
-      perdant = getJoueur(1);
+      gagnant = getJoueur(Joueurs.JOUEUR_2);
+      perdant = getJoueur(Joueurs.JOUEUR_1);
     }
 
-    if (etatPartie == EtatPartie.MATCH_NUL) {
+    if (etat == EtatPartie.MATCH_NUL) {
       ihm.afficherMessage("Match nul!");
     } else {
       gagnant.incrementerVictoires();

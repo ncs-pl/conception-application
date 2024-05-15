@@ -42,14 +42,6 @@ public abstract class Jeu<P extends Plateau, C extends Choix> {
   }
 
   /**
-   * Vérifie que le choix donné correspond à un coup valide.
-   *
-   * @param choix le choix utilisateur
-   * @return true si le choix est valide
-   */
-  public abstract boolean verifierCoup(C choix);
-
-  /**
    * Jouer un coup de la partie
    *
    * @param joueur le joueur qui joue
