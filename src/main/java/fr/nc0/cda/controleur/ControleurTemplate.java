@@ -22,10 +22,10 @@ public abstract class ControleurTemplate {
   protected final Ihm ihm;
 
   /** Le premier joueur */
-  protected Joueur joueur1;
+  protected final Joueur joueur1;
 
   /** Le second joueur */
-  protected Joueur joueur2;
+  protected final Joueur joueur2;
 
   /** Le joueur courant. */
   protected Joueurs joueurCourant;
