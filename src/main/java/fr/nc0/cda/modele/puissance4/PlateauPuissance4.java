@@ -61,14 +61,9 @@ public class PlateauPuissance4 implements Plateau {
    * @return la cellule à la position donnée, ou {@code null} si la position est invalide.
    */
   public CellulePuissance4 get(int colonne, int ligne) {
-    if (colonne < 1 || colonne > longueur) {
-      throw new IllegalArgumentException("colonne invalide");
+    if (colonne < 1 || colonne > longueur || ligne < 1 || ligne > longueur) {
+      return null;
     }
-
-    if (ligne < 1 || ligne > hauteur) {
-      throw new IllegalArgumentException("ligne invalide");
-    }
-
     return grille.get(ligne - 1).get(colonne - 1);
   }
 
