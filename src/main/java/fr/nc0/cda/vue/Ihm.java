@@ -140,6 +140,25 @@ public class Ihm {
   }
 
   /**
+   * Demande un entier ou un string.
+   *
+   * @param question la question posée à l'utilisateur
+   * @return la valeur
+   */
+  public Object demanderIntOuString(String question) {
+    println(question);
+    Scanner scanner = new Scanner(System.in);
+    while (true) {
+      print(PROMPT);
+      if (scanner.hasNextInt()) {
+        return scanner.nextInt();
+      } else if (scanner.hasNextLine()) {
+        return scanner.nextLine();
+      }
+    }
+  }
+
+  /**
    * Demande un booléen à l'utilisateur (question fermée).
    *
    * @param question la question posée à l'utilisateur
@@ -149,7 +168,7 @@ public class Ihm {
     println(question);
     Scanner scanner = new Scanner(System.in);
     while (true) {
-      print("> ");
+      print(PROMPT);
       if (scanner.hasNext()) {
         switch (scanner.next().toLowerCase()) {
           case "oui", "o", "yes", "y", "true", "1", "on":

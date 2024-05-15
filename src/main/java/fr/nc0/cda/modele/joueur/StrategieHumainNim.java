@@ -18,7 +18,8 @@ public class StrategieHumainNim implements Strategie {
     int[] input =
         ihm.demanderDeuxInt(
             joueur.getNom()
-                + " a vous de jouer ! Rentrez le numéro du tas suivi du nombre d'allumettes que vous souhaitez enlever.");
+                + " a vous de jouer ! Rentrez le numéro du tas suivi du"
+                + " nombre d'allumettes que vous souhaitez enlever.");
     int tas = input[0];
     int allumettes = input[1];
     return new ChoixNim(tas, allumettes);
