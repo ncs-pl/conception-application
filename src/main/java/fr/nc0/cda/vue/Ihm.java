@@ -15,50 +15,19 @@ public class Ihm {
   private static final String PROMPT = "> ";
 
   /**
-   * Attend un certain nombre de millisecondes.
-   *
-   * @param ms le nombre de millisecondes à attendre
-   */
-  private void sleep(int ms) {
-    try {
-      Thread.sleep(ms);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
    * Écris un message dans stdout.
    *
    * @param message le message à afficher
    */
   private void println(String message) {
-    sleep(200);
+    try {
+      Thread.sleep(150);
+    } catch (InterruptedException e) {
+      //noinspection CallToPrintStackTrace
+      e.printStackTrace();
+    }
     System.out.println(message);
   }
-
-  /**
-   * Écris un message dans stdout sans retour à la ligne.
-   *
-   * @param message le message à afficher
-   */
-  private void print(String message) {
-    sleep(300);
-    System.out.print(message);
-  }
-
-  /**
-   * Écris un message dans stderr
-   *
-   * @param message le message d'erreur à afficher
-   */
-  private void eprintln(String message) {
-    System.err.println(message);
-  }
-
-  // ===========================================
-  //            Méthodes générales
-  // ===========================================
 
   /**
    * Affiche un message dans la console.
@@ -75,7 +44,7 @@ public class Ihm {
    * @param message le message d'erreur à afficher
    */
   public void afficherErreur(String message) {
-    eprintln(message);
+    System.err.println(message);
   }
 
   /**
@@ -87,11 +56,15 @@ public class Ihm {
   public String demanderString(String question) {
     println(question);
     Scanner scanner = new Scanner(System.in);
-    while (true) {
-      print(PROMPT);
-      if (scanner.hasNext()) return scanner.nextLine();
 
-      eprintln("Valeur entrée invalide");
+    while (true) {
+      System.out.print(PROMPT);
+
+      if (scanner.hasNext()) {
+        return scanner.nextLine();
+      }
+
+      afficherErreur("Valeur entrée invalide");
       scanner.nextLine();
     }
   }
@@ -105,11 +78,15 @@ public class Ihm {
   public int demanderInt(String question) {
     println(question);
     Scanner scanner = new Scanner(System.in);
-    while (true) {
-      print(PROMPT);
-      if (scanner.hasNextInt()) return scanner.nextInt();
 
-      eprintln("Valeur entrée non-numérique");
+    while (true) {
+      System.out.print(PROMPT);
+
+      if (scanner.hasNextInt()) {
+        return scanner.nextInt();
+      }
+
+      afficherErreur("Valeur entrée non-numérique");
       scanner.nextLine();
     }
   }
@@ -123,8 +100,10 @@ public class Ihm {
   public int[] demanderDeuxInt(String question) {
     println(question);
     Scanner scanner = new Scanner(System.in);
+
     while (true) {
-      print(PROMPT);
+      System.out.print(PROMPT);
+
       if (scanner.hasNextInt()) {
         int[] choix = new int[2];
         choix[0] = scanner.nextInt();
@@ -134,7 +113,7 @@ public class Ihm {
         }
       }
 
-      eprintln("Valeur entrée invalide");
+      afficherErreur("Valeur entrée invalide");
       scanner.nextLine();
     }
   }
@@ -148,8 +127,10 @@ public class Ihm {
   public Object demanderIntOuString(String question) {
     println(question);
     Scanner scanner = new Scanner(System.in);
+
     while (true) {
-      print(PROMPT);
+      System.out.print(PROMPT);
+
       if (scanner.hasNextInt()) {
         return scanner.nextInt();
       } else if (scanner.hasNextLine()) {
@@ -167,8 +148,10 @@ public class Ihm {
   public boolean demanderBoolean(String question) {
     println(question);
     Scanner scanner = new Scanner(System.in);
+
     while (true) {
-      print(PROMPT);
+      System.out.print(PROMPT);
+
       if (scanner.hasNext()) {
         switch (scanner.next().toLowerCase()) {
           case "oui", "o", "yes", "y", "true", "1", "on":
@@ -176,7 +159,7 @@ public class Ihm {
           case "non", "n", "no", "false", "0", "off":
             return false;
           default:
-            eprintln("Merci de ne rentrer que \"Oui\" ou \"Non\".");
+            afficherErreur("Merci de ne rentrer que \"Oui\" ou \"Non\".");
         }
 
         scanner.nextLine();
