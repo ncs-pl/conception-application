@@ -69,7 +69,6 @@ public class PlateauNim implements Plateau {
     this.tas.set(tas - 1, allumettesRestantes - allumettes);
   }
 
-  @Override
   public boolean estVide() {
     for (Integer t : tas) {
       if (t != 0) return false;

@@ -8,12 +8,5 @@ package fr.nc0.cda.modele.jeu;
 
 /** Le plateau du jeu en cours. */
 public interface Plateau {
-  /**
-   * Vérifie que le plateau soit vide
-   *
-   * @return true si le plateau est vide.
-   */
-  boolean estVide();
-
   String toString();
 }
