@@ -9,6 +9,7 @@ package fr.nc0.cda.controleur;
 import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
+import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.vue.Ihm;
@@ -69,9 +70,9 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
+    Joueur joueur = getJoueur(joueurCourant);
     // TODO(nc0): avoid casting?
-    ChoixNim choix =
-        (ChoixNim) getJoueur(joueurCourant).getStrategie().jouer(ihm, nim.getPlateau());
+    ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, nim.getPlateau(), joueur);
     nim.jouer(joueurCourant, choix);
   }
 }

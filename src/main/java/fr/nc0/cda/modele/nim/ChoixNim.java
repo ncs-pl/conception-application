@@ -16,7 +16,7 @@ public class ChoixNim implements Choix {
   /** Le nombre d'allumettes à retirer */
   private final int allumettes;
 
-  ChoixNim(int tas, int allumettes) {
+  public ChoixNim(int tas, int allumettes) {
     this.tas = tas;
     this.allumettes = allumettes;
   }
