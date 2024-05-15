@@ -104,6 +104,7 @@ public class PlateauPuissance4 implements Plateau {
     return true;
   }
 
+  @SuppressWarnings("StringConcatenationInLoop")
   @Override
   public String toString() {
     String string = "";

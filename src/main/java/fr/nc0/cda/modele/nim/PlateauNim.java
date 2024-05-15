@@ -77,6 +77,7 @@ public class PlateauNim implements Plateau {
     return true;
   }
 
+  @SuppressWarnings("StringConcatenationInLoop")
   @Override
   public String toString() {
     String string = "";
