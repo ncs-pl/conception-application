@@ -34,7 +34,8 @@ public class StrategieHumainPuissance4 implements Strategie {
           case "gauche", "g", "anti-horaire":
             return new ChoixPuissance4(CoupPuissance4.ROTATION, RotationPuissance4.HORAIRE, 0);
           default:
-            ihm.afficherErreur("Veuillez choisir \"droite\" et \"gauche\".");
+            ihm.afficherErreur(
+                "Veuillez choisir entre \"droite\" et \"gauche\", ou alors entrez un numéro de colonne.");
         }
       } else {
         ihm.afficherErreur("Entrée invalide."); /* unreachable */
