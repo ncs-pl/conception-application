@@ -21,5 +21,5 @@ public interface Strategie {
    * @param ihm - l'IHM pour communiquer avec le joueur, si besoin
    * @param plateau - le plateau du jeu actuel
    */
-  Choix jouer(Ihm ihm, Plateau plateau);
+  Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur);
 }

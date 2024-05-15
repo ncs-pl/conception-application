@@ -74,10 +74,10 @@ public class ControleurPuissance4 extends ControleurTemplate {
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
+    Joueur joueur = getJoueur(joueurCourant);
     // TODO(nc0): avoid casting?
     ChoixPuissance4 choix =
-        (ChoixPuissance4)
-            getJoueur(joueurCourant).getStrategie().jouer(ihm, puissance4.getPlateau());
+        (ChoixPuissance4) joueur.getStrategie().jouer(ihm, puissance4.getPlateau(), joueur);
 
     // TODO(nc0): move Rotation counter logic in the Game Core itself
     if (choix.getCoup() == CoupPuissance4.ROTATION) {

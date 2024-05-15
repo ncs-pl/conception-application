@@ -18,7 +18,7 @@ public class ChoixPuissance4 implements Choix {
   /** La colonne dans laquelle jouer, si le coup est une insertion */
   private final int colonne;
 
-  ChoixPuissance4(CoupPuissance4 coup, RotationPuissance4 rotation, int colonne) {
+  public ChoixPuissance4(CoupPuissance4 coup, RotationPuissance4 rotation, int colonne) {
     super();
     this.coup = coup;
     this.rotation = rotation;
