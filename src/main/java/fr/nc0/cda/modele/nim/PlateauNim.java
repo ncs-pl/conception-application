@@ -71,7 +71,9 @@ public class PlateauNim implements Plateau {
 
   public boolean estVide() {
     for (Integer t : tas) {
-      if (t != 0) return false;
+      if (t != 0) {
+        return false;
+      }
     }
     return true;
   }

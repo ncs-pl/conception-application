@@ -13,9 +13,6 @@ public class JeuNim extends Jeu<PlateauNim, ChoixNim> {
   /** Contrainte sur le nombre maximal d'allumettes à retirer par coup (0 → pas de contrainte). */
   private final int contrainte;
 
-  /** État de la partie. */
-  private EtatPartie etatPartie = EtatPartie.EN_COURS;
-
   /** Le nombre de tas de la partie */
   private final int nombreTas;
 
