@@ -190,7 +190,8 @@ public class JeuPuissance4 extends Jeu<PlateauPuissance4, ChoixPuissance4> {
                   continue;
                 }
 
-                nouveauPlateau.insererCellule(longueur + 1 - colonne, cellule);
+                // TODO(nc0): FIX THIS FORMULA
+                nouveauPlateau.insererCellule(hauteur + 1 - colonne, cellule);
               }
             }
           }
