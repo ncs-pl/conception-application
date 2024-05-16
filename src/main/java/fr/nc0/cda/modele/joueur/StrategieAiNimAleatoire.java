@@ -16,19 +16,21 @@ import java.util.List;
 import java.util.Random;
 
 public class StrategieAiNimAleatoire implements Strategie {
-    @Override
-    public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
-        PlateauNim nim = (PlateauNim) plateau;
-        List<Integer> tasValide = new ArrayList<>();
-        Random rand = new Random();
+  @Override
+  public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
+    PlateauNim nim = (PlateauNim) plateau;
+    Random rand = new Random();
 
-        for (int i = 1; i <= nim.taille; ++i) {
-            if (nim.getAllumettesRestantes(i) > 0) {
-                tasValide.add(i);
-            }
-        }
-
-        int tasChoix = tasValide.get(rand.nextInt(tasValide.size()));
-        return new ChoixNim(tasChoix, rand.nextInt(Math.min(nim.getAllumettesRestantes(tasChoix), ((PlateauNim) plateau).contrainte)) + 1);
+    List<Integer> tasValide = new ArrayList<>();
+    for (int i = 1; i <= nim.getTaille(); ++i) {
+      if (nim.getAllumettesRestantes(i) > 0) {
+        tasValide.add(i);
+      }
     }
+
+    int tas = tasValide.get(rand.nextInt(tasValide.size()));
+    int allumettesRestantes = nim.getAllumettesRestantes(tas);
+    int allumettes = rand.nextInt(Math.min(allumettesRestantes, nim.getContrainte())) + 1;
+    return new ChoixNim(tas, allumettes);
+  }
 }
