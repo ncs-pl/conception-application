@@ -8,6 +8,9 @@ package fr.nc0.cda.modele.joueur;
 
 /** Représente une partie d'un jeu. */
 public class Joueur {
+  /** Nom du joueur AI */
+  public static final String NOM_AI = "AI";
+
   /** Le nom du joueur. */
   private final String nom;
 
@@ -45,6 +48,15 @@ public class Joueur {
   /** Modifie la stratégie du joueur */
   public void setStrategie(Strategie strategie) {
     this.strategie = strategie;
+  }
+
+  /**
+   * Vérifie que le jouer est une IA ou non.
+   *
+   * @return true si AI
+   */
+  public boolean estAI() {
+    return nom.equalsIgnoreCase(Joueur.NOM_AI);
   }
 
   @Override

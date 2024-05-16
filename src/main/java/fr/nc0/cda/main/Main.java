@@ -27,7 +27,7 @@ public class Main {
   private static Joueur initialiserJoueurHumain(int num, Jeux jeu, Ihm ihm) {
     while (true) {
       String nom = ihm.demanderString("Joueur " + num + ", quel est votre nom ?");
-      if (nom.equalsIgnoreCase("ai")) {
+      if (nom.equalsIgnoreCase(Joueur.NOM_AI)) {
         ihm.afficherErreur("Vous ne pouvez pas vous appeler ainsi.");
         continue;
       }
@@ -68,7 +68,7 @@ public class Main {
 
     boolean ai = ihm.demanderBoolean("Voulez-vous jouer contre une AI ?");
     Joueur joueur1 = initialiserJoueurHumain(1, jeu, ihm);
-    Joueur joueur2 = ai ? new Joueur("AI") : initialiserJoueurHumain(2, jeu, ihm);
+    Joueur joueur2 = ai ? new Joueur(Joueur.NOM_AI) : initialiserJoueurHumain(2, jeu, ihm);
 
     ControleurTemplate controleur =
         switch (jeu) {
