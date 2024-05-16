@@ -16,34 +16,32 @@ public class StrategieAiGagnanteNim implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
     PlateauNim nim = (PlateauNim) plateau;
-    int resultatXor = 0;
+    int taille = nim.getTaille();
 
-    for (int i = 1; i <= nim.taille; ++i) {
+    int resultatXor = 0;
+    for (int i = 1; i <= taille; ++i) {
       resultatXor ^= nim.getAllumettesRestantes(i);
     }
 
-    int allumettes = 0;
-    int tas = 0;
-
+    // Si aucune idée, on enlève une allumette là où possible
     if (resultatXor == 0) {
-      allumettes = 1;
-      for (int i = 1; i <= nim.taille; ++i) {
+      for (int i = 1; i <= taille; ++i) {
         if (nim.getAllumettesRestantes(i) != 0) {
-          tas = i;
-          break;
-        }
-      }
-    } else {
-      for (int i = 1; i <= nim.taille; ++i) {
-        int nb = resultatXor ^ nim.getAllumettesRestantes(i);
-        if (nb < nim.getAllumettesRestantes(i)) {
-          allumettes = nim.getAllumettesRestantes(i) - nb;
-          tas = i;
-          break;
+          return new ChoixNim(i, 1);
         }
       }
     }
 
-    return new ChoixNim(tas, allumettes);
+    for (int i = 1; i <= taille; ++i) {
+      int allumettesRestantes = nim.getAllumettesRestantes(i);
+      int aRetirer = resultatXor ^ allumettesRestantes;
+
+      if (aRetirer < allumettesRestantes) {
+        return new ChoixNim(i, allumettesRestantes - aRetirer);
+      }
+    }
+
+    /* unreachable */
+    return new ChoixNim(1, 1);
   }
 }
