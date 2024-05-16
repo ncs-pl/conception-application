@@ -29,7 +29,7 @@ public class PlateauNim implements Plateau {
 
     tas = new ArrayList<>(taille);
     for (int i = 1; i <= taille; ++i) {
-      // le tas i dispose de 2^i - 1 allumettes
+      // le tas i dispose de 2*i - 1 allumettes
       tas.add(2 * i - 1);
     }
   }
