@@ -7,7 +7,6 @@
 package fr.nc0.cda.modele.nim;
 
 import fr.nc0.cda.modele.jeu.Plateau;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +119,7 @@ public class PlateauNim implements Plateau {
     PlateauNim copie = new PlateauNim(taille, contrainte);
 
     for (int i = 1; i <= taille; ++i) {
-      int allumettes = tas.get(i);
+      int allumettes = tas.get(i - 1);
       copie.setAllumettes(i, allumettes);
     }
 
