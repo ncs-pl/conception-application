@@ -97,13 +97,13 @@ public class StrategieAiSimplePuissance4 implements Strategie {
         PlateauPuissance4 test = p4.dupliquer();
         test.insererCellule(colonneTest, CellulePuissance4.JAUNE);
 
-        PlateauPuissance4 testRotationHoraire = p4.dupliquer();
+        PlateauPuissance4 testRotationHoraire = test.dupliquer();
         testRotationHoraire.rotationner(RotationPuissance4.HORAIRE);
         if (testRotationHoraire.verifierVictoire() == EtatPartie.VICTOIRE_JOUEUR_1) {
           continue;
         }
 
-        PlateauPuissance4 testRotationAntiHoraire = p4.dupliquer();
+        PlateauPuissance4 testRotationAntiHoraire = test.dupliquer();
         testRotationAntiHoraire.rotationner(RotationPuissance4.ANTI_HORAIRE);
         if (testRotationAntiHoraire.verifierVictoire() == EtatPartie.VICTOIRE_JOUEUR_1) {
           continue;
