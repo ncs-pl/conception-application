@@ -10,8 +10,8 @@ import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
-import fr.nc0.cda.modele.joueur.StrategieAINimAleatoire;
-import fr.nc0.cda.modele.joueur.StrategieGagnanteNim;
+import fr.nc0.cda.modele.joueur.StrategieAiGagnanteNim;
+import fr.nc0.cda.modele.joueur.StrategieAiNimAleatoire;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.vue.Ihm;
@@ -51,26 +51,24 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void initialiserPartie() {
     if (joueur2.getNom().equalsIgnoreCase("ai")) {
-      while (joueur2.getStrategie() == null) {
+      strategie:
+      while (true) {
         String strategie =
-            ihm.demanderString("Choisissez la strategie de l'IA (Gagnante/Aleatoire) : ")
+            ihm.demanderString("Choisissez la stratégie de l'IA (Gagnante/Aléatoire) : ")
                 .toLowerCase();
         switch (strategie) {
-            case "aleatoire", "a" : {
-                    joueur2.setStrategie(new StrategieAINimAleatoire());
-                    break;
-                }
+          case "aléatoire", "aleatoire", "a":
+            joueur2.setStrategie(new StrategieAiNimAleatoire());
+            break strategie;
           case "gagnante", "g":
-            {
-              joueur2.setStrategie(new StrategieGagnanteNim());
-              break;
-            }
+            joueur2.setStrategie(new StrategieAiGagnanteNim());
+            break strategie;
           default:
-            ihm.afficherErreur("La strategie n'existe pas.");
+            ihm.afficherErreur("La stratégie n'existe pas.");
         }
       }
     }
-    
+
     while (true) {
       int contrainte =
           ihm.demanderInt(
