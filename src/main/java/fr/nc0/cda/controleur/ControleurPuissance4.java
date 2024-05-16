@@ -87,8 +87,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
-    ChoixPuissance4 choix =
-        (ChoixPuissance4) joueur.getStrategie().jouer(ihm, puissance4.getPlateau(), joueur);
+    PlateauPuissance4 plateau = puissance4.getPlateau().dupliquer();
+    ChoixPuissance4 choix = (ChoixPuissance4) joueur.getStrategie().jouer(ihm, plateau, joueur);
 
     if (choix.getCoup() == CoupPuissance4.ROTATION) {
       if (!rotationsActivees) {
