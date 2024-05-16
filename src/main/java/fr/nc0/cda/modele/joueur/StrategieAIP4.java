@@ -155,7 +155,7 @@ public class StrategieAIP4 implements Strategie {
         CellulePuissance4 aA = plateau.getCellule(colonne - 3, ligne - 3);
         CellulePuissance4 bB = plateau.getCellule(colonne - 2, ligne - 2);
         CellulePuissance4 cC = plateau.getCellule(colonne - 1, ligne - 1);
-        CellulePuissance4 eE = plateau.getCellule(colonne + 1, ligne);
+        CellulePuissance4 eE = plateau.getCellule(colonne + 1, ligne + 1);
         CellulePuissance4 fF = plateau.getCellule(colonne + 2, ligne + 2);
         CellulePuissance4 gG = plateau.getCellule(colonne + 3, ligne + 3);
         if(verifierVictoireLigne(cellule, aA, bB, cC, eE, fF, gG)){
@@ -165,7 +165,7 @@ public class StrategieAIP4 implements Strategie {
         CellulePuissance4 aG = plateau.getCellule(colonne - 3, ligne + 3);
         CellulePuissance4 bF = plateau.getCellule(colonne - 2, ligne + 2);
         CellulePuissance4 cE = plateau.getCellule(colonne - 1, ligne + 1);
-        CellulePuissance4 eC = plateau.getCellule(colonne + 1, ligne);
+        CellulePuissance4 eC = plateau.getCellule(colonne + 1, ligne - 1);
         CellulePuissance4 fB = plateau.getCellule(colonne + 2, ligne - 2);
         CellulePuissance4 gA = plateau.getCellule(colonne + 3, ligne - 3);
         if(verifierVictoireLigne(cellule, gA, fB, eC, cE, bF, aG)){
