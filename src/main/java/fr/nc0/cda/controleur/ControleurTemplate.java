@@ -95,7 +95,9 @@ public abstract class ControleurTemplate {
     initialiserPartie();
 
     while (this.getEtatPartie() == EtatPartie.EN_COURS) {
-      ihm.afficherMessage(this.creerAffichagePlateau());
+      if (!getJoueur(joueurCourant).estAI()) {
+        ihm.afficherMessage(this.creerAffichagePlateau());
+      }
 
       try {
         jouerCoup();
