@@ -34,8 +34,7 @@ public abstract class ControleurTemplate {
     this.ihm = ihm;
     this.joueur1 = joueur1;
     this.joueur2 = joueur2;
-    this.joueurCourant =
-        joueur1.getNom().equalsIgnoreCase("ai") ? Joueurs.JOUEUR_2 : Joueurs.JOUEUR_1;
+    this.joueurCourant = joueur1.estAI() ? Joueurs.JOUEUR_2 : Joueurs.JOUEUR_1;
   }
 
   /**

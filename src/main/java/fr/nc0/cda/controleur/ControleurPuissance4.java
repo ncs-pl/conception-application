@@ -68,7 +68,7 @@ public class ControleurPuissance4 extends ControleurTemplate {
       rotationsRestantesJoueur2 = ROTATIONS_DISPONIBLES_DEFAUT;
     }
 
-    if (joueur2.getNom().equalsIgnoreCase("ai")) {
+    if (joueur2.estAI()) {
       // TODO(YOUNES): remplace null par ta stratégie bonus, et supprime ce commentaire
       Strategie strategie = rotationsActivees ? new StrategieAiSimplePuissance4() : null;
       joueur2.setStrategie(strategie);

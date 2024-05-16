@@ -65,7 +65,7 @@ public class ControleurNim extends ControleurTemplate {
 
       nim = new JeuNim(nombreTas, contrainte);
 
-      if (joueur2.getNom().equalsIgnoreCase("ai")) {
+      if (joueur2.estAI()) {
         Strategie strategie =
             contrainte == 0 ? new StrategieAiGagnanteNim() : new StrategieAiNimAleatoire();
         joueur2.setStrategie(strategie);
