@@ -59,7 +59,7 @@ public class JeuNim extends Jeu<PlateauNim, ChoixNim> {
 
     if (plateau.estVide()) {
       etatPartie =
-          joueur == Joueurs.JOUEUR_1 ? EtatPartie.VICTOIRE_JOUEUR_2 : EtatPartie.VICTOIRE_JOUEUR_1;
+          joueur == Joueurs.JOUEUR_1 ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
     }
   }
 }
