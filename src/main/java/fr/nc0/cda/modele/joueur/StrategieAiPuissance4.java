@@ -7,16 +7,14 @@
 package fr.nc0.cda.modele.joueur;
 
 import fr.nc0.cda.modele.jeu.Choix;
-import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.Plateau;
-import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StrategieAIP4 implements Strategie {
+public class StrategieAiPuissance4 implements Strategie {
     @Override
     public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
 
