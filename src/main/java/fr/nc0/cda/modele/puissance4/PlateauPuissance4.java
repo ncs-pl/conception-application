@@ -344,9 +344,9 @@ public class PlateauPuissance4 implements Plateau {
    */
   public PlateauPuissance4 dupliquer() {
     PlateauPuissance4 copie = new PlateauPuissance4(longueur, hauteur);
-    for (int ligne = 1; ligne <= longueur; ++ligne) {
+    for (int ligne = 1; ligne <= hauteur; ++ligne) {
       for (int colonne = 1; colonne <= longueur; ++colonne) {
-        CellulePuissance4 cellule = getCellule(ligne, colonne);
+        CellulePuissance4 cellule = getCellule(colonne, ligne);
         if (cellule == CellulePuissance4.VIDE) {
           continue;
         }

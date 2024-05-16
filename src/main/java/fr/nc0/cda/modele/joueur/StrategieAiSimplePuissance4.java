@@ -108,7 +108,6 @@ public class StrategieAiSimplePuissance4 implements Strategie {
         if (testRotationAntiHoraire.verifierVictoire() == EtatPartie.VICTOIRE_JOUEUR_1) {
           continue;
         }
-
         // L'insertion ne permet pas à l'adversaire de gagner, alors on l'effectue.
         return new ChoixPuissance4(CoupPuissance4.INSERTION, null, colonneTest);
       }
