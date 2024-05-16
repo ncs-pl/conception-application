@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.jeu;
+package fr.nc0.cda.modele;
 
 /** Exception levée lorsqu'un coup est invalide. */
 public class CoupInvalideException extends Exception {

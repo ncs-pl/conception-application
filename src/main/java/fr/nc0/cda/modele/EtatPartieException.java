@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.jeu;
+package fr.nc0.cda.modele;
 
 /** Exception lancée lorsqu'une action est tentée alors que la partie est terminée. */
 public class EtatPartieException extends Exception {

@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.modele.nim;
 
-import fr.nc0.cda.modele.jeu.*;
+import fr.nc0.cda.modele.*;
 
 /** Représente une partie du jeu de Nim. */
 public class JeuNim extends Jeu<PlateauNim, ChoixNim> {

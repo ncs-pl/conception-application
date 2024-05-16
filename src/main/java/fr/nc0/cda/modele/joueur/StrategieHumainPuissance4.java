@@ -6,8 +6,8 @@
 
 package fr.nc0.cda.modele.joueur;
 
-import fr.nc0.cda.modele.jeu.Choix;
-import fr.nc0.cda.modele.jeu.Plateau;
+import fr.nc0.cda.modele.Choix;
+import fr.nc0.cda.modele.Plateau;
 import fr.nc0.cda.modele.puissance4.ChoixPuissance4;
 import fr.nc0.cda.modele.puissance4.CoupPuissance4;
 import fr.nc0.cda.modele.puissance4.RotationPuissance4;

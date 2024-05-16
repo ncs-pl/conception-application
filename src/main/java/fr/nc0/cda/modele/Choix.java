@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.jeu;
+package fr.nc0.cda.modele;
 
 /**
  * Choix est une classe qui représente les inputs des utilisateurs en les stockants dans une liste à

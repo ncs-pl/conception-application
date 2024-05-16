@@ -4,7 +4,7 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.jeu;
+package fr.nc0.cda.modele;
 
 /** Jeu représente un jeu à deux joueurs pouvant être implémenté dans notre moteur de jeu. */
 public abstract class Jeu<P extends Plateau, C extends Choix> {

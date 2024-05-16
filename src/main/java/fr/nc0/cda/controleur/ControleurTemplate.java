@@ -6,10 +6,10 @@
 
 package fr.nc0.cda.controleur;
 
-import fr.nc0.cda.modele.jeu.CoupInvalideException;
-import fr.nc0.cda.modele.jeu.EtatPartie;
-import fr.nc0.cda.modele.jeu.EtatPartieException;
-import fr.nc0.cda.modele.jeu.Joueurs;
+import fr.nc0.cda.modele.CoupInvalideException;
+import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.EtatPartieException;
+import fr.nc0.cda.modele.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.vue.Ihm;
 

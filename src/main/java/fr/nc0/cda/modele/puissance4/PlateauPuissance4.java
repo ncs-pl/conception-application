@@ -6,8 +6,8 @@
 
 package fr.nc0.cda.modele.puissance4;
 
-import fr.nc0.cda.modele.jeu.EtatPartie;
-import fr.nc0.cda.modele.jeu.Plateau;
+import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.Plateau;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +17,10 @@ public class PlateauPuissance4 implements Plateau {
   private final List<List<CellulePuissance4>> grille;
 
   /** La longueur de la grille */
-  private int longueur;
+  private final int longueur;
 
   /** La hauteur de la grille */
-  private int hauteur;
+  private final int hauteur;
 
   public PlateauPuissance4(int longueur, int hauteur) {
     this.longueur = longueur;

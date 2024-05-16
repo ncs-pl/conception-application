@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.modele.puissance4;
 
-import fr.nc0.cda.modele.jeu.*;
+import fr.nc0.cda.modele.*;
 
 /** Représente une partie de Puissance 4. */
 public class JeuPuissance4 extends Jeu<PlateauPuissance4, ChoixPuissance4> {

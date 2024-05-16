@@ -4,9 +4,12 @@
  * that can be found in the COPYRIGHT file.
  */
 
-package fr.nc0.cda.modele.jeu;
+package fr.nc0.cda.modele;
 
-/** Le plateau du jeu en cours. */
-public interface Plateau {
-  String toString();
+/** Les joueurs possibles dans nos jeux */
+public enum Joueurs {
+  /** Le premier joueur */
+  JOUEUR_1,
+  /** Le second joueur */
+  JOUEUR_2
 }

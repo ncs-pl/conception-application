@@ -6,9 +6,9 @@
 
 package fr.nc0.cda.modele.joueur;
 
-import fr.nc0.cda.modele.jeu.Choix;
-import fr.nc0.cda.modele.jeu.EtatPartie;
-import fr.nc0.cda.modele.jeu.Plateau;
+import fr.nc0.cda.modele.Choix;
+import fr.nc0.cda.modele.EtatPartie;
+import fr.nc0.cda.modele.Plateau;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;

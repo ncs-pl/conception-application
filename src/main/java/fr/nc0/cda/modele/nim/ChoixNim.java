@@ -6,7 +6,7 @@
 
 package fr.nc0.cda.modele.nim;
 
-import fr.nc0.cda.modele.jeu.Choix;
+import fr.nc0.cda.modele.Choix;
 
 /** Les choix possibles pour jouer au jeu de Nim. */
 public class ChoixNim implements Choix {
