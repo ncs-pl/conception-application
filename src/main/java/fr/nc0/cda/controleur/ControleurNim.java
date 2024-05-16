@@ -10,6 +10,7 @@ import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.StrategieGagnanteNim;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.vue.Ihm;
@@ -48,6 +49,23 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   void initialiserPartie() {
+    if (joueur2.getNom().equalsIgnoreCase("ai")) {
+      while (joueur2.getStrategie() == null) {
+        String strategie =
+            ihm.demanderString("Choisissez la strategie de l'IA (Gagnante/Aleatoire) : ")
+                .toLowerCase();
+        switch (strategie) {
+          case "gagnante", "g":
+            {
+              joueur2.setStrategie(new StrategieGagnanteNim());
+              break;
+            }
+          default:
+            ihm.afficherErreur("La strategie n'existe pas.");
+        }
+      }
+    }
+
     while (true) {
       int contrainte =
           ihm.demanderInt(
