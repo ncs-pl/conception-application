@@ -165,4 +165,5 @@ public class PlateauPuissance4 implements Plateau {
 
     return string;
   }
+
 }
