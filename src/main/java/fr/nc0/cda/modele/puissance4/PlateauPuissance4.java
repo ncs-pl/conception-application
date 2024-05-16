@@ -202,7 +202,7 @@ public class PlateauPuissance4 implements Plateau {
           nouveauPlateau.insererCellule(hauteur + 1 - ligne, cellule);
         }
       } else {
-        for (int colonne = 1; colonne < longueur; ++colonne) {
+        for (int colonne = 1; colonne <= longueur; ++colonne) {
           CellulePuissance4 cellule = getCellule(colonne, ligne);
           if (cellule == CellulePuissance4.VIDE) {
             continue;
