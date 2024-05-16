@@ -168,9 +168,9 @@ public class StrategieAiSimplePuissance4 implements Strategie {
       int decalageColonne,
       int decalageLigne) {
     if (colonne < 1
-        || colonne < plateau.getLongueur()
+        || colonne > plateau.getLongueur()
         || ligne < 1
-        || ligne < plateau.getHauteur()) {
+        || ligne > plateau.getHauteur()) {
       return 0;
     }
 
