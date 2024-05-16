@@ -10,6 +10,7 @@ import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.Strategie;
 import fr.nc0.cda.modele.joueur.StrategieAiGagnanteNim;
 import fr.nc0.cda.modele.joueur.StrategieAiNimAleatoire;
 import fr.nc0.cda.modele.nim.ChoixNim;
@@ -51,25 +52,26 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void initialiserPartie() {
     while (true) {
-        int contrainte =
-            ihm.demanderInt(
-                "Saisissez le nombre maximal d'allumettes à retirer par "
-                    + "coup, ou 0 pour ne pas mettre de contrainte");
+      int contrainte =
+          ihm.demanderInt(
+              "Saisissez le nombre maximal d'allumettes à retirer par "
+                  + "coup, ou 0 pour ne pas mettre de contrainte");
 
-        if (contrainte >= 0) {
-            nim = new JeuNim(nombreTas, contrainte);
-            if (joueur2.getNom().equalsIgnoreCase("ai")){
-                if (contrainte == 0){
-                    joueur2.setStrategie(new StrategieAiGagnanteNim());
-                } else {
-                    joueur2.setStrategie(new StrategieAiNimAleatoire());
-                }
-            }
-            break;
-        }
-
+      if (contrainte < 0) {
         ihm.afficherErreur("La contrainte ne peut pas être négative");
+        continue;
       }
+
+      nim = new JeuNim(nombreTas, contrainte);
+
+      if (joueur2.getNom().equalsIgnoreCase("ai")) {
+        Strategie strategie =
+            contrainte == 0 ? new StrategieAiGagnanteNim() : new StrategieAiNimAleatoire();
+        joueur2.setStrategie(strategie);
+      }
+
+      break;
+    }
   }
 
   @Override

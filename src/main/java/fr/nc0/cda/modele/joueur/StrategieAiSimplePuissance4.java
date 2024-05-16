@@ -14,7 +14,7 @@ import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StrategieAiPuissance4 implements Strategie {
+public class StrategieAiSimplePuissance4 implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
     // Rappel, l'AI est la cellule jaune/le joueur 2.
