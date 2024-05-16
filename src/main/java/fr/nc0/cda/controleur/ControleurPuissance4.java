@@ -11,6 +11,7 @@ import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.jeu.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.StrategieAIP4;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 
@@ -65,6 +66,21 @@ public class ControleurPuissance4 extends ControleurTemplate {
       rotationsRestantesJoueur1 = ROTATIONS_DISPONIBLES_DEFAUT;
       rotationsRestantesJoueur2 = ROTATIONS_DISPONIBLES_DEFAUT;
     }
+    if (joueur2.getNom().equalsIgnoreCase("ai")) {
+        strategie:
+        while (true) {
+            String strategie =
+                ihm.demanderString("Choisissez la stratégie de l'IA (Classique/Bonus) : ")
+                    .toLowerCase();
+            switch (strategie) {
+                case "classique", "c":
+                    joueur2.setStrategie(new StrategieAIP4());
+                    break strategie;
+                default:
+                    ihm.afficherErreur("La stratégie n'existe pas.");
+            }
+          }
+      }
   }
 
   @Override
