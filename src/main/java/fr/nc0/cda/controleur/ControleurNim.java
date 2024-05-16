@@ -15,6 +15,7 @@ import fr.nc0.cda.modele.joueur.StrategieAiGagnanteNim;
 import fr.nc0.cda.modele.joueur.StrategieAiNimAleatoire;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
+import fr.nc0.cda.modele.nim.PlateauNim;
 import fr.nc0.cda.vue.Ihm;
 
 /** Contrôleur du jeu de Nim. */
@@ -77,7 +78,8 @@ public class ControleurNim extends ControleurTemplate {
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
-    ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, nim.getPlateau(), joueur);
+    PlateauNim plateau = nim.getPlateau().dupliquer();
+    ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, plateau, joueur);
     nim.jouer(joueurCourant, choix);
   }
 }
