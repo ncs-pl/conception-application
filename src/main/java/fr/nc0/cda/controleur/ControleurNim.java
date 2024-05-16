@@ -10,6 +10,7 @@ import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.StrategieAINimAleatoire;
 import fr.nc0.cda.modele.joueur.StrategieGagnanteNim;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
@@ -55,6 +56,10 @@ public class ControleurNim extends ControleurTemplate {
             ihm.demanderString("Choisissez la strategie de l'IA (Gagnante/Aleatoire) : ")
                 .toLowerCase();
         switch (strategie) {
+            case "aleatoire", "a" : {
+                    joueur2.setStrategie(new StrategieAINimAleatoire());
+                    break;
+                }
           case "gagnante", "g":
             {
               joueur2.setStrategie(new StrategieGagnanteNim());
@@ -65,7 +70,7 @@ public class ControleurNim extends ControleurTemplate {
         }
       }
     }
-
+    
     while (true) {
       int contrainte =
           ihm.demanderInt(
