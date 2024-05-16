@@ -50,38 +50,26 @@ public class ControleurNim extends ControleurTemplate {
 
   @Override
   void initialiserPartie() {
-    if (joueur2.getNom().equalsIgnoreCase("ai")) {
-      strategie:
-      while (true) {
-        String strategie =
-            ihm.demanderString("Choisissez la stratégie de l'IA (Gagnante/Aléatoire) : ")
-                .toLowerCase();
-        switch (strategie) {
-          case "aléatoire", "aleatoire", "a":
-            joueur2.setStrategie(new StrategieAiNimAleatoire());
-            break strategie;
-          case "gagnante", "g":
-            joueur2.setStrategie(new StrategieAiGagnanteNim());
-            break strategie;
-          default:
-            ihm.afficherErreur("La stratégie n'existe pas.");
-        }
-      }
-    }
-
     while (true) {
-      int contrainte =
-          ihm.demanderInt(
-              "Saisissez le nombre maximal d'allumettes à retirer par "
-                  + "coup, ou 0 pour ne pas mettre de contrainte");
+        int contrainte =
+            ihm.demanderInt(
+                "Saisissez le nombre maximal d'allumettes à retirer par "
+                    + "coup, ou 0 pour ne pas mettre de contrainte");
 
-      if (contrainte >= 0) {
-        nim = new JeuNim(nombreTas, contrainte);
-        break;
+        if (contrainte >= 0) {
+            nim = new JeuNim(nombreTas, contrainte);
+            if (joueur2.getNom().equalsIgnoreCase("ai")){
+                if (contrainte == 0){
+                    joueur2.setStrategie(new StrategieAiGagnanteNim());
+                } else {
+                    joueur2.setStrategie(new StrategieAiNimAleatoire());
+                }
+            }
+            break;
+        }
+
+        ihm.afficherErreur("La contrainte ne peut pas être négative");
       }
-
-      ihm.afficherErreur("La contrainte ne peut pas être négative");
-    }
   }
 
   @Override
