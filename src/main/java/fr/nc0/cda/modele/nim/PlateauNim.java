@@ -103,8 +103,8 @@ public class PlateauNim implements Plateau {
       throw new IllegalArgumentException("Index de tas invalide");
     }
 
-    if (allumettes < 1) {
-      throw new IllegalArgumentException("Nombre d' allumettes invalide");
+    if (allumettes < 0) {
+      throw new IllegalArgumentException("Nombre d'allumettes négatif");
     }
 
     this.tas.set(tas - 1, allumettes);
