@@ -71,7 +71,7 @@ public class PlateauNim implements Plateau {
       throw new IllegalArgumentException("Nombre d'allumettes invalide");
     }
 
-    if (allumettes > contrainte) {
+    if (allumettes > contrainte && contrainte != 0) {
       throw new IllegalArgumentException("Contrainte non respectée");
     }
 
