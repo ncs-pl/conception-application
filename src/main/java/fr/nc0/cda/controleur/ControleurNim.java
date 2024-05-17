@@ -10,8 +10,12 @@ import fr.nc0.cda.modele.jeu.CoupInvalideException;
 import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
+import fr.nc0.cda.modele.joueur.Strategie;
+import fr.nc0.cda.modele.joueur.StrategieAiGagnanteNim;
+import fr.nc0.cda.modele.joueur.StrategieAiNimAleatoire;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
+import fr.nc0.cda.modele.nim.PlateauNim;
 import fr.nc0.cda.vue.Ihm;
 
 /** Contrôleur du jeu de Nim. */
@@ -54,19 +58,28 @@ public class ControleurNim extends ControleurTemplate {
               "Saisissez le nombre maximal d'allumettes à retirer par "
                   + "coup, ou 0 pour ne pas mettre de contrainte");
 
-      if (contrainte >= 0) {
-        nim = new JeuNim(nombreTas, contrainte);
-        break;
+      if (contrainte < 0) {
+        ihm.afficherErreur("La contrainte ne peut pas être négative");
+        continue;
       }
 
-      ihm.afficherErreur("La contrainte ne peut pas être négative");
+      nim = new JeuNim(nombreTas, contrainte);
+
+      if (joueur2.estAI()) {
+        Strategie strategie =
+            contrainte == 0 ? new StrategieAiGagnanteNim() : new StrategieAiNimAleatoire();
+        joueur2.setStrategie(strategie);
+      }
+
+      break;
     }
   }
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
-    ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, nim.getPlateau(), joueur);
+    PlateauNim plateau = nim.getPlateau().dupliquer();
+    ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, plateau, joueur);
     nim.jouer(joueurCourant, choix);
   }
 }

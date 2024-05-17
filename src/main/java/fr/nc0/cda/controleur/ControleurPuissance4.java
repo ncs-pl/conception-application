@@ -11,7 +11,8 @@ import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.jeu.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
-import fr.nc0.cda.modele.joueur.StrategieAiPuissance4;
+import fr.nc0.cda.modele.joueur.Strategie;
+import fr.nc0.cda.modele.joueur.StrategieAiSimplePuissance4;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 
@@ -66,28 +67,19 @@ public class ControleurPuissance4 extends ControleurTemplate {
       rotationsRestantesJoueur1 = ROTATIONS_DISPONIBLES_DEFAUT;
       rotationsRestantesJoueur2 = ROTATIONS_DISPONIBLES_DEFAUT;
     }
-    if (joueur2.getNom().equalsIgnoreCase("ai")) {
-        strategie:
-        while (true) {
-            String strategie =
-                ihm.demanderString("Choisissez la stratégie de l'IA (Classique/Bonus) : ")
-                    .toLowerCase();
-            switch (strategie) {
-                case "classique", "c":
-                    joueur2.setStrategie(new StrategieAiPuissance4());
-                    break strategie;
-                default:
-                    ihm.afficherErreur("La stratégie n'existe pas.");
-            }
-          }
-      }
+
+    if (joueur2.estAI()) {
+      // TODO(YOUNES): remplace null par ta stratégie bonus, et supprime ce commentaire
+      Strategie strategie = rotationsActivees ? new StrategieAiSimplePuissance4() : null;
+      joueur2.setStrategie(strategie);
+    }
   }
 
   @Override
   void jouerCoup() throws CoupInvalideException, EtatPartieException {
     Joueur joueur = getJoueur(joueurCourant);
-    ChoixPuissance4 choix =
-        (ChoixPuissance4) joueur.getStrategie().jouer(ihm, puissance4.getPlateau(), joueur);
+    PlateauPuissance4 plateau = puissance4.getPlateau().dupliquer();
+    ChoixPuissance4 choix = (ChoixPuissance4) joueur.getStrategie().jouer(ihm, plateau, joueur);
 
     if (choix.getCoup() == CoupPuissance4.ROTATION) {
       if (!rotationsActivees) {

@@ -23,7 +23,7 @@ public class JeuNim extends Jeu<PlateauNim, ChoixNim> {
    * @param contrainte le nombre maximal d'allumettes à retirer par coup.
    */
   public JeuNim(int nbrTas, int contrainte) {
-    super(new PlateauNim(nbrTas));
+    super(new PlateauNim(nbrTas, contrainte));
     this.contrainte = contrainte;
     this.nombreTas = nbrTas;
   }
@@ -59,7 +59,7 @@ public class JeuNim extends Jeu<PlateauNim, ChoixNim> {
 
     if (plateau.estVide()) {
       etatPartie =
-          joueur == Joueurs.JOUEUR_1 ? EtatPartie.VICTOIRE_JOUEUR_2 : EtatPartie.VICTOIRE_JOUEUR_1;
+          joueur == Joueurs.JOUEUR_1 ? EtatPartie.VICTOIRE_JOUEUR_1 : EtatPartie.VICTOIRE_JOUEUR_2;
     }
   }
 }
