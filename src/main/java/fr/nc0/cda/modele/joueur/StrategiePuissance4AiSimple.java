@@ -126,7 +126,7 @@ public class StrategiePuissance4AiSimple implements Strategie {
    * @param ligne la ligne de la cellule courante
    * @return le cluster max.
    */
-  private int calculerClusterMax(
+  int calculerClusterMax(
       PlateauPuissance4 plateau, CellulePuissance4 couleur, int colonne, int ligne) {
     int horizontalSuperieur = calculerCluster(plateau, couleur, colonne + 1, ligne, 1, 0);
     int horizontalInferieur = calculerCluster(plateau, couleur, colonne - 1, ligne, -1, 0);

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 public class StrategiePuissance4AiOptimisee implements Strategie {
+  private final StrategiePuissance4AiSimple simple = new StrategiePuissance4AiSimple();
   private final Random rand = new Random();
 
   @Override
@@ -48,22 +49,20 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
           continue;
         }
 
-        int jaune = calculerClusterMax(p4Jaune, CellulePuissance4.JAUNE, colonne, ligne);
+        int jaune = simple.calculerClusterMax(p4Jaune, CellulePuissance4.JAUNE, colonne, ligne);
+        boolean alignementPossible = alignementPossibleAll(p4Jaune, colonne, ligne);
+
         if (jaune >= 4) {
           priorites.get(6).add(colonne);
-        } else if (jaune == 3) {
-          if (alignementPossibleAll(p4Jaune, colonne, ligne)) {
-            priorites.get(4).add(colonne);
-          }
-        } else if (jaune == 2) {
-          if (alignementPossibleAll(p4Jaune, colonne, ligne)) {
-            priorites.get(2).add(colonne);
-          }
+        } else if (alignementPossible && jaune == 3) {
+          priorites.get(4).add(colonne);
+        } else if (alignementPossible && jaune == 2) {
+          priorites.get(2).add(colonne);
         } else {
           priorites.get(0).add(colonne);
         }
 
-        int rouge = calculerClusterMax(p4Rouge, CellulePuissance4.ROUGE, colonne, ligne);
+        int rouge = simple.calculerClusterMax(p4Rouge, CellulePuissance4.ROUGE, colonne, ligne);
         if (rouge >= 4) {
           priorites.get(5).add(colonne);
         } else if (rouge == 3) {
@@ -90,77 +89,6 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
 
     // Par défaut, on joue dans la première colonne.
     return new ChoixPuissance4(CoupPuissance4.INSERTION, null, 1);
-  }
-
-  /**
-   * Calcule la valeur du plus grand cluster de la cellule courante.
-   *
-   * @param plateau le plateau
-   * @param couleur la couleur recherchée
-   * @param colonne la colonne de la cellule courante
-   * @param ligne la ligne de la cellule courante
-   * @return le cluster max.
-   */
-  private int calculerClusterMax(
-      PlateauPuissance4 plateau, CellulePuissance4 couleur, int colonne, int ligne) {
-    int horizontalSuperieur = calculerCluster(plateau, couleur, colonne + 1, ligne, 1, 0);
-    int horizontalInferieur = calculerCluster(plateau, couleur, colonne - 1, ligne, -1, 0);
-    int horizontal = 1 + horizontalSuperieur + horizontalInferieur;
-
-    int verticalSuperieur = calculerCluster(plateau, couleur, colonne, ligne + 1, 0, 1);
-    int verticalInferieur = calculerCluster(plateau, couleur, colonne, ligne - 1, 0, -1);
-    int vertical = 1 + verticalSuperieur + verticalInferieur;
-
-    int diagonale1Superieur = calculerCluster(plateau, couleur, colonne + 1, ligne + 1, 1, 1);
-    int diagonale1Inferieur = calculerCluster(plateau, couleur, colonne - 1, ligne - 1, -1, -1);
-    int diagonale1 = 1 + diagonale1Superieur + diagonale1Inferieur;
-
-    int diagonale2Superieur = calculerCluster(plateau, couleur, colonne + 1, ligne - 1, 1, -1);
-    int diagonale2Inferieur = calculerCluster(plateau, couleur, colonne - 1, ligne + 1, -1, 1);
-    int diagonale2 = 1 + diagonale2Superieur + diagonale2Inferieur;
-
-    return Math.max(diagonale2, Math.max(diagonale1, Math.max(vertical, horizontal)));
-  }
-
-  /**
-   * Détermine la valeur d'une moitié de cluster en partant d'une cellule et navigant récursivement
-   * ses voisins.
-   *
-   * @param plateau la plateau sur lequel naviguer
-   * @param couleur la couleur cherchée
-   * @param colonne la colonne de la cellule en calcul
-   * @param ligne la ligne de la cellule en calcul
-   * @param decalageColonne la différence entre la colonne du voisin et notre colonne
-   * @param decalageLigne la différence entre la colonne du voisin et notre ligne
-   * @return la valeur du cluster récursivement.
-   */
-  private int calculerCluster(
-      PlateauPuissance4 plateau,
-      CellulePuissance4 couleur,
-      int colonne,
-      int ligne,
-      int decalageColonne,
-      int decalageLigne) {
-    if (colonne < 1
-        || colonne > plateau.getLongueur()
-        || ligne < 1
-        || ligne > plateau.getHauteur()) {
-      return 0;
-    }
-
-    CellulePuissance4 cellule = plateau.getCellule(colonne, ligne);
-    if (cellule != couleur) {
-      return 0;
-    }
-
-    return 1
-        + calculerCluster(
-            plateau,
-            couleur,
-            colonne + decalageColonne,
-            ligne + decalageLigne,
-            decalageColonne,
-            decalageLigne);
   }
 
   /**
