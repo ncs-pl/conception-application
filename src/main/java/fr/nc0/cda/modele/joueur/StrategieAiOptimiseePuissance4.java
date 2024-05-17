@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 
 public class StrategieAiOptimiseePuissance4 implements Strategie {
-
   private final Random rand = new Random();
 
   @Override
@@ -77,6 +76,7 @@ public class StrategieAiOptimiseePuissance4 implements Strategie {
       }
     }
 
+    // TODO: Complete
     // Pour chaque action possible parmi nos priorités, on la teste.
     for (int i = priorites.size() - 1; i >= 0; --i) {
 
