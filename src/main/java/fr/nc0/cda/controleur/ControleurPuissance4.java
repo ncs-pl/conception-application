@@ -12,8 +12,8 @@ import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.jeu.Joueurs;
 import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.joueur.Strategie;
-import fr.nc0.cda.modele.joueur.StrategieAiOptimiseePuissance4;
-import fr.nc0.cda.modele.joueur.StrategieAiSimplePuissance4;
+import fr.nc0.cda.modele.joueur.StrategiePuissance4AiOptimisee;
+import fr.nc0.cda.modele.joueur.StrategiePuissance4AiSimple;
 import fr.nc0.cda.modele.puissance4.*;
 import fr.nc0.cda.vue.Ihm;
 
@@ -72,8 +72,8 @@ public class ControleurPuissance4 extends ControleurTemplate {
     if (joueur2.estAI()) {
       Strategie strategie =
           rotationsActivees
-              ? new StrategieAiSimplePuissance4()
-              : new StrategieAiOptimiseePuissance4();
+              ? new StrategiePuissance4AiSimple()
+              : new StrategiePuissance4AiOptimisee();
       joueur2.setStrategie(strategie);
     }
   }

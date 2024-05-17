@@ -12,7 +12,7 @@ import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.PlateauNim;
 import fr.nc0.cda.vue.Ihm;
 
-public class StrategieAiGagnanteNim implements Strategie {
+public class StrategieNimAiGagnante implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
     PlateauNim nim = (PlateauNim) plateau;

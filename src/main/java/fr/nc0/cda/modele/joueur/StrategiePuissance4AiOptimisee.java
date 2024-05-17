@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class StrategieAiOptimiseePuissance4 implements Strategie {
+public class StrategiePuissance4AiOptimisee implements Strategie {
   private final Random rand = new Random();
 
   @Override
