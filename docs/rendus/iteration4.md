@@ -1,9 +1,5 @@
 # Rapport de l'itération 4
 
-## Cas d'utilisations
-
-TODO(nc0): uses cases
-
 ## Modélisation Objet
 
 ![MO](mo_iteration4.png)
