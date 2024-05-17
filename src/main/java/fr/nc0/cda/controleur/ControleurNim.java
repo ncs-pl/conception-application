@@ -80,6 +80,9 @@ public class ControleurNim extends ControleurTemplate {
     Joueur joueur = getJoueur(joueurCourant);
     PlateauNim plateau = nim.getPlateau().dupliquer();
     ChoixNim choix = (ChoixNim) joueur.getStrategie().jouer(ihm, plateau, joueur);
+    if (joueur.estAI()){
+        ihm.afficherMessage("L'Ordinateur fait son choix...");
+    }
     nim.jouer(joueurCourant, choix);
   }
 }
