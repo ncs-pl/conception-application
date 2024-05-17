@@ -48,22 +48,31 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
           continue;
         }
 
-        int jaune = calculerClusterMax(p4Jaune, CellulePuissance4.JAUNE, colonne, ligne);
+        int[] clusterJaune = calculerClusterMax(p4Jaune, CellulePuissance4.JAUNE, colonne, ligne);
+        int jaune = clusterJaune[0];
+        int direction = clusterJaune[1];
+
         if (jaune >= 4) {
           priorites.get(6).add(colonne);
         } else if (jaune == 3) {
-          if (alignementPossibleAll(p4Jaune, colonne, ligne)) {
+          PlateauPuissance4 test = p4.dupliquer();
+
+          if (verifierPossibiliteAlignement(test, colonne, ligne, direction)) {
             priorites.get(4).add(colonne);
           }
         } else if (jaune == 2) {
-          if (alignementPossibleAll(p4Jaune, colonne, ligne)) {
+          PlateauPuissance4 test = p4.dupliquer();
+
+          if (verifierPossibiliteAlignement(test, colonne, ligne, direction)) {
             priorites.get(2).add(colonne);
           }
         } else {
           priorites.get(0).add(colonne);
         }
 
-        int rouge = calculerClusterMax(p4Rouge, CellulePuissance4.ROUGE, colonne, ligne);
+        int[] clusterRouge = calculerClusterMax(p4Rouge, CellulePuissance4.ROUGE, colonne, ligne);
+        int rouge = clusterRouge[0];
+
         if (rouge >= 4) {
           priorites.get(5).add(colonne);
         } else if (rouge == 3) {
@@ -76,16 +85,16 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
       }
     }
 
-    // TODO: Complete
-    // Pour chaque action possible parmi nos priorités, on la teste.
+    // On doit choisir une colonne au hasard parmi la première liste de
+    // priorité non vide.
     for (int i = priorites.size() - 1; i >= 0; --i) {
+      if (priorites.get(i).isEmpty()) {
+        continue;
+      }
 
-      int colonneTest = priorites.get(i).get(rand.nextInt(priorites.get(i).size()));
-      PlateauPuissance4 test = p4.dupliquer();
-      test.insererCellule(colonneTest, CellulePuissance4.JAUNE);
-
-      // L'insertion est effectuée.
-      return new ChoixPuissance4(CoupPuissance4.INSERTION, null, colonneTest);
+      int random = rand.nextInt(priorites.get(i).size());
+      int colonneRandom = priorites.get(i).get(random);
+      return new ChoixPuissance4(CoupPuissance4.INSERTION, null, colonneRandom);
     }
 
     // Par défaut, on joue dans la première colonne.
@@ -99,27 +108,53 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
    * @param couleur la couleur recherchée
    * @param colonne la colonne de la cellule courante
    * @param ligne la ligne de la cellule courante
-   * @return le cluster max.
+   * @return [clusterMax, direction], avec direction étant 1 pour horizontale, 2 pour verticale, 3
+   *     pour la diag1, et 4 pour la diag2. Si direction est négatif, alors il faut aller vers le
+   *     bas.
    */
-  private int calculerClusterMax(
+  @SuppressWarnings("UnnecessaryLocalVariable")
+  private int[] calculerClusterMax(
       PlateauPuissance4 plateau, CellulePuissance4 couleur, int colonne, int ligne) {
+    int max = 0;
+    int direction = 0;
+
     int horizontalSuperieur = calculerCluster(plateau, couleur, colonne + 1, ligne, 1, 0);
     int horizontalInferieur = calculerCluster(plateau, couleur, colonne - 1, ligne, -1, 0);
     int horizontal = 1 + horizontalSuperieur + horizontalInferieur;
+    max = horizontal;
+    direction = horizontalSuperieur > horizontalInferieur ? 1 : -1;
 
     int verticalSuperieur = calculerCluster(plateau, couleur, colonne, ligne + 1, 0, 1);
     int verticalInferieur = calculerCluster(plateau, couleur, colonne, ligne - 1, 0, -1);
     int vertical = 1 + verticalSuperieur + verticalInferieur;
 
+    if (vertical > max) {
+      max = vertical;
+      direction = verticalSuperieur > verticalInferieur ? 2 : -2;
+    }
+
     int diagonale1Superieur = calculerCluster(plateau, couleur, colonne + 1, ligne + 1, 1, 1);
     int diagonale1Inferieur = calculerCluster(plateau, couleur, colonne - 1, ligne - 1, -1, -1);
     int diagonale1 = 1 + diagonale1Superieur + diagonale1Inferieur;
+
+    if (diagonale1 > max) {
+      max = diagonale1;
+      direction = diagonale1Superieur > diagonale1Inferieur ? 3 : -3;
+    }
 
     int diagonale2Superieur = calculerCluster(plateau, couleur, colonne + 1, ligne - 1, 1, -1);
     int diagonale2Inferieur = calculerCluster(plateau, couleur, colonne - 1, ligne + 1, -1, 1);
     int diagonale2 = 1 + diagonale2Superieur + diagonale2Inferieur;
 
-    return Math.max(diagonale2, Math.max(diagonale1, Math.max(vertical, horizontal)));
+    if (diagonale2 > max) {
+      max = diagonale2;
+      direction = diagonale2Superieur > diagonale2Inferieur ? 4 : -4;
+    }
+
+    int[] output = new int[2];
+    output[0] = max;
+    output[1] = direction;
+    return output;
   }
 
   /**
@@ -164,63 +199,52 @@ public class StrategiePuissance4AiOptimisee implements Strategie {
   }
 
   /**
-   * Vérifie si avec ce coup, on peut potentiellement aligner 4 jetons.
+   * Vérifie qu'un alignement est possible en inférieur ou supérieur de la direction donnée.
    *
    * @param plateau le plateau
-   * @param colonne la colonne
-   * @param ligne la ligne
-   * @return true si un alignement de 4 jetons est possible, sinon false.
+   * @param colonne la colonne de la cellule courante
+   * @param ligne la ligne de la cellule courante
+   * @param direction la direction, comme le retour de calculerClusterMax
+   * @return true si alignement possible
    */
-  private boolean alignementPossibleAll(PlateauPuissance4 plateau, int colonne, int ligne) {
-    // Vérifie dans les directions horizontale, verticale, diagonales
-    return alignementPossible(plateau, colonne, ligne, 1, 0)
-        || alignementPossible(plateau, colonne, ligne, 0, 1)
-        || alignementPossible(plateau, colonne, ligne, 1, 1)
-        || alignementPossible(plateau, colonne, ligne, 1, -1);
-  }
+  private boolean verifierPossibiliteAlignement(
+      PlateauPuissance4 plateau, int colonne, int ligne, int direction) {
+    CellulePuissance4 cellule = plateau.getCellule(colonne, ligne);
 
-  /**
-   * Vérifie si l'alignement dans une direction donnée peut potentiellement aligner 4 jetons.
-   *
-   * @param plateau le plateau
-   * @param colonne la colonne
-   * @param ligne la ligne
-   * @param decalageColonne la différence de colonne pour la direction
-   * @param decalageLigne la différence de ligne pour la direction
-   * @return true si un alignement de 4 est possible dans cette direction, sinon false.
-   */
-  private boolean alignementPossible(
-      PlateauPuissance4 plateau, int colonne, int ligne, int decalageColonne, int decalageLigne) {
-    int compteur = 1;
-
-    // Vérifier décalage positif
-    int c = colonne + decalageColonne;
-    int l = ligne + decalageLigne;
-    while (c >= 1
-            && c <= plateau.getLongueur()
-            && l >= 1
-            && l <= plateau.getHauteur()
-            && plateau.getCellule(c, l) == CellulePuissance4.JAUNE
-        || plateau.getCellule(c, l) == CellulePuissance4.VIDE) {
-      compteur++;
-      c += decalageColonne;
-      l += decalageLigne;
-    }
-
-    // Vérifier décalage négatif
-    c = colonne - decalageColonne;
-    l = ligne - decalageLigne;
-    while (c >= 1
-            && c <= plateau.getLongueur()
-            && l >= 1
-            && l <= plateau.getHauteur()
-            && plateau.getCellule(c, l) == CellulePuissance4.JAUNE
-        || plateau.getCellule(c, l) == CellulePuissance4.VIDE) {
-      compteur++;
-      c -= decalageColonne;
-      l -= decalageLigne;
-    }
-
-    return compteur >= 4;
+    return switch (direction) {
+      case -1 -> /* horizontal inférieur */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne - 3, ligne);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case 1 -> /* horizontal supérieur */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne + 3, ligne);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case -2 -> /* vertical inférieur */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne, ligne - 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case 2 -> /* vertical supérieur */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne, ligne + 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case -3 -> /* diagonale 1 inférieure */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne - 3, ligne - 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case 3 -> /* diagonale 1 supérieure */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne + 3, ligne + 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case -4 -> /* diagonale 2 inférieure */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne + 3, ligne - 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      case 4 -> /* diagonale 2 supérieure */ {
+        CellulePuissance4 quatrieme = plateau.getCellule(colonne - 3, ligne + 3);
+        yield quatrieme == cellule || quatrieme == CellulePuissance4.VIDE;
+      }
+      default -> /* unreachable */ false;
+    };
   }
 }
