@@ -101,7 +101,9 @@ public class ControleurPuissance4 extends ControleurTemplate {
         --rotationsRestantesJoueur2;
       }
     }
-
+      if (joueur.estAI()){
+          ihm.afficherMessage("L'Ordinateur fait son choix...");
+      }
     puissance4.jouer(joueurCourant, choix);
   }
 }
