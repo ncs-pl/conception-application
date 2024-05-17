@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/** Stratégie similaire à simple avec une optimisation de calcul */
 public class StrategiePuissance4AiOptimisee implements Strategie {
   private final Random rand = new Random();
 

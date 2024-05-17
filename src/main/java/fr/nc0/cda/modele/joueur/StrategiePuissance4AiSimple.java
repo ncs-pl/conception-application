@@ -14,6 +14,7 @@ import fr.nc0.cda.vue.Ihm;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Stratégie d'AI de puissance 4 basée sur l'algorithme décrit dans le sujet */
 public class StrategiePuissance4AiSimple implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
