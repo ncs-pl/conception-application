@@ -14,7 +14,7 @@ import fr.nc0.cda.modele.puissance4.RotationPuissance4;
 import fr.nc0.cda.vue.Ihm;
 
 /** Permet à un humain de jouer au jeu du Puissance 4 */
-public class StrategieHumainPuissance4 implements Strategie {
+public class StrategiePuissance4Humain implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau plateau, Joueur joueur) {
     while (true) {

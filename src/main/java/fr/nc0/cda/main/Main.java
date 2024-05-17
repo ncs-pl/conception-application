@@ -11,8 +11,8 @@ import fr.nc0.cda.controleur.ControleurPuissance4;
 import fr.nc0.cda.controleur.ControleurTemplate;
 import fr.nc0.cda.modele.Jeux;
 import fr.nc0.cda.modele.joueur.Joueur;
-import fr.nc0.cda.modele.joueur.StrategieHumainNim;
-import fr.nc0.cda.modele.joueur.StrategieHumainPuissance4;
+import fr.nc0.cda.modele.joueur.StrategieNimHumain;
+import fr.nc0.cda.modele.joueur.StrategiePuissance4Humain;
 import fr.nc0.cda.vue.Ihm;
 
 public class Main {
@@ -34,8 +34,8 @@ public class Main {
 
       Joueur joueur = new Joueur(nom);
       switch (jeu) {
-        case NIM -> joueur.setStrategie(new StrategieHumainNim());
-        case PUISSANCE4 -> joueur.setStrategie(new StrategieHumainPuissance4());
+        case NIM -> joueur.setStrategie(new StrategieNimHumain());
+        case PUISSANCE4 -> joueur.setStrategie(new StrategiePuissance4Humain());
       }
 
       return joueur;

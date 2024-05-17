@@ -12,7 +12,7 @@ import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.vue.Ihm;
 
 /** Permet à un humain de jouer au jeu de Nim */
-public class StrategieHumainNim implements Strategie {
+public class StrategieNimHumain implements Strategie {
   @Override
   public Choix jouer(Ihm ihm, Plateau _plateau, Joueur joueur) {
     int[] input =

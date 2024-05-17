@@ -11,8 +11,8 @@ import fr.nc0.cda.modele.jeu.EtatPartie;
 import fr.nc0.cda.modele.jeu.EtatPartieException;
 import fr.nc0.cda.modele.joueur.Joueur;
 import fr.nc0.cda.modele.joueur.Strategie;
-import fr.nc0.cda.modele.joueur.StrategieAiGagnanteNim;
-import fr.nc0.cda.modele.joueur.StrategieAiNimAleatoire;
+import fr.nc0.cda.modele.joueur.StrategieNimAiAleatoire;
+import fr.nc0.cda.modele.joueur.StrategieNimAiGagnante;
 import fr.nc0.cda.modele.nim.ChoixNim;
 import fr.nc0.cda.modele.nim.JeuNim;
 import fr.nc0.cda.modele.nim.PlateauNim;
@@ -67,7 +67,7 @@ public class ControleurNim extends ControleurTemplate {
 
       if (joueur2.estAI()) {
         Strategie strategie =
-            contrainte == 0 ? new StrategieAiGagnanteNim() : new StrategieAiNimAleatoire();
+            contrainte == 0 ? new StrategieNimAiGagnante() : new StrategieNimAiAleatoire();
         joueur2.setStrategie(strategie);
       }
 
